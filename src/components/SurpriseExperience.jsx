@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect, useMemo } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 import { themes } from '../utils/themes';
 import { useBirthday } from '../context/BirthdayContext';
@@ -38,31 +38,28 @@ const pageVariants = {
   },
 };
 
-// ─── Section registry ─────────────────────────────────────────────────────────
-const SECTION_KEYS = [
-  'welcome',
-  'reveal',
-  'gallery',
-  'message',
-  'celebration',
-  'finale',
-];
+const reducedMotionVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.2 } },
+};
 
 /**
- * SurpriseExperience — the rich multi-step birthday experience.
+ * SurpriseExperience — the rich multi-step surprise experience.
  *
- * Orchestrates 6 animated sections using the user's custom data:
+ * Orchestrates animated sections using the user's custom data:
  * 1. Welcome Screen — dramatic intro
- * 2. Birthday Reveal — big "Happy Birthday!" with confetti
- * 3. Photo Gallery — polaroid-style photo wall
- * 4. Message Card — love-letter styled message with typewriter
+ * 2. Reveal — big greeting with confetti
+ * 3. Photo Gallery (optional) — polaroid-style photo wall when photos exist
+ * 4. Message Card — styled message with typewriter
  * 5. Celebration — confetti explosion & emotional note
  * 6. Finale — replay, share, branding
  *
- * @param {{ data: Object }} props — birthday data from form or URL
+ * @param {{ data: Object }} props — surprise data from form or URL
  */
 export default function SurpriseExperience({ data }) {
   const { getPhoto } = useBirthday();
+  const shouldReduceMotion = useReducedMotion();
   const [step, setStep] = useState(0);
   const [showShare, setShowShare] = useState(false);
   const [photos, setPhotos] = useState([]);
@@ -97,15 +94,29 @@ export default function SurpriseExperience({ data }) {
     setPhotos(loaded);
   }, [data?.photoId, data?.photoIds]);
 
+  // ── Dynamic sections (skip gallery if no photos) ───────────────────────────
+  const sections = useMemo(() => {
+    const base = ['welcome', 'reveal'];
+    if (photos.length > 0) base.push('gallery');
+    base.push('message', 'celebration', 'finale');
+    return base;
+  }, [photos.length]);
+
+  useEffect(() => {
+    if (step >= sections.length) {
+      setStep(Math.max(0, sections.length - 1));
+    }
+  }, [sections.length, step]);
+
   // ── Navigation ───────────────────────────────────────────────────────────
-  const goNext    = () => setStep((s) => Math.min(s + 1, SECTION_KEYS.length - 1));
+  const goNext    = () => setStep((s) => Math.min(s + 1, sections.length - 1));
   const goRestart = () => setStep(0);
 
   // ── Render current section ───────────────────────────────────────────────
   const renderSection = () => {
-    const commonProps = { data, themeObj };
+    const commonProps = { data, themeObj, occasion: data?.occasion || 'birthday' };
 
-    switch (SECTION_KEYS[step]) {
+    switch (sections[step]) {
       case 'welcome':
         return <SurpriseWelcome onNext={goNext} {...commonProps} />;
       case 'reveal':
@@ -134,13 +145,13 @@ export default function SurpriseExperience({ data }) {
 
       {/* ── Always-on layers ────────────────────────────────────────── */}
       <SurpriseMusic musicId={data?.music} />
-      <SurpriseProgress total={SECTION_KEYS.length} current={step} themeObj={themeObj} />
+      <SurpriseProgress total={sections.length} current={step} themeObj={themeObj} />
 
       {/* ── Animated section ─────────────────────────────────────────── */}
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
-          variants={pageVariants}
+          variants={shouldReduceMotion ? reducedMotionVariants : pageVariants}
           initial="initial"
           animate="animate"
           exit="exit"

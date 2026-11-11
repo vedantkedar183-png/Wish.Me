@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { surpriseConfig } from '../../data/surpriseConfig';
-
-const { memories } = surpriseConfig;
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 
 /** Polaroid-style photo card with tilt and lift on hover */
 function PolaroidCard({ photo, index }) {
@@ -34,7 +32,7 @@ function PolaroidCard({ photo, index }) {
               background: `linear-gradient(135deg, hsl(${(index * 40) % 360}, 60%, 85%), hsl(${(index * 40 + 40) % 360}, 60%, 80%))`,
             }}
           >
-            📸
+            🖼️
           </div>
         ) : (
           <img
@@ -62,6 +60,9 @@ function PolaroidCard({ photo, index }) {
  * Polaroid-style photo grid with staggered entrance and tilt-on-hover effect.
  */
 export default function MemoriesGallery({ onNext }) {
+  const config = useRomanticConfig();
+  const { memories } = config;
+
   return (
     <div className="romantic-section py-16 justify-start">
       <div className="relative z-10 w-full max-w-2xl mx-auto px-4">
@@ -73,7 +74,7 @@ export default function MemoriesGallery({ onNext }) {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <span className="text-4xl mb-3 block" aria-hidden="true">📸</span>
+          <span className="text-4xl mb-3 block" aria-hidden="true">🎞️</span>
           <h2 className="font-display text-3xl md:text-4xl text-romantic-warm mb-2">
             {memories.title}
           </h2>

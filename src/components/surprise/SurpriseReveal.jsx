@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import useConfetti from '../../hooks/useConfetti';
+import { OCCASIONS } from '../../utils/themes';
 
 /**
- * Birthday Reveal — Big animated "Happy Birthday!" with confetti burst.
- * Shows the birthday person's name with a typewriter effect and fireworks.
+ * Surprise Reveal — Big animated greeting with confetti burst.
+ * Shows the recipient's name with a spring animation and fireworks.
+ * Adapts greeting text based on the selected occasion.
  */
 export default function SurpriseReveal({ onNext, data, themeObj }) {
   const { name } = data;
+  const occasion = OCCASIONS.find(o => o.id === data?.occasion || (o.id === 'justBecause' && data?.occasion === 'just_because')) || OCCASIONS[0];
   const { fireConfetti, fireFireworks } = useConfetti(data.theme);
   const [showName, setShowName] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -27,6 +30,15 @@ export default function SurpriseReveal({ onNext, data, themeObj }) {
       clearTimeout(t4);
     };
   }, [fireConfetti, fireFireworks]);
+
+  // Occasion-specific subtitle
+  const subtitleMap = {
+    birthday: <>Today is the most wonderful day of the year,<br />because the world got <strong>YOU</strong> in it. ✨</>,
+    anniversary: <>Today we celebrate a love that only grows stronger,<br />a bond that shines brighter with every passing day. ✨</>,
+    friendship: <>True friends like you are the rarest treasure,<br />and the world is brighter because of <strong>YOU</strong>. ✨</>,
+    justBecause: <>No special reason needed — you are the reason,<br />and <strong>YOU</strong> make everything better. ✨</>,
+    just_because: <>No special reason needed — you are the reason,<br />and <strong>YOU</strong> make everything better. ✨</>,
+  };
 
   return (
     <div
@@ -67,7 +79,7 @@ export default function SurpriseReveal({ onNext, data, themeObj }) {
 
       {/* Main reveal */}
       <motion.div className="relative z-10 space-y-8">
-        {/* Cake with glow */}
+        {/* Emoji with glow */}
         <motion.div
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -80,7 +92,7 @@ export default function SurpriseReveal({ onNext, data, themeObj }) {
             className="text-7xl md:text-9xl"
             aria-hidden="true"
           >
-            🎂
+            {occasion.emoji}
           </motion.div>
           {/* Glow ring */}
           <motion.div
@@ -96,7 +108,7 @@ export default function SurpriseReveal({ onNext, data, themeObj }) {
           />
         </motion.div>
 
-        {/* Happy Birthday text */}
+        {/* Greeting text */}
         <motion.h1
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -104,7 +116,7 @@ export default function SurpriseReveal({ onNext, data, themeObj }) {
           className="text-4xl md:text-7xl font-bold font-display"
           style={{ textShadow: '0 4px 30px rgba(0,0,0,0.25)' }}
         >
-          Happy Birthday! 🎉
+          {occasion.defaultGreeting} 🎉
         </motion.h1>
 
         {/* Name reveal */}
@@ -127,9 +139,7 @@ export default function SurpriseReveal({ onNext, data, themeObj }) {
           transition={{ delay: 1.8 }}
           className="text-lg md:text-xl opacity-80 max-w-md mx-auto leading-relaxed"
         >
-          Today is the most wonderful day of the year,
-          <br />
-          because the world got <strong>YOU</strong> in it. ✨
+          {subtitleMap[data?.occasion] || subtitleMap.birthday}
         </motion.p>
 
         {/* Continue button */}

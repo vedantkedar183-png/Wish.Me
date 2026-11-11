@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { surpriseConfig } from '../../data/surpriseConfig';
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 import useConfetti from '../../hooks/useConfetti';
-
-const { person, reveal } = surpriseConfig;
 
 /** Small heart rain — tiny hearts cascade from the top */
 function HeartRain() {
@@ -28,7 +26,7 @@ function HeartRain() {
             opacity: 0,
           }}
         >
-          {['❤️', '💕', '💗', '🩷'][h.id % 4]}
+          {['⭐', '🌟', '💫', '✨'][h.id % 4]}
         </span>
       ))}
     </div>
@@ -40,7 +38,9 @@ function HeartRain() {
  * Dramatic name + birthday reveal with heart rain and personal message.
  */
 export default function BirthdayReveal({ onNext }) {
-  const fireConfetti = useConfetti();
+  const config = useRomanticConfig();
+  const { person, reveal } = config;
+  const { fireConfetti } = useConfetti();
 
   useEffect(() => {
     // Small celebratory burst on reveal
@@ -69,7 +69,7 @@ export default function BirthdayReveal({ onNext }) {
           className="text-4xl md:text-5xl flex justify-center gap-3"
           aria-hidden="true"
         >
-          {['🎂', '🎉', '🎊'].map((e, i) => (
+          {['🌟', '🎆', '🎇'].map((e, i) => (
             <motion.span
               key={i}
               animate={{ y: [0, -10, 0] }}
@@ -128,7 +128,7 @@ export default function BirthdayReveal({ onNext }) {
           transition={{ delay: 1.3, duration: 0.7 }}
           className="glass-card rounded-2xl p-6 text-left"
         >
-          <div className="text-2xl mb-3 text-center" aria-hidden="true">💌</div>
+          <div className="text-2xl mb-3 text-center" aria-hidden="true">🎇</div>
           <p className="text-romantic-warm/85 leading-relaxed text-sm md:text-base">
             {reveal.birthdayMessage}
           </p>

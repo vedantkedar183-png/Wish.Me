@@ -1,20 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { surpriseConfig } from '../../data/surpriseConfig';
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 
 /**
  * Floating music toggle button — fixed in the bottom-right corner.
  * Requires a user gesture before playing (browser autoplay policy).
  */
 export default function MusicButton() {
+  const config = useRomanticConfig();
+  const { music } = config;
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    if (!surpriseConfig.music?.url) return;
+    if (!music?.url) return;
 
-    const audio = new Audio(surpriseConfig.music.url);
+    const audio = new Audio(music.url);
     audio.loop = true;
     audio.volume = 0.32;
     audio.preload = 'none';
@@ -25,7 +27,7 @@ export default function MusicButton() {
       audio.pause();
       audio.src = '';
     };
-  }, []);
+  }, [music?.url]);
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -51,7 +53,7 @@ export default function MusicButton() {
       whileTap={{ scale: 0.92 }}
       className="fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full bg-white/90 backdrop-blur-md shadow-xl border border-pink-100 flex items-center justify-center text-xl"
       aria-label={playing ? 'Pause background music' : 'Play background music'}
-      title={playing ? `Pause ${surpriseConfig.music.label}` : `Play ${surpriseConfig.music.label}`}
+      title={playing ? `Pause ${music?.label || 'music'}` : `Play ${music?.label || 'music'}`}
     >
       <AnimatePresence mode="wait">
         <motion.span

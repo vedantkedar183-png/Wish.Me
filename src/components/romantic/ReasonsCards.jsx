@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { surpriseConfig } from '../../data/surpriseConfig';
-
-const { reasons } = surpriseConfig;
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 
 /** A single animated reason card */
 function ReasonCard({ card, index }) {
@@ -29,11 +27,14 @@ function ReasonCard({ card, index }) {
  * the "Continue" button fades in.
  */
 export default function ReasonsCards({ onNext }) {
+  const config = useRomanticConfig();
+  const { reasons } = config;
   const [visibleCount, setVisibleCount] = useState(0);
   const [showContinue, setShowContinue] = useState(false);
 
   useEffect(() => {
-    const timers = reasons.cards.map((_, i) =>
+    const cards = reasons?.cards || [];
+    const timers = cards.map((_, i) =>
       setTimeout(() => {
         setVisibleCount((prev) => prev + 1);
       }, i * 550 + 600),
@@ -42,14 +43,14 @@ export default function ReasonsCards({ onNext }) {
     // Show Continue button 900ms after the last card appears
     const continueTimer = setTimeout(
       () => setShowContinue(true),
-      reasons.cards.length * 550 + 1500,
+      cards.length * 550 + 1500,
     );
 
     return () => {
       timers.forEach(clearTimeout);
       clearTimeout(continueTimer);
     };
-  }, []);
+  }, [reasons]);
 
   return (
     <div className="romantic-section py-16 justify-start">
@@ -62,7 +63,7 @@ export default function ReasonsCards({ onNext }) {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <span className="text-4xl block mb-3" aria-hidden="true">💝</span>
+          <span className="text-4xl block mb-3" aria-hidden="true">💎</span>
           <h2 className="font-display text-3xl md:text-4xl text-romantic-warm mb-2">
             {reasons.title}
           </h2>

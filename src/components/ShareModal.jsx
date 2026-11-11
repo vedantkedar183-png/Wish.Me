@@ -47,9 +47,25 @@ export default function ShareModal({ isOpen, onClose, data }) {
     setTimeout(() => setCopied(false), 2500);
   };
 
+  const getWhatsAppMessage = () => {
+    switch (data?.occasion) {
+      case 'anniversary':
+        return '💍 I made a special anniversary surprise for you!';
+      case 'friendship':
+        return '🤝 I made something special for an amazing friend!';
+      case 'justBecause':
+      case 'just_because':
+        return '💝 Someone made a special surprise for you!';
+      case 'birthday':
+      default:
+        return '🎂 I made a special birthday surprise for you!';
+    }
+  };
+
   const handleWhatsApp = () => {
+    const messageLead = getWhatsAppMessage();
     const text = encodeURIComponent(
-      `🎂 I made a special birthday surprise for you!\nOpen this link to see it: ${shareUrl}`,
+      `${messageLead}\nOpen this link to see it: ${shareUrl}`,
     );
     window.open(`https://wa.me/?text=${text}`, '_blank', 'noopener,noreferrer');
   };
@@ -73,7 +89,7 @@ export default function ShareModal({ isOpen, onClose, data }) {
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             role="dialog"
             aria-modal="true"
-            aria-label="Share your birthday surprise"
+            aria-label="Share your surprise"
           >
             <motion.div
               className="relative bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden"
@@ -94,7 +110,7 @@ export default function ShareModal({ isOpen, onClose, data }) {
                     Share this Surprise!
                   </h2>
                   <p className="text-xs text-gray-500 mt-1">
-                    Send the link to make their birthday magical ✨
+                    Send the link to make their day magical ✨
                   </p>
                 </div>
 

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { surpriseConfig } from '../../data/surpriseConfig';
-
-const { letter, person } = surpriseConfig;
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 
 // ─── Typewriter hook ──────────────────────────────────────────────────────────
 /**
@@ -16,6 +14,7 @@ function useLetterReveal(paragraphs, charDelay = 18) {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
+    if (!paragraphs || paragraphs.length === 0) return;
     if (paraIndex >= paragraphs.length) {
       setDone(true);
       return;
@@ -38,7 +37,7 @@ function useLetterReveal(paragraphs, charDelay = 18) {
     }, charDelay);
 
     return () => clearInterval(interval);
-  }, [paraIndex]);
+  }, [paraIndex, paragraphs, charDelay]);
 
   return { revealed, current, done };
 }
@@ -49,6 +48,8 @@ function useLetterReveal(paragraphs, charDelay = 18) {
  * Paragraphs are revealed one by one via typewriter effect on a lined paper card.
  */
 export default function LoveLetter({ onNext }) {
+  const config = useRomanticConfig();
+  const { letter, person } = config;
   const [started, setStarted] = useState(false);
   const { revealed, current, done } = useLetterReveal(
     started ? letter.paragraphs : [],
@@ -78,7 +79,7 @@ export default function LoveLetter({ onNext }) {
             transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
             aria-hidden="true"
           >
-            💌
+            📝
           </motion.span>
           <h2 className="font-display text-3xl md:text-4xl text-romantic-warm mb-1">
             {letter.title}
@@ -98,8 +99,8 @@ export default function LoveLetter({ onNext }) {
           className="letter-paper rounded-2xl p-6 md:p-8 shadow-xl border border-romantic-100 relative overflow-hidden"
         >
           {/* Corner heart decorations */}
-          <span aria-hidden="true" className="absolute top-3 right-4 text-romantic-200 text-2xl opacity-60">❤️</span>
-          <span aria-hidden="true" className="absolute bottom-3 left-4 text-romantic-200 text-2xl opacity-40">🌸</span>
+          <span aria-hidden="true" className="absolute top-3 right-4 text-romantic-200 text-2xl opacity-60">🪶</span>
+          <span aria-hidden="true" className="absolute bottom-3 left-4 text-romantic-200 text-2xl opacity-40">⭐</span>
 
           {/* Salutation */}
           <motion.p
@@ -158,7 +159,7 @@ export default function LoveLetter({ onNext }) {
               className="flex justify-center mt-5"
               aria-hidden="true"
             >
-              <span className="text-4xl">💝</span>
+              <span className="text-4xl">🕊️</span>
             </motion.div>
           )}
         </motion.div>

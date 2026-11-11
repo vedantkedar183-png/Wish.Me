@@ -1,7 +1,5 @@
 import { motion } from 'framer-motion';
-import { surpriseConfig } from '../../data/surpriseConfig';
-
-const { welcome } = surpriseConfig;
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 
 // Sparkle positions
 const SPARKLES = [
@@ -33,6 +31,9 @@ function Sparkle({ style, delay }) {
  * First thing the recipient sees. Dreamy, romantic, full-screen.
  */
 export default function WelcomeScreen({ onNext }) {
+  const config = useRomanticConfig();
+  const { welcome } = config;
+
   return (
     <div className="romantic-section overflow-hidden">
 
@@ -73,7 +74,7 @@ export default function WelcomeScreen({ onNext }) {
             style={{ animation: 'heartbeat 2.2s ease-in-out infinite' }}
             aria-hidden="true"
           >
-            ❤️
+            🔮
           </span>
         </motion.div>
 
@@ -106,7 +107,7 @@ export default function WelcomeScreen({ onNext }) {
           aria-hidden="true"
         >
           <div className="h-px w-12 bg-gradient-to-r from-transparent to-romantic-300" />
-          <span className="text-romantic-300 text-lg">🌸</span>
+          <span className="text-romantic-300 text-lg">🪄</span>
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-romantic-300" />
         </motion.div>
 
@@ -143,7 +144,7 @@ export default function WelcomeScreen({ onNext }) {
           className="mt-10 flex justify-center gap-4 text-2xl"
           aria-hidden="true"
         >
-          {['🌸', '🌹', '🌺', '🌹', '🌸'].map((f, i) => (
+          {['✨', '🌙', '🔮', '🪄', '🦋'].map((f, i) => (
             <motion.span
               key={i}
               animate={{ y: [0, -6, 0] }}

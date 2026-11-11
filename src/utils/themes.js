@@ -164,3 +164,10 @@ export const MUSIC_OPTIONS = [
     url: '/music/dreamy.mp3',
   },
 ];
+
+export const OCCASIONS = [
+  { id: 'birthday', label: 'Birthday 🎂', emoji: '🎂', defaultGreeting: 'Happy Birthday!', defaultSubtext: 'Wishing you the most magical day' },
+  { id: 'anniversary', label: 'Anniversary 💍', emoji: '💍', defaultGreeting: 'Happy Anniversary!', defaultSubtext: 'Celebrating your beautiful journey together' },
+  { id: 'friendship', label: 'Friendship 🤝', emoji: '🤝', defaultGreeting: 'For My Amazing Friend!', defaultSubtext: 'Because friendships like ours are rare' },
+  { id: 'justBecause', label: 'Just Because 💝', emoji: '💝', defaultGreeting: 'A Special Surprise!', defaultSubtext: 'Because you deserve to feel special today' },
+];

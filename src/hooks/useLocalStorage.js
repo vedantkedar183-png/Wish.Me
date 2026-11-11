@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 /**
  * A drop-in replacement for useState that also persists the value to localStorage.
@@ -20,16 +20,21 @@ export function useLocalStorage(key, initialValue) {
     }
   });
 
-  const setValue = (value) => {
-    try {
-      const valueToStore =
-        typeof value === 'function' ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (err) {
-      console.warn(`[useLocalStorage] Failed to write key "${key}":`, err);
-    }
-  };
+  const setValue = useCallback(
+    (value) => {
+      try {
+        setStoredValue((prev) => {
+          const valueToStore =
+            typeof value === 'function' ? value(prev) : value;
+          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          return valueToStore;
+        });
+      } catch (err) {
+        console.warn(`[useLocalStorage] Failed to write key "${key}":`, err);
+      }
+    },
+    [key],
+  );
 
   return [storedValue, setValue];
 }

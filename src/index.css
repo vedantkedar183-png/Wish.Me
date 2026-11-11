@@ -414,3 +414,91 @@ html {
   animation: cursorBlink 0.85s step-end infinite;
 }
 
+
+/* ── Mobile touch optimizations ──────────────────────────────────────────────── */
+@layer base {
+  /* Prevent 300ms tap delay on mobile */
+  html {
+    touch-action: manipulation;
+  }
+  
+  /* Prevent text selection on interactive elements */
+  button, [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Smooth scrolling with momentum on iOS */
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ── Reduced motion accessibility ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Mobile viewport height fix ──────────────────────────────────────────────── */
+@layer utilities {
+  /* Dynamic viewport height for mobile browsers (address bar) */
+  .min-h-dvh {
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
+  
+  .h-dvh {
+    height: 100dvh;
+    height: -webkit-fill-available;
+  }
+  
+  /* Touch-friendly minimum button size */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Prevent content from going under mobile browser chrome */
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  
+  .pt-safe {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+}
+
+/* ── Responsive typography ───────────────────────────────────────────────────── */
+@layer utilities {
+  .text-fluid-sm {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+  }
+  
+  .text-fluid-base {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+  
+  .text-fluid-lg {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+  }
+  
+  .text-fluid-xl {
+    font-size: clamp(1.25rem, 4vw, 1.875rem);
+  }
+  
+  .text-fluid-2xl {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+  
+  .text-fluid-3xl {
+    font-size: clamp(1.875rem, 6vw, 3.75rem);
+  }
+}

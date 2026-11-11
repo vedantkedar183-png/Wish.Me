@@ -84,6 +84,7 @@ export default {
         'glow-lg': '0 0 50px rgba(236, 72, 153, 0.6), 0 0 100px rgba(236, 72, 153, 0.4)',
       },
       screens: {
+        '3xs': '320px',
         xs: '375px',
       },
     },

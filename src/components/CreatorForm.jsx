@@ -11,13 +11,15 @@ import ThemeCard from './ThemeCard';
 import PreviewModal from './PreviewModal';
 import TemplateGallery from './TemplateGallery';
 
-import { themes, MUSIC_OPTIONS } from '../utils/themes';
+import { themes, MUSIC_OPTIONS, OCCASIONS } from '../utils/themes';
 import { templates } from '../data/templates';
 import {
   validateForm,
   validatePhotoFile,
+  validateFromName,
   MAX_MESSAGE_LENGTH,
 } from '../utils/validation';
+
 import { useBirthday } from '../context/BirthdayContext';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -54,6 +56,7 @@ export default function CreatorForm() {
   const { formData, updateForm, savePhoto, getPhoto } = useBirthday();
 
   // ── Form state (initialised from persisted context) ──────────────────────
+  const [occasion, setOccasion] = useState(formData.occasion || 'birthday');
   const [name, setName] = useState(formData.name || '');
   const [message, setMessage] = useState(formData.message || '');
   const [fromName, setFromName] = useState(formData.fromName || '');
@@ -170,6 +173,7 @@ export default function CreatorForm() {
     name: name.trim(),
     message: message.trim(),
     fromName: fromName.trim(),
+    occasion,
     theme,
     music,
     photoId: photoPreviews[0]?.id || null,
@@ -182,6 +186,11 @@ export default function CreatorForm() {
     e?.preventDefault();
     const values = collectFormData();
     const errs = validateForm(values);
+
+    if (validateFromName && !errs.fromName) {
+      const fromNameErr = validateFromName(values.fromName);
+      if (fromNameErr) errs.fromName = fromNameErr;
+    }
 
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
@@ -209,10 +218,49 @@ export default function CreatorForm() {
     });
 
   const selectedTheme = themes[theme] ?? themes.romantic;
+  const occasionList = Array.isArray(OCCASIONS) ? OCCASIONS : Object.values(OCCASIONS || {});
+  const currentOccasion =
+    occasionList.find(
+      (o) =>
+        o.id === occasion ||
+        (o.id === 'just_because' && occasion === 'just-because') ||
+        (o.id === 'just-because' && occasion === 'just_because'),
+    ) || occasionList[0] || { id: 'birthday', name: 'Birthday', emoji: '🎂' };
+
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <>
+      {/* ── Live Preview Floating Badge ─────────────────────────────── */}
+      <div className="fixed top-4 right-4 z-40">
+        <motion.div
+          key={`${theme}-${occasion}`}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-md shadow-lg border border-gray-200/80 dark:border-gray-700/80 text-xs font-medium text-gray-700 dark:text-gray-200"
+        >
+          <span
+            className="w-3.5 h-3.5 rounded-full shadow-inner ring-1 ring-white/50 inline-block shrink-0"
+            style={{
+              background:
+                selectedTheme.previewGradient || selectedTheme.glowColorHex || '#ec4899',
+            }}
+            title={`Theme: ${selectedTheme.name}`}
+          />
+          <span
+            className="text-base leading-none select-none"
+            role="img"
+            aria-label={currentOccasion.name || 'Occasion'}
+          >
+            {currentOccasion.emoji || '🎂'}
+          </span>
+          <span className="hidden sm:inline font-semibold text-xs text-gray-800 dark:text-gray-100">
+            {currentOccasion.name || currentOccasion.label || 'Birthday'}
+          </span>
+        </motion.div>
+      </div>
+
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-pink-50/30 to-purple-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-purple-950/30 py-8 px-4 transition-colors duration-300">
         <div className="max-w-2xl mx-auto space-y-6">
 
@@ -232,10 +280,10 @@ export default function CreatorForm() {
               <span className="text-3xl" aria-hidden="true">🎂</span>
               <span className="text-2xl font-bold font-display text-gray-800 dark:text-white">Wishora</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold font-display text-gray-800 dark:text-white">
-              Create a Birthday Surprise ✨
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-gray-800 dark:text-white">
+              Create a Personalized Surprise ✨
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm md:text-base">
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-xs sm:text-sm md:text-base">
               Fill in the details below to craft a magical moment
             </p>
           </motion.header>
@@ -266,7 +314,7 @@ export default function CreatorForm() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               onClick={() => setShowTemplates(true)}
-              className="w-full text-center text-sm text-gray-400 dark:text-gray-500 hover:text-pink-500 transition-colors py-1"
+              className="w-full text-center text-xs sm:text-sm text-gray-400 dark:text-gray-500 hover:text-pink-500 transition-colors py-1"
             >
               💡 Browse greeting card templates
             </motion.button>
@@ -278,7 +326,7 @@ export default function CreatorForm() {
             <StepCard icon="📸" title={`Upload Photos (up to ${MAX_PHOTOS}, optional)`}>
               {/* Photo previews grid */}
               {photoPreviews.length > 0 && (
-                <div className="grid grid-cols-3 gap-3 mb-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
                   {photoPreviews.map((photo, i) => (
                     <div key={photo.id} className="relative group">
                       <img
@@ -355,12 +403,75 @@ export default function CreatorForm() {
               )}
             </StepCard>
 
-            {/* ── 2. Birthday Details ────────────────────────────────────── */}
-            <StepCard icon="✍️" title="Birthday Details">
+            {/* ── 2. Choose Occasion ────────────────────────────────────── */}
+            <StepCard icon="🎉" title="Choose Occasion">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {occasionList.map((occ) => {
+                  const isSelected =
+                    occasion === occ.id ||
+                    (occ.id === 'just_because' && occasion === 'just-because') ||
+                    (occ.id === 'just-because' && occasion === 'just_because');
+                  return (
+                    <motion.button
+                      key={occ.id}
+                      type="button"
+                      onClick={() => setOccasion(occ.id)}
+                      whileHover={{ scale: isSelected ? 1.04 : 1.03 }}
+                      whileTap={{ scale: 0.96 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                      className={clsx(
+                        'relative rounded-2xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer text-center',
+                        'border-2 transition-all duration-200',
+                        'focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2',
+                        isSelected
+                          ? 'border-pink-500 bg-pink-50/70 dark:bg-pink-950/40 shadow-lg shadow-pink-500/20 scale-[1.02]'
+                          : 'border-gray-200/80 dark:border-gray-700/60 bg-gray-50/50 dark:bg-gray-800/40 hover:border-pink-200 dark:hover:border-pink-800 hover:bg-pink-50/30 dark:hover:bg-pink-950/20'
+                      )}
+                      aria-label={`Select ${occ.name || occ.label} occasion`}
+                      aria-pressed={isSelected}
+                    >
+                      <span className="text-3xl sm:text-4xl drop-shadow-sm select-none" aria-hidden="true">
+                        {occ.emoji}
+                      </span>
+                      <span
+                        className={clsx(
+                          'text-xs sm:text-sm font-semibold leading-tight',
+                          isSelected
+                            ? 'text-pink-600 dark:text-pink-400'
+                            : 'text-gray-700 dark:text-gray-200'
+                        )}
+                      >
+                        {occ.name || occ.label}
+                      </span>
+
+                      {isSelected && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="absolute top-2 right-2 w-5 h-5 bg-pink-500 text-white rounded-full flex items-center justify-center shadow-md"
+                          aria-hidden="true"
+                        >
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </motion.div>
+                      )}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </StepCard>
+
+            {/* ── 3. Personal Details ─────────────────────────────────────── */}
+            <StepCard icon="✍️" title="Personal Details">
               <div className="space-y-4">
                 <Input
                   id="name"
-                  label="Birthday Person's Name"
+                  label="Recipient's Name"
                   required
                   placeholder="e.g. Sarah, Rohan, Mum…"
                   value={name}
@@ -375,7 +486,7 @@ export default function CreatorForm() {
 
                 <Textarea
                   id="message"
-                  label="Your Birthday Message"
+                  label="Your Personal Message"
                   required
                   placeholder={'Write something from the heart… 💕\n\ne.g. Wishing you a day as beautiful as you are! May this year bring you endless joy, laughter, and everything your heart desires.'}
                   value={message}
@@ -394,15 +505,19 @@ export default function CreatorForm() {
                   placeholder="Your name (optional)"
                   value={fromName}
                   maxLength={30}
-                  onChange={(e) => setFromName(e.target.value)}
-                  hint="Who is this birthday surprise from?"
+                  onChange={(e) => {
+                    setFromName(e.target.value);
+                    clearError('fromName');
+                  }}
+                  error={errors.fromName}
+                  hint="Who is this surprise from?"
                 />
               </div>
             </StepCard>
 
-            {/* ── 3. Theme Selection ─────────────────────────────────────── */}
+            {/* ── 4. Theme Selection ─────────────────────────────────────── */}
             <StepCard icon="🎨" title="Choose a Theme">
-              <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-3">
                 {THEME_LIST.map((t) => (
                   <ThemeCard
                     key={t.id}
@@ -418,7 +533,7 @@ export default function CreatorForm() {
               </p>
             </StepCard>
 
-            {/* ── 4. Music ───────────────────────────────────────────────── */}
+            {/* ── 5. Music ───────────────────────────────────────────────── */}
             <StepCard icon="🎵" title="Background Music (optional)">
               <Select
                 label="Select a track"
@@ -434,7 +549,7 @@ export default function CreatorForm() {
             </StepCard>
 
             {/* ── Actions ────────────────────────────────────────────────── */}
-            <div className="space-y-3 pb-8">
+            <div className="space-y-3 pb-8 safe-bottom">
               <Button
                 type="button"
                 variant="outline"
@@ -451,7 +566,7 @@ export default function CreatorForm() {
                 size="lg"
                 className="shadow-xl shadow-pink-500/25"
               >
-                🎉 Create Birthday Surprise!
+                Create Surprise! ✨
               </Button>
 
               <p className="text-center text-xs text-gray-400 dark:text-gray-500">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
+import { OCCASIONS } from '../../utils/themes';
 
 /**
  * Typewriter hook for animated text reveal.
@@ -35,14 +36,16 @@ function useTypewriter(text, { speed = 45, delay = 600 } = {}) {
 
 /**
  * Love-letter-styled message card with typewriter effect.
- * Displays the user's custom birthday message in a beautiful animated card.
+ * Displays the user's custom message in a beautiful animated card.
+ * Adapts title and signature to the selected occasion.
  */
 export default function SurpriseMessage({ onNext, data, themeObj }) {
   const { message, fromName, name } = data;
+  const occasion = OCCASIONS.find(o => o.id === data?.occasion || (o.id === 'justBecause' && data?.occasion === 'just_because')) || OCCASIONS[0];
   const [showButton, setShowButton] = useState(false);
 
   const displayMessage =
-    message || `Wishing you a magical birthday filled with joy, love, and laughter! Every moment with you is truly special. 🎊`;
+    message || `Wishing you a magical day filled with joy, love, and laughter! Every moment with you is truly special. 🎊`;
 
   const { displayed, isDone } = useTypewriter(displayMessage, { speed: 30, delay: 1000 });
 
@@ -52,6 +55,27 @@ export default function SurpriseMessage({ onNext, data, themeObj }) {
       return () => clearTimeout(t);
     }
   }, [isDone]);
+
+  // Occasion-specific title
+  const titleMap = {
+    birthday: 'A Little Letter 💌',
+    anniversary: 'A Love Note 💕',
+    friendship: 'A Note From a Friend 🤝',
+    justBecause: 'A Special Note 💝',
+    just_because: 'A Special Note 💝',
+  };
+
+  // Occasion-specific signature line
+  const signatureMap = {
+    birthday: 'With all my love',
+    anniversary: 'Forever yours',
+    friendship: 'Your friend forever',
+    justBecause: 'With love',
+    just_because: 'With love',
+  };
+
+  const title = titleMap[data?.occasion] || titleMap.birthday;
+  const signaturePrefix = signatureMap[data?.occasion] || signatureMap.birthday;
 
   return (
     <div
@@ -73,7 +97,7 @@ export default function SurpriseMessage({ onNext, data, themeObj }) {
           transition={{ delay: 0.2 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold font-display mb-2">
-            A Little Letter 💌
+            {title}
           </h2>
           <p className="opacity-70 text-sm">
             Just for you, {name || 'someone special'}
@@ -132,7 +156,7 @@ export default function SurpriseMessage({ onNext, data, themeObj }) {
                 themeObj.accentColor,
               )}
             >
-              — With all my love, {fromName} ❤️
+              — {signaturePrefix}, {fromName} ❤️
             </motion.p>
           )}
 
@@ -146,7 +170,7 @@ export default function SurpriseMessage({ onNext, data, themeObj }) {
                 themeObj.accentColor,
               )}
             >
-              — With love ❤️
+              — {signaturePrefix} ❤️
             </motion.p>
           )}
         </motion.div>

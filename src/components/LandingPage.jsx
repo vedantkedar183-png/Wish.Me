@@ -79,7 +79,7 @@ export default function LandingPage() {
         {BG_EMOJIS.map((emoji, i) => (
           <motion.span
             key={i}
-            className="absolute text-2xl md:text-4xl opacity-[0.12] dark:opacity-[0.08]"
+            className={`absolute text-2xl md:text-4xl opacity-[0.12] dark:opacity-[0.08] ${i > 8 ? 'hidden sm:block' : ''}`}
             style={{
               left: `${(i * 5.55) % 100}%`,
               top: `${(i * 11.3 + 5) % 95}%`,
@@ -105,7 +105,7 @@ export default function LandingPage() {
       <div className="relative z-10 min-h-screen flex flex-col">
 
         {/* Nav */}
-        <nav className="flex items-center justify-between px-6 py-5 max-w-6xl mx-auto w-full">
+        <nav className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-5 max-w-6xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -151,7 +151,7 @@ export default function LandingPage() {
               initial={{ scale: 0, rotate: -20 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.1 }}
-              className="text-6xl md:text-8xl mb-6 inline-block"
+              className="text-5xl xs:text-6xl md:text-8xl mb-6 inline-block"
               aria-hidden="true"
             >
               🎂
@@ -162,7 +162,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.25 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-white font-display leading-tight"
+              className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-bold text-white font-display leading-tight"
             >
               Make Their Birthday{' '}
               <br className="hidden sm:block" />
@@ -176,7 +176,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.45 }}
-              className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+              className="mt-6 text-sm xs:text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
             >
               Create beautiful, animated birthday surprise pages in minutes.
               Upload photos, pick a theme, write a heartfelt message, and
@@ -194,7 +194,7 @@ export default function LandingPage() {
                 variant="white"
                 size="xl"
                 onClick={() => navigate('/create')}
-                className="shadow-2xl shadow-black/25 font-bold"
+                className="w-full sm:w-auto shadow-2xl shadow-black/25 font-bold"
               >
                 🎉 Create a Birthday Surprise
               </Button>
@@ -202,7 +202,8 @@ export default function LandingPage() {
               <Button
                 variant="secondary"
                 size="xl"
-                onClick={() => navigate('/romantic')}
+                onClick={() => navigate('/romantic/create')}
+                className="w-full sm:w-auto"
               >
                 💌 Romantic Birthday Story
               </Button>
@@ -238,7 +239,7 @@ export default function LandingPage() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
+            className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
           >
             {FEATURES.map((f, i) => (
               <motion.div
@@ -262,7 +263,7 @@ export default function LandingPage() {
         <TestimonialSection />
 
         {/* Footer */}
-        <footer className="text-center pb-10 pt-8 border-t border-white/10">
+        <footer className="text-center pb-10 pt-8 border-t border-white/10 safe-bottom">
           <div className="max-w-4xl mx-auto px-6">
             <div className="flex items-center justify-center gap-2 mb-3">
               <span className="text-2xl" aria-hidden="true">🎂</span>

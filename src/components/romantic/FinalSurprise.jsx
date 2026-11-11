@@ -1,9 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { surpriseConfig } from '../../data/surpriseConfig';
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 import useConfetti from '../../hooks/useConfetti';
-
-const { final, person } = surpriseConfig;
 
 /** Massive confetti explosion — multiple bursts with delay */
 function useCelebrationConfetti(fire) {
@@ -20,7 +18,7 @@ function FloatingHeartField() {
     () =>
       Array.from({ length: 24 }, (_, i) => ({
         id: i,
-        symbol: ['❤️', '💕', '🩷', '🌸', '✨', '💗'][i % 6],
+        symbol: ['🎀', '🥂', '🪩', '🎆', '🦋', '🏆'][i % 6],
         left: `${(i * 4.2) % 98}%`,
         delay: `${(i * 0.35) % 8}s`,
         duration: `${7 + (i % 5)}s`,
@@ -55,7 +53,9 @@ function FloatingHeartField() {
  * emotional message, and a Replay button.
  */
 export default function FinalSurprise({ onRestart }) {
-  const fireConfetti = useConfetti();
+  const config = useRomanticConfig();
+  const { final, person } = config;
+  const { fireConfetti } = useConfetti();
   useCelebrationConfetti(fireConfetti);
 
   return (
@@ -101,7 +101,7 @@ export default function FinalSurprise({ onRestart }) {
             animate={{ rotate: [-5, 5, -5], scale: [1, 1.08, 1] }}
             transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
           >
-            🎂
+            🪅
           </motion.span>
         </motion.div>
 
@@ -141,7 +141,7 @@ export default function FinalSurprise({ onRestart }) {
           className="flex justify-center gap-3 text-3xl"
           aria-hidden="true"
         >
-          {['🎉', '🎊', '🥳', '🎈', '✨', '🎁'].map((e, i) => (
+          {['🥂', '🪩', '🏆', '🎀', '🎭', '🌈'].map((e, i) => (
             <motion.span
               key={i}
               animate={{ y: [0, -14, 0], rotate: [0, i % 2 === 0 ? 10 : -10, 0] }}
@@ -161,7 +161,7 @@ export default function FinalSurprise({ onRestart }) {
           aria-hidden="true"
         >
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-romantic-200 max-w-[80px]" />
-          <span className="text-romantic-300">❤️</span>
+          <span className="text-romantic-300">🎀</span>
           <div className="h-px flex-1 bg-gradient-to-l from-transparent to-romantic-200 max-w-[80px]" />
         </motion.div>
 
@@ -187,7 +187,7 @@ export default function FinalSurprise({ onRestart }) {
           transition={{ delay: 2.7 }}
           className="font-cursive text-xl text-romantic-muted"
         >
-          — From {person.yourName}, with all my love ❤️
+          — From {person.yourName}, always in your corner 🤞
         </motion.p>
 
         {/* Replay button */}

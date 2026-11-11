@@ -1,12 +1,56 @@
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
+import { OCCASIONS } from '../../utils/themes';
 
 /**
- * Welcome screen — the first thing the birthday person sees.
+ * Welcome screen — the first thing the recipient sees.
  * Dramatic intro with their name and a magical "Open Your Surprise" button.
+ * Adapts to the selected occasion (birthday, anniversary, friendship, justBecause).
  */
 export default function SurpriseWelcome({ onNext, data, themeObj }) {
   const { name } = data;
+  const occasion = OCCASIONS.find(o => o.id === data?.occasion) || OCCASIONS[0];
+
+  // Occasion-specific content
+  const occasionContent = {
+    birthday: {
+      emoji: '🎂',
+      preText: '✨ Someone made something very special just for you ✨',
+      subtitle: 'Close your eyes and take a deep breath…',
+      button: 'Open Your Surprise 💕',
+      subline: 'Something magical is about to begin',
+    },
+    anniversary: {
+      emoji: '💍',
+      preText: '✨ A moment crafted with love, just for you ✨',
+      subtitle: 'A moment crafted with love…',
+      button: 'Celebrate Our Love 💍',
+      subline: 'Something beautiful is about to unfold',
+    },
+    friendship: {
+      emoji: '🤝',
+      preText: '✨ Something special from a dear friend ✨',
+      subtitle: 'Something special from a dear friend…',
+      button: 'See What Awaits You 🤝',
+      subline: 'A heartfelt surprise is waiting',
+    },
+    justBecause: {
+      emoji: '💝',
+      preText: '✨ Someone wanted to make your day brighter ✨',
+      subtitle: 'Someone wanted to make your day…',
+      button: 'Unwrap Your Surprise 💝',
+      subline: 'Something wonderful is about to happen',
+    },
+    just_because: {
+      emoji: '💝',
+      preText: '✨ Someone wanted to make your day brighter ✨',
+      subtitle: 'Someone wanted to make your day…',
+      button: 'Unwrap Your Surprise 💝',
+      subline: 'Something wonderful is about to happen',
+    },
+  };
+
+  const content = occasionContent[data?.occasion] || occasionContent.birthday;
 
   return (
     <div
@@ -57,10 +101,10 @@ export default function SurpriseWelcome({ onNext, data, themeObj }) {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-sm md:text-base opacity-80 tracking-wide"
         >
-          ✨ Someone made something very special just for you ✨
+          {content.preText}
         </motion.p>
 
-        {/* Animated cake */}
+        {/* Animated occasion emoji */}
         <motion.div
           initial={{ scale: 0, rotate: -30 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -68,7 +112,7 @@ export default function SurpriseWelcome({ onNext, data, themeObj }) {
           className="text-7xl md:text-9xl"
           aria-hidden="true"
         >
-          🎂
+          {content.emoji}
         </motion.div>
 
         {/* Main title */}
@@ -82,7 +126,7 @@ export default function SurpriseWelcome({ onNext, data, themeObj }) {
           Hey {name || 'Someone Special'}! 💕
           <br />
           <span className="text-xl md:text-3xl opacity-80 font-normal">
-            Close your eyes and take a deep breath…
+            {content.subtitle}
           </span>
         </motion.h1>
 
@@ -93,7 +137,7 @@ export default function SurpriseWelcome({ onNext, data, themeObj }) {
           transition={{ delay: 1.5 }}
           className="text-base md:text-lg opacity-70 max-w-md mx-auto"
         >
-          Something magical is about to begin
+          {content.subline}
         </motion.p>
 
         {/* CTA Button */}
@@ -112,7 +156,7 @@ export default function SurpriseWelcome({ onNext, data, themeObj }) {
           )}
           style={{ textShadow: '0 1px 8px rgba(0,0,0,0.1)' }}
         >
-          Open Your Surprise 💕
+          {content.button}
         </motion.button>
 
         {/* Bouncing arrow */}

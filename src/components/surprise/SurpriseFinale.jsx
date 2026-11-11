@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import useConfetti from '../../hooks/useConfetti';
+import { OCCASIONS } from '../../utils/themes';
 
 /**
- * Grand finale — the last screen of the birthday surprise.
- * Shows a final birthday wish, replay/share options, and Wishora branding.
+ * Grand finale — the last screen of the surprise.
+ * Shows a final occasion wish, replay/share options, and Wishora branding.
  */
 export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
   const { name, fromName } = data;
+  const occasion = OCCASIONS.find(o => o.id === data?.occasion || (o.id === 'justBecause' && data?.occasion === 'just_because')) || OCCASIONS[0];
   const { fireConfetti, fireFireworks } = useConfetti(data.theme);
   const [showActions, setShowActions] = useState(false);
 
@@ -23,6 +25,15 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
       [t1, t2, t3, t4].forEach(clearTimeout);
     };
   }, [fireConfetti, fireFireworks]);
+
+  const finalGreetingMap = {
+    birthday: 'Happy Birthday,',
+    anniversary: 'Happy Anniversary,',
+    friendship: 'To an Amazing Friend,',
+    justBecause: 'Just Because You’re Special,',
+    just_because: 'Just Because You’re Special,',
+  };
+  const finalGreeting = finalGreetingMap[data?.occasion] || (occasion.defaultGreeting ? `${occasion.defaultGreeting.replace(/!$/, '')},` : 'Happy Birthday,');
 
   return (
     <div
@@ -71,7 +82,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
           And most importantly of all…
         </motion.p>
 
-        {/* Big birthday cake */}
+        {/* Big occasion emoji */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -83,7 +94,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
             transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
             aria-hidden="true"
           >
-            🎂
+            {occasion.emoji}
           </motion.span>
         </motion.div>
 
@@ -97,7 +108,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
             className="text-4xl md:text-6xl font-bold font-display mb-2"
             style={{ textShadow: '0 4px 30px rgba(0,0,0,0.25)' }}
           >
-            Happy Birthday,
+            {finalGreeting}
           </h2>
           <h2
             className="text-4xl md:text-6xl font-bold font-cursive"
@@ -132,7 +143,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
           className="flex justify-center gap-3 text-3xl"
           aria-hidden="true"
         >
-          {['🎂', '🎉', '🎊', '💖', '🥳', '✨'].map((emoji, i) => (
+          {[occasion.emoji, '🎉', '🎊', '💖', '🥳', '✨'].map((emoji, i) => (
             <motion.span
               key={i}
               animate={{ y: [0, -12, 0] }}

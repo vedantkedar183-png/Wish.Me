@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import useConfetti from '../../hooks/useConfetti';
+import { OCCASIONS } from '../../utils/themes';
 
 /**
  * Full-screen celebration with massive confetti, bouncing emojis,
  * theme-specific particle effects, and an emotional message.
+ * Adapts messaging based on occasion.
  */
 export default function SurpriseCelebration({ onNext, data, themeObj }) {
   const { name, fromName } = data;
+  const occasion = OCCASIONS.find(o => o.id === data?.occasion || (o.id === 'justBecause' && data?.occasion === 'just_because')) || OCCASIONS[0];
   const { fireConfetti, fireFireworks } = useConfetti(data.theme);
   const [showContent, setShowContent] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -25,6 +28,78 @@ export default function SurpriseCelebration({ onNext, data, themeObj }) {
       [t1, t2, t3, t4, t5].forEach(clearTimeout);
     };
   }, [fireConfetti, fireFireworks]);
+
+  // Occasion-specific content
+  const headingMap = {
+    birthday: 'You Are So Special! 💖',
+    anniversary: "Here's To Us! 💕",
+    friendship: 'Best Friends Forever! 🤝',
+    justBecause: 'You Deserve This! 💝',
+    just_because: 'You Deserve This! 💝',
+  };
+
+  const messageMap = {
+    birthday: (
+      <>
+        <p className="text-base md:text-lg leading-relaxed">
+          {name || 'Someone Special'}, you make this world a more beautiful place
+          just by being in it. Today we celebrate <strong>YOU</strong> and everything
+          amazing about you! 🌸
+        </p>
+        <p className="text-sm mt-4 opacity-70">
+          May this year bring you more joy, more laughter, more adventures,
+          and more love than you ever thought possible. You deserve every
+          single bit of it — and so much more. ✨
+        </p>
+      </>
+    ),
+    anniversary: (
+      <>
+        <p className="text-base md:text-lg leading-relaxed">
+          {name || 'Someone Special'}, every moment together has been a gift.
+          Here's to the beautiful journey you've shared, the memories you've made,
+          and the countless more waiting ahead! 🌸
+        </p>
+        <p className="text-sm mt-4 opacity-70">
+          May your love continue to grow deeper, your bond stronger, and your
+          hearts forever intertwined. You are truly meant for each other. ✨
+        </p>
+      </>
+    ),
+    friendship: (
+      <>
+        <p className="text-base md:text-lg leading-relaxed">
+          {name || 'Someone Special'}, true friends like you are life's greatest
+          treasure. Your kindness, your laughter, your presence — they make
+          every day brighter! 🌸
+        </p>
+        <p className="text-sm mt-4 opacity-70">
+          Here's to all the memories we've made and all the ones still to come.
+          You're not just a friend — you're family. ✨
+        </p>
+      </>
+    ),
+    justBecause: (
+      <>
+        <p className="text-base md:text-lg leading-relaxed">
+          {name || 'Someone Special'}, you don't need a special occasion to be
+          celebrated. Just being you is reason enough to celebrate! 🌸
+        </p>
+        <p className="text-sm mt-4 opacity-70">
+          May you always know how valued, appreciated, and loved you are.
+          You make the world a better place just by being in it. ✨
+        </p>
+      </>
+    ),
+  };
+
+  const signatureMap = {
+    birthday: 'With all the love in the world',
+    anniversary: 'Forever and always',
+    friendship: 'Your forever friend',
+    justBecause: 'With love and appreciation',
+    just_because: 'With love and appreciation',
+  };
 
   return (
     <div
@@ -80,7 +155,7 @@ export default function SurpriseCelebration({ onNext, data, themeObj }) {
             🥳
           </motion.div>
 
-          {/* Celebration text */}
+          {/* Celebration heading */}
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -88,7 +163,7 @@ export default function SurpriseCelebration({ onNext, data, themeObj }) {
             className="text-3xl md:text-5xl font-bold font-display"
             style={{ textShadow: '0 4px 30px rgba(0,0,0,0.25)' }}
           >
-            You Are So Special! 💖
+            {headingMap[data?.occasion] || headingMap.birthday}
           </motion.h2>
 
           {/* Emotional message */}
@@ -102,16 +177,7 @@ export default function SurpriseCelebration({ onNext, data, themeObj }) {
               'backdrop-blur-xl border border-white/20',
             )}
           >
-            <p className="text-base md:text-lg leading-relaxed">
-              {name || 'Someone Special'}, you make this world a more beautiful place
-              just by being in it. Today we celebrate <strong>YOU</strong> and everything
-              amazing about you! 🌸
-            </p>
-            <p className="text-sm mt-4 opacity-70">
-              May this year bring you more joy, more laughter, more adventures,
-              and more love than you ever thought possible. You deserve every
-              single bit of it — and so much more. ✨
-            </p>
+            {messageMap[data?.occasion] || messageMap.birthday}
           </motion.div>
 
           {/* Bouncing emoji row */}
@@ -146,7 +212,7 @@ export default function SurpriseCelebration({ onNext, data, themeObj }) {
               transition={{ delay: 2 }}
               className={clsx('text-lg italic font-medium', themeObj.accentColor)}
             >
-              — With all the love in the world, {fromName} ❤️
+              — {signatureMap[data?.occasion] || signatureMap.birthday}, {fromName} ❤️
             </motion.p>
           )}
 

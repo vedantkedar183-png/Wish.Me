@@ -9,6 +9,7 @@ const DEFAULT_FORM = {
   name: '',
   message: '',
   fromName: '',
+  occasion: 'birthday',
   theme: 'romantic',
   music: 'none',
   photoId: null,

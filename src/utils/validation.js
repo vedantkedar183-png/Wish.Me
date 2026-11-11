@@ -2,7 +2,7 @@
 
 export const MAX_MESSAGE_LENGTH = 500;
 export const MAX_NAME_LENGTH = 50;
-export const MAX_FROM_LENGTH = 30;
+export const MAX_FROM_LENGTH = 50;
 export const MAX_FILE_SIZE_MB = 5;
 export const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -11,15 +11,16 @@ export const ALLOWED_FILE_TYPES = [
   'image/webp',
   'image/gif',
 ];
+export const VALID_OCCASIONS = ['birthday', 'anniversary', 'friendship', 'justBecause'];
 
 /**
- * Validate the birthday person's name.
+ * Validate the recipient's name.
  * @param {string} name
  * @returns {string|null} error message or null
  */
 export function validateName(name) {
   if (!name || !name.trim()) {
-    return "Please enter the birthday person's name.";
+    return "Please enter the recipient's name.";
   }
   if (name.trim().length < 2) {
     return 'Name must be at least 2 characters long.';
@@ -31,13 +32,13 @@ export function validateName(name) {
 }
 
 /**
- * Validate the personal birthday message.
+ * Validate the personal message.
  * @param {string} message
  * @returns {string|null} error message or null
  */
 export function validateMessage(message) {
   if (!message || !message.trim()) {
-    return 'Please write a birthday message.';
+    return 'Please write a message.';
   }
   if (message.trim().length < 5) {
     return 'Message must be at least 5 characters long.';
@@ -68,8 +69,38 @@ export function validatePhotoFile(file) {
 }
 
 /**
+ * Validate the sender's name (optional).
+ * @param {string} fromName
+ * @returns {string|null} error message or null
+ */
+export function validateFromName(fromName) {
+  if (!fromName || !fromName.trim()) {
+    return null;
+  }
+  if (fromName.trim().length < 2) {
+    return 'Sender name must be at least 2 characters long.';
+  }
+  if (fromName.trim().length > MAX_FROM_LENGTH) {
+    return `Sender name must be at most ${MAX_FROM_LENGTH} characters.`;
+  }
+  return null;
+}
+
+/**
+ * Validate the occasion type.
+ * @param {string} occasion
+ * @returns {string|null} error message or null
+ */
+export function validateOccasion(occasion) {
+  if (!occasion || !VALID_OCCASIONS.includes(occasion)) {
+    return 'Please select a valid occasion.';
+  }
+  return null;
+}
+
+/**
  * Validate the entire form and return an errors object.
- * @param {{ name: string, message: string }} formData
+ * @param {{ name: string, message: string, fromName?: string, occasion?: string }} formData
  * @returns {Record<string, string>} — empty object means valid
  */
 export function validateForm(formData) {
@@ -80,6 +111,14 @@ export function validateForm(formData) {
 
   const messageError = validateMessage(formData.message);
   if (messageError) errors.message = messageError;
+
+  const fromNameError = validateFromName(formData.fromName);
+  if (fromNameError) errors.fromName = fromNameError;
+
+  if (formData.occasion !== undefined && formData.occasion !== null) {
+    const occasionError = validateOccasion(formData.occasion);
+    if (occasionError) errors.occasion = occasionError;
+  }
 
   return errors;
 }

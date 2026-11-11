@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { surpriseConfig, getRomanticConfig } from '../../data/surpriseConfig';
+import { RomanticConfigProvider } from '../../context/RomanticConfigContext';
 
 import DecorationLayer from './DecorationLayer';
 import MusicButton    from './MusicButton';
@@ -58,34 +61,49 @@ const pageVariants = {
 export default function RomanticSurprise() {
   const [step, setStep] = useState(0);
 
+  const config = useMemo(() => {
+    try {
+      const saved = localStorage.getItem('wishora_romantic_data');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return getRomanticConfig(parsed);
+      }
+    } catch (err) {
+      console.warn('[Wishora] Failed to read wishora_romantic_data from localStorage:', err);
+    }
+    return surpriseConfig;
+  }, []);
+
   const goNext    = () => setStep((s) => Math.min(s + 1, SECTIONS.length - 1));
   const goRestart = () => setStep(0);
 
   const CurrentSection = SECTIONS[step];
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden" style={{ isolation: 'isolate' }}>
+    <RomanticConfigProvider config={config}>
+      <div className="relative min-h-screen overflow-x-hidden" style={{ isolation: 'isolate' }}>
 
-      {/* ── Always-on layers ──────────────────────────────────────── */}
-      <DecorationLayer />
-      <MusicButton />
+        {/* ── Always-on layers ──────────────────────────────────────── */}
+        <DecorationLayer />
+        <MusicButton />
 
-      {/* ── Progress indicator ────────────────────────────────────── */}
-      <ProgressDots total={SECTIONS.length} current={step} />
+        {/* ── Progress indicator ────────────────────────────────────── */}
+        <ProgressDots total={SECTIONS.length} current={step} />
 
-      {/* ── Animated section ─────────────────────────────────────── */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          variants={pageVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          style={{ position: 'relative', zIndex: 10 }}
-        >
-          <CurrentSection onNext={goNext} onRestart={goRestart} />
-        </motion.div>
-      </AnimatePresence>
-    </div>
+        {/* ── Animated section ─────────────────────────────────────── */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            style={{ position: 'relative', zIndex: 10 }}
+          >
+            <CurrentSection onNext={goNext} onRestart={goRestart} />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </RomanticConfigProvider>
   );
 }
