@@ -131,6 +131,7 @@ export default function RomanticCreate() {
 
   const [errors, setErrors] = useState({});
   const [photoError, setPhotoError] = useState('');
+  const [submitError, setSubmitError] = useState('');
   const [isDragging, setIsDragging] = useState(false);
 
   const fileInputRef = useRef(null);
@@ -284,6 +285,7 @@ export default function RomanticCreate() {
     }
 
     setErrors({});
+    setSubmitError('');
 
     const romanticData = {
       name: name.trim(),
@@ -300,12 +302,23 @@ export default function RomanticCreate() {
 
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(romanticData));
-      sessionStorage.setItem('wishora_romantic_preview', '1');
     } catch (err) {
       console.warn('[Wishora] Failed to save romantic data:', err);
+      // Do not navigate on failure — otherwise the next page falls back to the
+      // default sample story and it looks like the button did nothing.
+      setSubmitError(
+        'Your browser storage is full, so this story could not be saved. Remove a few photos (or clear site data) and try again.',
+      );
+      return;
     }
 
-    navigate('/romantic');
+    try {
+      sessionStorage.setItem('wishora_romantic_preview', '1');
+    } catch {
+      // Non-fatal: the navigation state below is the primary hand-off.
+    }
+
+    navigate('/romantic', { state: { preview: true } });
   };
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -617,6 +630,15 @@ export default function RomanticCreate() {
 
           {/* ── Actions / Submit ──────────────────────────────────────────── */}
           <div className="space-y-3 pb-8 safe-bottom">
+            {submitError && (
+              <p
+                role="alert"
+                className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-2xl px-4 py-3"
+              >
+                ⚠️ {submitError}
+              </p>
+            )}
+
             <Button
               type="submit"
               fullWidth

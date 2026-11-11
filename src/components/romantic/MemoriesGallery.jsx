@@ -24,15 +24,18 @@ function PolaroidCard({ photo, index }) {
     >
       {/* Photo area */}
       <div className="w-full aspect-[4/5] overflow-hidden bg-romantic-100 flex items-center justify-center">
-        {imgError ? (
-          /* Gradient placeholder if photo fails to load */
+        {!photo.src || imgError ? (
+          /* Gradient placeholder when the photo is device-local or fails to load */
           <div
-            className="w-full h-full flex items-center justify-center text-4xl"
+            className="w-full h-full flex flex-col items-center justify-center gap-2 text-4xl"
             style={{
               background: `linear-gradient(135deg, hsl(${(index * 40) % 360}, 60%, 85%), hsl(${(index * 40 + 40) % 360}, 60%, 80%))`,
             }}
           >
-            🖼️
+            <span aria-hidden="true">🖼️</span>
+            <span className="text-[10px] font-medium text-gray-600/70 px-2 text-center">
+              {photo.caption || 'A memory'}
+            </span>
           </div>
         ) : (
           <img

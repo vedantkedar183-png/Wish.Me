@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { BirthdayProvider } from './context/BirthdayContext';
 import { ThemeProvider } from './context/ThemeContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Create from './pages/Create';
 import Surprise from './pages/Surprise';
@@ -17,15 +18,17 @@ export default function App() {
     <ThemeProvider>
     <BirthdayProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/create" element={<Create />} />
-          <Route path="/surprise" element={<Surprise />} />
-          <Route path="/romantic" element={<Romantic />} />
-          <Route path="/romantic/create" element={<RomanticCreate />} />
-          {/* Catch-all: redirect unknown routes to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/surprise" element={<Surprise />} />
+            <Route path="/romantic" element={<Romantic />} />
+            <Route path="/romantic/create" element={<RomanticCreate />} />
+            {/* Catch-all: redirect unknown routes to home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </ErrorBoundary>
       </BrowserRouter>
     </BirthdayProvider>
     </ThemeProvider>

@@ -133,6 +133,10 @@ const DEFAULT_CAPTIONS = [
 export function getRomanticConfig(data = {}) {
   if (!data) return surpriseConfig;
 
+  // Shared links must never fall back to the sample "Sarah/Alex" content when
+  // the sender intentionally left a section empty.
+  const isSharedStory = data.kind === 'romantic';
+
   const name = data.name?.trim() || surpriseConfig.person.name;
   const age = data.age !== undefined && data.age !== null && data.age !== ''
     ? data.age
@@ -141,12 +145,16 @@ export function getRomanticConfig(data = {}) {
   const yourName = data.yourName?.trim() || surpriseConfig.person.yourName;
 
   // ── Memories photos ──
-  let photos = surpriseConfig.memories.photos;
+  // A shared link may intentionally omit `src` (photos are device-local) while
+  // keeping captions, so captions alone still produce a polaroid placeholder.
+  let photos = isSharedStory ? [] : surpriseConfig.memories.photos;
   if (Array.isArray(data.photos) && data.photos.length > 0) {
-    const validPhotos = data.photos.filter((p) => (typeof p === 'string' ? p : p?.src));
+    const validPhotos = data.photos.filter(
+      (p) => typeof p === 'string' || p?.src || p?.caption,
+    );
     if (validPhotos.length > 0) {
       photos = validPhotos.map((p, index) => {
-        const src = typeof p === 'string' ? p : p.src;
+        const src = typeof p === 'string' ? p : p.src || null;
         const caption =
           (typeof p === 'object' && p?.caption?.trim()) ||
           DEFAULT_CAPTIONS[index % DEFAULT_CAPTIONS.length];
@@ -159,7 +167,7 @@ export function getRomanticConfig(data = {}) {
   }
 
   // ── Reasons cards ──
-  let cards = surpriseConfig.reasons.cards;
+  let cards = isSharedStory ? [] : surpriseConfig.reasons.cards;
   if (Array.isArray(data.reasons) && data.reasons.length > 0) {
     const validReasons = data.reasons
       .map((r) => (typeof r === 'string' ? r.trim() : r?.text?.trim()))
@@ -177,7 +185,7 @@ export function getRomanticConfig(data = {}) {
   }
 
   // ── Letter paragraphs ──
-  let paragraphs = surpriseConfig.letter.paragraphs;
+  let paragraphs = isSharedStory ? [] : surpriseConfig.letter.paragraphs;
   if (data.message && typeof data.message === 'string' && data.message.trim()) {
     const split = data.message
       .split(/\n\s*\n/)
