@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
-import Button from './ui/Button';
 import { generateShareUrl } from '../utils/encode';
 
 /**

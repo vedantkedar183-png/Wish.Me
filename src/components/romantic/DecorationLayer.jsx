@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useRomanticConfig } from '../../context/RomanticConfigContext';
 
 const PARTICLES = ['❤️', '🩷', '💕', '💗', '🌸', '✨', '🌹', '💫', '🎀', '🦋'];
 
@@ -26,7 +25,6 @@ function Particle({ symbol, left, delay, duration, size }) {
  * Very subtle opacity — purely decorative, never interferes with content.
  */
 export default function DecorationLayer({ count = 18 }) {
-  const config = useRomanticConfig();
   const particles = useMemo(
     () =>
       Array.from({ length: count }, (_, i) => ({

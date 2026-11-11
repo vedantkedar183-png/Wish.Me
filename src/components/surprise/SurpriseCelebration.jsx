@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import useConfetti from '../../hooks/useConfetti';
-import { OCCASIONS } from '../../utils/themes';
 
 /**
  * Full-screen celebration with massive confetti, bouncing emojis,
@@ -11,7 +10,6 @@ import { OCCASIONS } from '../../utils/themes';
  */
 export default function SurpriseCelebration({ onNext, data, themeObj }) {
   const { name, fromName } = data;
-  const occasion = OCCASIONS.find(o => o.id === data?.occasion || (o.id === 'justBecause' && data?.occasion === 'just_because')) || OCCASIONS[0];
   const { fireConfetti, fireFireworks } = useConfetti(data.theme);
   const [showContent, setShowContent] = useState(false);
   const [showButton, setShowButton] = useState(false);

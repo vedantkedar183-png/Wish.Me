@@ -113,6 +113,8 @@ export default function Surprise() {
     }
 
     setLoading(false);
+    // Mount-only: the URL/localStorage hand-off is read exactly once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Run once on mount — deps intentionally omitted to avoid re-renders
 
   if (loading) return <LoadingScreen />;

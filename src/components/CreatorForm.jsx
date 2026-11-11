@@ -161,7 +161,7 @@ export default function CreatorForm() {
       const removed = prev[index];
       // Remove from localStorage
       if (removed?.id) {
-        try { localStorage.removeItem(`wishora_photo_${removed.id}`); } catch {}
+        try { localStorage.removeItem(`wishora_photo_${removed.id}`); } catch { /* ignore */ }
       }
       return prev.filter((_, i) => i !== index);
     });

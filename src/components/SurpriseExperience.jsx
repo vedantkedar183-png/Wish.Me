@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 import { themes } from '../utils/themes';
-import { useBirthday } from '../context/BirthdayContext';
 
 import SurpriseProgress    from './surprise/SurpriseProgress';
 import SurpriseMusic       from './surprise/SurpriseMusic';
@@ -58,7 +57,6 @@ const reducedMotionVariants = {
  * @param {{ data: Object }} props — surprise data from form or URL
  */
 export default function SurpriseExperience({ data }) {
-  const { getPhoto } = useBirthday();
   const shouldReduceMotion = useReducedMotion();
   const [step, setStep] = useState(0);
   const [showShare, setShowShare] = useState(false);

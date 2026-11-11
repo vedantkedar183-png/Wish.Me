@@ -135,8 +135,8 @@ export const themes = {
 };
 
 // ─── Music Options ────────────────────────────────────────────────────────────
-// Locally hosted music tracks in public/music/.
-// Replace the placeholder files with your own MP3s for real music.
+// Original seamless loops generated for Wishora (public/music/*.mp3).
+// Swap the files for your own MP3s whenever you like — keep the same names.
 export const MUSIC_OPTIONS = [
   {
     value: 'none',

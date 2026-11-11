@@ -26,8 +26,9 @@ export default function SurpriseMusic({ musicId }) {
 
     // Try autoplay on first user interaction
     const onInteraction = () => {
-      if (!audioRef.current || playing) return;
-      audioRef.current
+      const audio = audioRef.current;
+      if (!audio || !audio.paused) return;
+      audio
         .play()
         .then(() => setPlaying(true))
         .catch(() => {});

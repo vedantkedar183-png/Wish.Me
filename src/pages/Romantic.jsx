@@ -62,6 +62,8 @@ export default function Romantic() {
     } else {
       navigate('/romantic/create', { replace: true });
     }
+    // Mount-only: search params, shared data and preview state are captured once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Clear the fallback flag only *after* the page has successfully opened, so

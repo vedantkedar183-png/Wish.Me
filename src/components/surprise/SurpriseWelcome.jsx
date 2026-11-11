@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
-import { OCCASIONS } from '../../utils/themes';
 
 /**
  * Welcome screen — the first thing the recipient sees.
@@ -9,7 +8,6 @@ import { OCCASIONS } from '../../utils/themes';
  */
 export default function SurpriseWelcome({ onNext, data, themeObj }) {
   const { name } = data;
-  const occasion = OCCASIONS.find(o => o.id === data?.occasion) || OCCASIONS[0];
 
   // Occasion-specific content
   const occasionContent = {

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 
 import ParticleField from './ParticleField';
@@ -56,7 +56,7 @@ function useTypewriter(text, { speed = 90, delay = 900 } = {}) {
  */
 export default function BirthdayPage({ data }) {
   const navigate = useNavigate();
-  const { resetForm, getPhoto } = useBirthday();
+  const { resetForm } = useBirthday();
 
   const { name, message, fromName, theme, music: musicId, photoId, photoIds } = data ?? {};
   const themeObj = themes[theme] ?? themes.romantic;
@@ -76,7 +76,7 @@ export default function BirthdayPage({ data }) {
   );
 
   // Use theme-aware confetti
-  const { fireConfetti, fireFireworks } = useConfetti(theme);
+  const { fireConfetti } = useConfetti(theme);
 
   // ── Load photos from localStorage ────────────────────────────────────────
   useEffect(() => {

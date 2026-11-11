@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
-import { OCCASIONS } from '../../utils/themes';
 
 /**
  * Typewriter hook for animated text reveal.
@@ -41,7 +40,6 @@ function useTypewriter(text, { speed = 45, delay = 600 } = {}) {
  */
 export default function SurpriseMessage({ onNext, data, themeObj }) {
   const { message, fromName, name } = data;
-  const occasion = OCCASIONS.find(o => o.id === data?.occasion || (o.id === 'justBecause' && data?.occasion === 'just_because')) || OCCASIONS[0];
   const [showButton, setShowButton] = useState(false);
 
   const displayMessage =

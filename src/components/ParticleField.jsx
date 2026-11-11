@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, memo } from 'react';
+import { useState, useCallback, useRef, memo } from 'react';
 
 /**
  * Advanced particle effects system with multiple visual layers.
@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback, useRef, memo } from 'react';
  */
 const ParticleField = memo(function ParticleField({
   emojis = ['✨', '🎂', '🎈', '🎉'],
-  glowColor = '#fb7185',
+  glowColor: _glowColor = '#fb7185',
   count = 24,
 }) {
   const [sparkles, setSparkles] = useState([]);

@@ -38,7 +38,8 @@ export function decodeSurpriseData(encoded) {
     if (!data || typeof data !== 'object' || !data.name) return null;
     return data;
   } catch (err) {
-    console.error('[Wish.Me] decodeSurpriseData failed:', err);
+    // Malformed/expired shared links are an expected user input, not a crash.
+    console.warn('[Wish.Me] decodeSurpriseData failed:', err);
     return null;
   }
 }
@@ -83,7 +84,8 @@ export function decodePayload(encoded) {
     if (!data || typeof data !== 'object') return null;
     return data;
   } catch (err) {
-    console.error('[Wish.Me] decodePayload failed:', err);
+    // Malformed/expired shared links are an expected user input, not a crash.
+    console.warn('[Wish.Me] decodePayload failed:', err);
     return null;
   }
 }

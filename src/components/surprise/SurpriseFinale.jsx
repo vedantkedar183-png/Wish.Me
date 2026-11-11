@@ -9,7 +9,7 @@ import { OCCASIONS } from '../../utils/themes';
  * Shows a final occasion wish, replay/share options, and Wishora branding.
  */
 export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
-  const { name, fromName } = data;
+  const { name } = data;
   const occasion = OCCASIONS.find(o => o.id === data?.occasion || (o.id === 'justBecause' && data?.occasion === 'just_because')) || OCCASIONS[0];
   const { fireConfetti, fireFireworks } = useConfetti(data.theme);
   const [showActions, setShowActions] = useState(false);
