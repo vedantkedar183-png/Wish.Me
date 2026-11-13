@@ -15,14 +15,14 @@ export const surpriseConfig = {
     name: 'Sarah',               // Birthday person's name (shown prominently)
     age: 25,                     // Age they are turning
     birthdayDate: 'September 15, 2026',
-    yourName: 'Alex',            // Your name — used in the letter closing
+    yourName: 'Vedant',          // Your name — used in the letter closing
   },
 
   // ─── SLIDE 1: WELCOME SCREEN ─────────────────────────────────────
   // Tone: Mysterious & enchanting — builds anticipation
   welcome: {
     preMessage: '🔮 A little secret has been waiting for you… 🔮',
-    mainTitle: 'Shhh…\nSomething wonderful\nis about to unfold',
+    mainTitle: 'Something wonderful\nis waiting for you,',
     subtitle: 'A journey crafted with heart and soul',
     buttonText: 'Unwrap the Magic 🪄',
   },
@@ -237,6 +237,9 @@ export function getRomanticConfig(data = {}) {
 
     welcome: {
       ...surpriseConfig.welcome,
+      // The sender's name always closes the opening line, so the very first
+      // screen says who the surprise is from.
+      mainTitle: `${surpriseConfig.welcome.mainTitle}\n${yourName} 💌`,
       subtitle: `A journey crafted with heart and soul for ${name}`,
     },
 

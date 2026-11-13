@@ -11,7 +11,7 @@ const PREVIEW_FLAG = 'wishora_romantic_preview';
  *  2. The user just came from /romantic/create (preview hand-off).
  *
  * Otherwise redirects to /romantic/create so the creator doesn't
- * accidentally see the recipient-facing "Shhh…" screen.
+ * accidentally see the recipient-facing welcome screen.
  */
 export default function Romantic() {
   const [searchParams] = useSearchParams();
