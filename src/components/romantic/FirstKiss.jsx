@@ -204,7 +204,7 @@ export default function FirstKiss({ onNext }) {
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="relative mx-auto mt-1 w-full max-w-[360px]"
+          className="relative mx-auto mt-1 w-full max-w-[340px] sm:max-w-[380px]"
         >
           <div className="kiss-aura" aria-hidden="true" />
 

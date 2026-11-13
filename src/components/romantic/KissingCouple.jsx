@@ -15,12 +15,14 @@ export default function KissingCouple({ className = '' }) {
     >
       <defs>
         <linearGradient id="kissSkinBoy" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ffdcc2" />
-          <stop offset="100%" stopColor="#e9a87e" />
+          <stop offset="0%" stopColor="#ffdec6" />
+          <stop offset="58%" stopColor="#f3b98f" />
+          <stop offset="100%" stopColor="#dd976a" />
         </linearGradient>
         <linearGradient id="kissSkinGirl" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ffe6d2" />
-          <stop offset="100%" stopColor="#f2b79a" />
+          <stop offset="0%" stopColor="#ffeadd" />
+          <stop offset="58%" stopColor="#f8c8ab" />
+          <stop offset="100%" stopColor="#e5a687" />
         </linearGradient>
         <linearGradient id="kissHairBoy" x1="0" y1="0" x2="0.5" y2="1">
           <stop offset="0%" stopColor="#4a3021" />
@@ -63,22 +65,22 @@ export default function KissingCouple({ className = '' }) {
         />
         <path d="M152,224 L178,224 L180,258 L150,258 Z" fill="#d3946b" />
 
-        <path
-          d="M146,102 C124,104 106,122 104,148 C102,166 106,182 106,196 C114,180 118,162 121,146 C124,130 130,118 138,111 C146,105 156,105 164,110 Z"
-          fill="url(#kissHairBoy)"
-        />
-        <ellipse cx="148" cy="152" rx="50" ry="61" fill="url(#kissHairBoy)" />
+        <ellipse cx="148" cy="151" rx="49" ry="58" fill="url(#kissHairBoy)" transform="rotate(-6 148 151)" />
 
         <ellipse cx="158" cy="196" rx="10" ry="14" fill="#e0a179" />
         <path d="M156,190 C160,192 160,200 156,203" stroke="#c98a63" strokeWidth="2" fill="none" />
 
         <path
-          d="M176,108 C190,121 195,140 196,158 C196,165 197,169 200,174 C205,182 213,190 217,197 C219,200 215,203 207,203 C203,204 206,205 210,207 C213,208 208,211 204,212 C207,214 209,216 206,218 C203,221 200,224 198,227 C194,235 187,240 177,241 C166,242 156,237 152,228 C148,216 147,196 148,178 C149,158 158,136 168,124 C171,117 173,111 176,108 Z"
+          d="M176,108 C190,121 195,140 196,158 C196,165 197,169 200,174 C205,182 213,190 217,197 C219,200 215,203 207,203 C203,204 206,205 210,207 C213,208 208,211 204,212 C207,214 209,216 206,217 C204,220 201,222 199,225 C195,231 188,235 178,236 C168,237 158,233 154,225 C150,213 148,195 149,178 C149,158 158,136 168,124 C171,117 173,111 176,108 Z"
           fill="url(#kissSkinBoy)"
         />
 
         <path d="M205,196 C209,197 211,199 210,201" stroke="#d0906b" strokeWidth="2" strokeLinecap="round" fill="none" />
-        <path d="M140,106 C155,102 168,108 178,122" stroke="#7a5238" strokeOpacity="0.4" strokeWidth="3" strokeLinecap="round" fill="none" />
+        <path d="M200,176 C203,183 206,189 207,193" stroke="#ffe0c8" strokeOpacity="0.4" strokeWidth="3" strokeLinecap="round" fill="none" />
+
+        {/* collar */}
+        <path d="M151,257 C159,267 172,272 184,273" stroke="#0d1420" strokeOpacity="0.55" strokeWidth="2.6" fill="none" />
+        <path d="M157,258 C164,265 172,268 180,269" stroke="#8ea6d6" strokeOpacity="0.45" strokeWidth="2" fill="none" />
 
         <path d="M171,160 C177,154 186,154 191,159" stroke="#2b1a12" strokeWidth="4.2" strokeLinecap="round" fill="none" />
         <path d="M172,176 C179,169 188,169 193,176" stroke="#2b1a12" strokeWidth="4" strokeLinecap="round" fill="none" />
@@ -87,6 +89,7 @@ export default function KissingCouple({ className = '' }) {
 
         <ellipse cx="181" cy="197" rx="15" ry="10" fill="url(#kissCheek)" />
         <path d="M204,205 C210,203 214,205 214,208 C212,212 206,213 202,210 Z" fill="url(#kissLips)" />
+        <path d="M205,206 C208,205 211,205 213,206" stroke="#ffffff" strokeOpacity="0.4" strokeWidth="1.2" strokeLinecap="round" fill="none" />
         </g>
       </g>
 
@@ -109,20 +112,31 @@ export default function KissingCouple({ className = '' }) {
           <path d="M156,190 C160,192 160,200 156,203" stroke="#cf947a" strokeWidth="2" fill="none" />
 
           <path
-            d="M176,108 C190,121 195,140 196,158 C196,165 197,169 200,174 C205,182 213,190 217,197 C219,200 215,203 207,203 C203,204 206,205 210,207 C213,208 208,211 204,212 C207,214 209,216 206,218 C203,221 200,224 198,227 C194,235 187,240 177,241 C166,242 156,237 152,228 C148,216 147,196 148,178 C149,158 158,136 168,124 C171,117 173,111 176,108 Z"
+            d="M176,108 C190,121 195,140 196,158 C196,165 197,169 200,174 C205,182 213,190 217,197 C219,200 215,203 207,203 C203,204 206,205 210,207 C213,208 208,211 204,212 C207,214 209,216 206,217 C204,220 201,222 199,225 C195,231 188,235 178,236 C168,237 158,233 154,225 C150,213 148,195 149,178 C149,158 158,136 168,124 C171,117 173,111 176,108 Z"
             fill="url(#kissSkinGirl)"
           />
 
           <path d="M205,196 C209,197 211,199 210,201" stroke="#dc9c80" strokeWidth="2" strokeLinecap="round" fill="none" />
-          <path d="M140,104 C156,100 170,108 180,124" stroke="#7a5238" strokeOpacity="0.38" strokeWidth="3" strokeLinecap="round" fill="none" />
+          <path d="M200,176 C203,183 206,189 207,193" stroke="#fff0e4" strokeOpacity="0.45" strokeWidth="3" strokeLinecap="round" fill="none" />
+
+          {/* necklace + tiny heart */}
+          <path d="M154,254 C162,262 174,262 182,254" stroke="#ffe7f2" strokeOpacity="0.75" strokeWidth="1.6" fill="none" />
+          <path d="M168,262 C169.6,263.4 171.4,264.6 171.4,265.8 C171.4,267 170,267.6 168,266.4 C166,267.6 164.6,267 164.6,265.8 C164.6,264.6 166.4,263.4 168,262 Z" fill="#ffe7f2" opacity="0.9" />
 
           <path d="M168,160 C175,153 185,153 191,159" stroke="#2b1a12" strokeWidth="3.8" strokeLinecap="round" fill="none" />
           <path d="M170,176 C177,168 187,168 193,176" stroke="#2b1a12" strokeWidth="3.8" strokeLinecap="round" fill="none" />
           <path d="M172,175 L169,169" stroke="#2b1a12" strokeWidth="2.4" strokeLinecap="round" />
           <path d="M192,176 L196,170" stroke="#2b1a12" strokeWidth="2.4" strokeLinecap="round" />
+          <path d="M178,170 L177,166" stroke="#2b1a12" strokeWidth="2" strokeLinecap="round" />
+          <path d="M186,170 L187,166" stroke="#2b1a12" strokeWidth="2" strokeLinecap="round" />
 
           <ellipse cx="181" cy="197" rx="15" ry="10" fill="url(#kissCheek)" />
           <path d="M204,205 C211,203 215,205 215,208 C213,212 206,213 201,210 Z" fill="url(#kissLips)" />
+          <path d="M205,206 C208,205 211,205 213,206" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+
+          {/* pearl earring */}
+          <circle cx="158" cy="212" r="3.2" fill="#fff5fa" />
+          <circle cx="157" cy="211" r="1" fill="#ffd6e6" />
 
           <g transform="translate(120,128)">
             <circle cx="0" cy="-9" r="7" fill="#ffd1e2" />
