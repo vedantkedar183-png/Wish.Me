@@ -15,6 +15,7 @@ import MemoriesGallery from './MemoriesGallery';
 import ReasonsCards    from './ReasonsCards';
 import LoveMatchGame   from './LoveMatchGame';
 import LyricsChapter   from './LyricsChapter';
+import DivineSky       from './DivineSky';
 import LoveLetter      from './LoveLetter';
 import FinalSurprise   from './FinalSurprise';
 import RomanticShareModal from './RomanticShareModal';
@@ -27,6 +28,7 @@ const ALL_SECTIONS = [
   WelcomeScreen,
   BirthdayReveal,
   MemoriesGallery,
+  DivineSky,
   ReasonsCards,
   LoveMatchGame,
   LyricsChapter,
@@ -88,11 +90,15 @@ export default function RomanticSurprise({ data = null }) {
   }, [data]);
 
   const sections = useMemo(() => {
+    let list = ALL_SECTIONS;
     if (config.lyrics?.show === false) {
-      return ALL_SECTIONS.filter((section) => section !== LyricsChapter);
+      list = list.filter((section) => section !== LyricsChapter);
     }
-    return ALL_SECTIONS;
-  }, [config.lyrics?.show]);
+    if (config.divineSky?.show === false) {
+      list = list.filter((section) => section !== DivineSky);
+    }
+    return list;
+  }, [config.lyrics?.show, config.divineSky?.show]);
 
   const goNext    = () => setStep((s) => Math.min(s + 1, sections.length - 1));
   const goPrev    = () => setStep((s) => Math.max(s - 1, 0));

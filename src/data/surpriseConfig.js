@@ -56,7 +56,20 @@ export const surpriseConfig = {
     ],
   },
 
-  // ─── SLIDE 4: REASONS YOU'RE SPECIAL ──────────────────────────────
+  // ─── SLIDE 4: UNDER THE SAME SKY ──────────────────────────────────
+  // A hand-drawn night-sky scene (Parvati & Mahadev watching the stars).
+  // Purely text-configurable; set `show: false` to remove the slide.
+  divineSky: {
+    show: true,
+    title: 'Under the Same Sky',
+    subtitle: 'Like Parvati & Mahadev, watching the stars',
+    caption: 'Parvati & Mahadev, under the same stars',
+    message:
+      'Some bonds are written in the stars long before we meet \u2014 and under this same sky, I would choose you in every lifetime. \u2728',
+    continueText: 'Keep going \u2764\ufe0f \u2192',
+  },
+
+  // ─── SLIDE 5: REASONS YOU'RE SPECIAL ──────────────────────────────
   // Tone: Warm & personal — specific personality-driven reasons
   reasons: {
     title: 'Reasons You’re Impossible to Forget',
@@ -101,6 +114,8 @@ export const surpriseConfig = {
     hint: 'Tap the words for the next line',
     continueText: 'Continue our story \u2192',
     intervalMs: 7000,
+    // 👇 Your lyric lines go here — one quoted line per entry. Paste as many
+    //    as you like; the chapter shows them one at a time, in this order.
     lines: [
       'You light up every room you walk into',
       'Every love song sounds a little like you',
@@ -294,6 +309,10 @@ export function getRomanticConfig(data = {}) {
       title: surpriseConfig.memories.title,
       subtitle: surpriseConfig.memories.subtitle,
       photos,
+    },
+
+    divineSky: {
+      ...surpriseConfig.divineSky,
     },
 
     reasons: {

@@ -842,3 +842,37 @@ html {
   60%  { opacity: 0.65; transform: translateY(-8px) rotate(6deg); }
   100% { opacity: 0; transform: translateY(-16px) rotate(12deg); }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   UNDER THE SAME SKY (romantic night scene)
+   Small SVG ambient animations used by DivineSky.jsx.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.divine-star {
+  animation: starTwinkle 3.2s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.22; }
+  50%      { opacity: 1; }
+}
+
+.divine-heart {
+  animation: heartGlow 4.6s ease-in-out infinite;
+}
+
+@keyframes heartGlow {
+  0%, 100% { opacity: 0.45; translate: 0 3px; }
+  50%      { opacity: 1; translate: 0 -7px; }
+}
+
+.shooting-star {
+  animation: shootAcross 9.5s linear infinite;
+}
+
+@keyframes shootAcross {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  4%   { opacity: 1; }
+  20%  { transform: translate(214px, 94px); opacity: 0; }
+  100% { transform: translate(214px, 94px); opacity: 0; }
+}
