@@ -25,9 +25,10 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Inter"', 'system-ui', 'sans-serif'],
+        display: ['"Baloo 2"', '"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['Quicksand', '"Inter"', 'system-ui', 'sans-serif'],
         cursive: ['"Dancing Script"', 'cursive'],
+        cute: ['Pacifico', '"Dancing Script"', 'cursive'],
         script: ['"Great Vibes"', '"Dancing Script"', 'cursive'],
         elegant: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
       },

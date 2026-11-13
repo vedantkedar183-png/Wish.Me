@@ -1,5 +1,5 @@
 /* ── Google Fonts ───────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@400;600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@400;600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 /* ── Tailwind directives ─────────────────────────────────────────────────────── */
 @tailwind base;
@@ -21,7 +21,7 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Quicksand', 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -53,11 +53,16 @@
 @layer utilities {
   /* Font shorthands to match Tailwind config */
   .font-display {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Baloo 2', 'Playfair Display', Georgia, serif;
   }
 
   .font-cursive {
     font-family: 'Dancing Script', cursive;
+  }
+
+  /* Cute rounded script — hero accents and playful headlines */
+  .font-cute {
+    font-family: 'Pacifico', 'Dancing Script', cursive;
   }
 
   /* Signature script — used for names, signatures and gift notes */

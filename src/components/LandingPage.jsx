@@ -166,7 +166,7 @@ export default function LandingPage() {
             >
               Make Their Birthday{' '}
               <br className="hidden sm:block" />
-              <span className="font-cursive text-yellow-300 dark:text-yellow-400 drop-shadow-lg">
+              <span className="font-cute text-yellow-300 dark:text-yellow-400 drop-shadow-lg">
                 Unforgettable
               </span>
             </motion.h1>
