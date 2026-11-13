@@ -208,6 +208,20 @@ export const surpriseConfig = {
     signature: 'Forever in your corner 🤞',
   },
 
+  // ─── SLIDE 11: 2228, OUR LUCKY NUMBER ─────────────────────────────
+  // A whole page of light-pink kisses around the number that means "us".
+  luckyNumber: {
+    show: true,
+    label: 'our lucky number',
+    number: '2228',
+    kissesLabel: '2,228 kisses',
+    meaning: ['2 hearts', '2 souls', '2 people', '8 letters'],
+    message:
+      'Two hearts. Two souls. Two people. Eight little letters that say everything \u2014 I love you.',
+    hint: 'Tap the number for a kiss',
+    continueText: 'Keep going \u2764\ufe0f \u2192',
+  },
+
   // ─── SLIDE 6: FINAL BIRTHDAY SURPRISE ─────────────────────────────
   // Tone: Grand & cinematic — the epic finale
   final: {
@@ -404,6 +418,10 @@ export function getRomanticConfig(data = {}) {
 
     alphabet: {
       ...surpriseConfig.alphabet,
+    },
+
+    luckyNumber: {
+      ...surpriseConfig.luckyNumber,
     },
 
     letter: {
