@@ -33,6 +33,7 @@
 ## 🚀 Features
 
 - 🎨 **14 Hand-crafted Themes** — Romantic Rose, Galaxy Dreams, Tropical Sunset, Golden Classic, Midnight Magic, Pastel Candy, plus signature CSS-effect themes: Aurora Borealis (drifting light curtains), Sakura Dream (falling petals), Holo Prism (prismatic sheen) and Royal Velvet (golden dust)
+- 🫶 **Romantic Story Mode** — A 7-chapter lock-and-unlock tale: welcome, reveal, scrapbook, reasons, a match-the-pairs love game, a typewriter letter, a scratch-card finale and an interactive gift box with love coupons
 - 📸 **Photo Upload** — Drag & drop or click. Instant preview. Validates type & size (≤ 5 MB)
 - ✍️ **Personal Message** — Up to 500 characters with a live character counter
 - 🎵 **Background Music** — 4 royalty-free birthday tracks, or silent mode

@@ -73,6 +73,23 @@ export const surpriseConfig = {
     ],
   },
 
+  // ─── SLIDE 5: A LITTLE LOVE GAME ──────────────────────────────────
+  // A memory-matching mini game. Edit the emojis list (each one becomes a
+  // pair), or remove the whole `game` block to hide the chapter.
+  game: {
+    title: 'A Little Game of Love',
+    subtitle: 'Find every matching pair \u2014 two hearts that always find each other 🫶',
+    hint: 'Tap two cards. Matching pairs stay open.',
+    emojis: ['💖', '🌹', '🦋', '🎀', '🍓', '🌙', '⭐', '🧸'],
+    winTitle: 'Perfect match!',
+    winMessage: 'Every card found its other half \u2014 just like I found you. 💞',
+    movesLabel: 'moves',
+    pairsLabel: 'pairs',
+    continueText: 'One last chapter 💌 \u2192',
+    retryText: 'Play again 🔄',
+    skipText: 'Skip for now \u2192',
+  },
+
   // ─── SLIDE 5: LOVE LETTER ─────────────────────────────────────────
   // Tone: Intimate & poetic — a handwritten-feel confession
   letter: {
@@ -260,6 +277,10 @@ export function getRomanticConfig(data = {}) {
       title: surpriseConfig.reasons.title,
       subtitle: surpriseConfig.reasons.subtitle,
       cards,
+    },
+
+    game: {
+      ...surpriseConfig.game,
     },
 
     letter: {

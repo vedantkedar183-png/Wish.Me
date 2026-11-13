@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
  * already know from Stories. There is no auto-advance so long chapters (the
  * typewriter letter) are never cut off.
  */
-export default function StoryProgress({ total, current, senderName, onPrev, onNext }) {
+export default function StoryProgress({ total, current, senderName, onPrev, onNext, edgeNav = true }) {
   // The lock screen (step 0) has its own UI, and isn't part of the story bars.
   if (current <= 0) return null;
 
@@ -64,14 +64,16 @@ export default function StoryProgress({ total, current, senderName, onPrev, onNe
       </div>
 
       {/* ── Tap zones (edge strips, so content buttons stay usable) ───── */}
-      <button
-        type="button"
-        onClick={onPrev}
-        disabled={current <= 1}
-        aria-label="Previous story chapter"
-        className="fixed left-0 top-24 bottom-24 z-30 w-[12vw] max-w-[70px] cursor-w-resize disabled:opacity-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-romantic-400/60"
-      />
-      {!isLast && (
+      {edgeNav && (
+        <button
+          type="button"
+          onClick={onPrev}
+          disabled={current <= 1}
+          aria-label="Previous story chapter"
+          className="fixed left-0 top-24 bottom-24 z-30 w-[12vw] max-w-[70px] cursor-w-resize disabled:opacity-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-romantic-400/60"
+        />
+      )}
+      {edgeNav && !isLast && (
         <button
           type="button"
           onClick={onNext}

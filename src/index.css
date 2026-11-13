@@ -724,3 +724,100 @@ html {
     font-size: clamp(1.875rem, 6vw, 3.75rem);
   }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   LOVE MATCH GAME (romantic story chapter)
+   A 3D card-flip memory game. All states are applied with the `is-flipped`
+   and `is-matched` classes from components/romantic/LoveMatchGame.jsx.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.memory-card {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: transparent;
+  perspective: 900px;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.memory-card:disabled {
+  cursor: default;
+}
+
+.memory-card-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.2, 0.75, 0.3, 1);
+}
+
+.memory-card.is-flipped .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.memory-face-front {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.35rem;
+  background: linear-gradient(145deg, #ffc2d4 0%, #ff8fb1 45%, #f43f78 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 6px 14px rgba(244, 63, 120, 0.22);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.memory-card:not(.is-flipped):hover .memory-face-front {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 10px 20px rgba(244, 63, 120, 0.32);
+}
+
+.memory-face-back {
+  transform: rotateY(180deg);
+  font-size: 1.5rem;
+  background: linear-gradient(160deg, #ffffff 0%, #fff1f6 100%);
+  border: 2px solid #ffd0dd;
+  box-shadow: 0 6px 16px rgba(244, 63, 120, 0.14);
+}
+
+.memory-card.is-matched {
+  animation: matchPop 0.5s ease;
+}
+
+.memory-card.is-matched .memory-face-back {
+  border-color: #fbbf24;
+  background: linear-gradient(160deg, #fffbeb 0%, #fff7ed 100%);
+  box-shadow:
+    0 0 0 3px rgba(251, 191, 36, 0.22),
+    0 8px 18px rgba(244, 63, 120, 0.16);
+}
+
+@keyframes matchPop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@media (min-width: 640px) {
+  .memory-face-front {
+    font-size: 1.6rem;
+  }
+
+  .memory-face-back {
+    font-size: 1.9rem;
+  }
+}

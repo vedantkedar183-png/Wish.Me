@@ -13,6 +13,7 @@ import WelcomeScreen   from './WelcomeScreen';
 import BirthdayReveal  from './BirthdayReveal';
 import MemoriesGallery from './MemoriesGallery';
 import ReasonsCards    from './ReasonsCards';
+import LoveMatchGame   from './LoveMatchGame';
 import LoveLetter      from './LoveLetter';
 import FinalSurprise   from './FinalSurprise';
 import RomanticShareModal from './RomanticShareModal';
@@ -25,6 +26,7 @@ const SECTIONS = [
   BirthdayReveal,
   MemoriesGallery,
   ReasonsCards,
+  LoveMatchGame,
   LoveLetter,
   FinalSurprise,
 ];
@@ -103,6 +105,7 @@ export default function RomanticSurprise({ data = null }) {
           senderName={config.person.yourName}
           onPrev={goPrev}
           onNext={goNext}
+          edgeNav={CurrentSection !== LoveMatchGame}
         />
 
         {/* ── Animated section ─────────────────────────────────────── */}
