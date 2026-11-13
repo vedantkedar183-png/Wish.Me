@@ -964,6 +964,16 @@ html {
     linear-gradient(135deg, #fffaf4 0%, #fff6f0 46%, #ffedf2 100%);
 }
 
+.alphabet-dedication::after {
+  content: '';
+  display: block;
+  width: 54px;
+  height: 2px;
+  margin: 12px auto 0;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, rgba(244, 63, 120, 0.45), transparent);
+}
+
 .alphabet-page {
   position: relative;
   background-image: repeating-linear-gradient(

@@ -177,6 +177,8 @@ export const surpriseConfig = {
     show: true,
     title: 'The A to Z of You',
     subtitle: 'Twenty-six little reasons, one for every letter',
+    dedication:
+      'Of all the stories ever told, my favourite is ours \u2014 the one where you walked in and my world quietly became home.',
     bookLabel: 'a little book of us',
     letterLabel: 'Letter',
     ofLabel: 'of',

@@ -124,6 +124,19 @@ export default function LoveAlphabetBook({ onNext }) {
           </p>
         </motion.div>
 
+        {/* One line, just for her */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.25, duration: 0.6 }}
+          className="alphabet-dedication mx-auto mb-6 mt-4 max-w-xl text-center font-elegant text-base italic leading-relaxed text-romantic-warm/75 sm:text-lg"
+        >
+          &ldquo;
+          {book.dedication ||
+            'Of all the stories ever told, my favourite is ours \u2014 the one where you walked in and my world quietly became home.'}
+          &rdquo;
+        </motion.p>
+
         {/* ── The book ─────────────────────────────────────────────── */}
         <div className="relative" style={{ perspective: 1400 }}>
           <div className="alphabet-book relative overflow-hidden rounded-[1.75rem] border border-romantic-200/80 shadow-[0_26px_60px_rgba(122,26,48,0.22)]">
