@@ -151,6 +151,23 @@ export const surpriseConfig = {
     retryText: 'Fill it again \ud83d\udd04',
   },
 
+  // ─── SLIDE 9: TWO PRINTS, ONE HEART ───────────────────────────────
+  // The trending "two thumbprints make a heart" moment, made interactive:
+  // each thumb starts faint — tap both to ink them in, then confetti + a note.
+  thumbHeart: {
+    show: true,
+    title: 'Two Prints, One Heart',
+    subtitle: 'Press both thumbs \u2014 that\u2019s us, you know \ud83d\udc97',
+    hint: 'Tap both thumbprints',
+    caption: 'Two prints, one heart \u2014 you & me',
+    completeLabel: 'sealed with love',
+    winTitle: 'Same heart, two prints',
+    winMessage:
+      'Different fingerprints, same heart \u2014 that\u2019s the whole story. \ud83d\udc97',
+    continueText: 'One last chapter \ud83d\udc8c \u2192',
+    retryText: 'Stamp again \ud83d\udd04',
+  },
+
   // ─── SLIDE 5: LOVE LETTER ─────────────────────────────────────────
   // Tone: Intimate & poetic — a handwritten-feel confession
   letter: {
@@ -354,6 +371,10 @@ export function getRomanticConfig(data = {}) {
 
     heartGame: {
       ...surpriseConfig.heartGame,
+    },
+
+    thumbHeart: {
+      ...surpriseConfig.thumbHeart,
     },
 
     letter: {

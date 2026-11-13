@@ -16,6 +16,7 @@ import ReasonsCards    from './ReasonsCards';
 import LoveMatchGame   from './LoveMatchGame';
 import LyricsChapter   from './LyricsChapter';
 import HeartGame       from './HeartGame';
+import ThumbprintHeart from './ThumbprintHeart';
 import DivineSky       from './DivineSky';
 import LoveLetter      from './LoveLetter';
 import FinalSurprise   from './FinalSurprise';
@@ -34,6 +35,7 @@ const ALL_SECTIONS = [
   LoveMatchGame,
   LyricsChapter,
   HeartGame,
+  ThumbprintHeart,
   LoveLetter,
   FinalSurprise,
 ];
@@ -102,8 +104,11 @@ export default function RomanticSurprise({ data = null }) {
     if (config.heartGame?.show === false) {
       list = list.filter((section) => section !== HeartGame);
     }
+    if (config.thumbHeart?.show === false) {
+      list = list.filter((section) => section !== ThumbprintHeart);
+    }
     return list;
-  }, [config.lyrics?.show, config.divineSky?.show, config.heartGame?.show]);
+  }, [config.lyrics?.show, config.divineSky?.show, config.heartGame?.show, config.thumbHeart?.show]);
 
   const goNext    = () => setStep((s) => Math.min(s + 1, sections.length - 1));
   const goPrev    = () => setStep((s) => Math.max(s - 1, 0));
