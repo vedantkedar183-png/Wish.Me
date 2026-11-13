@@ -1347,3 +1347,119 @@ html {
   color: #ff9fbb;
   pointer-events: none;
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   A TEDDY FULL OF KISSES
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.teddy-page {
+  background:
+    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.92), transparent 56%),
+    radial-gradient(circle at 14% 10%, rgba(255, 214, 196, 0.55), transparent 55%),
+    radial-gradient(circle at 88% 88%, rgba(255, 194, 212, 0.5), transparent 58%),
+    linear-gradient(160deg, #fffaf3 0%, #fff1ea 50%, #ffe6ee 100%);
+}
+
+.teddy-stage {
+  isolation: isolate;
+}
+
+.teddy-halo {
+  position: absolute;
+  inset: 26px 24px 8px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 143, 171, 0.28), rgba(255, 143, 171, 0) 70%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.teddy-button {
+  cursor: pointer;
+}
+
+.teddy-bob {
+  display: block;
+  transform-origin: 50% 92%;
+  animation: teddyBob 4.2s ease-in-out infinite;
+}
+
+@keyframes teddyBob {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50%      { transform: translateY(-6px) rotate(-1.2deg); }
+}
+
+.teddy-is-kissing .teddy-bob {
+  animation: teddyKiss 0.85s ease-in-out;
+}
+
+@keyframes teddyKiss {
+  0%   { transform: translateY(0) rotate(0) scale(1); }
+  30%  { transform: translateY(3px) rotate(-4deg) scale(1.03); }
+  60%  { transform: translateY(0) rotate(-3deg) scale(1.02); }
+  100% { transform: translateY(0) rotate(0) scale(1); }
+}
+
+.teddy-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: teddyBlink 5.5s infinite;
+}
+
+@keyframes teddyBlink {
+  0%, 93%, 100% { transform: scaleY(1); }
+  96%           { transform: scaleY(0.08); }
+}
+
+.teddy-ear {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.teddy-ear-left {
+  animation: teddyEarLeft 6s ease-in-out infinite;
+}
+
+.teddy-ear-right {
+  animation: teddyEarRight 6s ease-in-out infinite;
+}
+
+@keyframes teddyEarLeft {
+  0%, 88%, 100% { transform: rotate(0); }
+  93%           { transform: rotate(-4deg); }
+}
+
+@keyframes teddyEarRight {
+  0%, 88%, 100% { transform: rotate(0); }
+  93%           { transform: rotate(4deg); }
+}
+
+.teddy-kiss-mark {
+  position: absolute;
+  top: 41%;
+  left: 50%;
+  z-index: 20;
+  display: block;
+  width: 58px;
+  margin-left: -29px;
+  color: #ff6b9d;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.teddy-is-kissing .teddy-kiss-mark {
+  animation: teddyKissPop 0.85s ease-out;
+}
+
+@keyframes teddyKissPop {
+  0%   { opacity: 0; transform: translateY(-6px) scale(0.4) rotate(-12deg); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-58px) scale(1.15) rotate(10deg); }
+}
+
+.teddy-burst {
+  display: block;
+  margin-top: -14px;
+  margin-left: -14px;
+  color: #ff9fbb;
+  pointer-events: none;
+}

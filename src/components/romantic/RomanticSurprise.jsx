@@ -21,6 +21,7 @@ import LoveAlphabetBook from './LoveAlphabetBook';
 import DivineSky       from './DivineSky';
 import LoveLetter      from './LoveLetter';
 import LuckyNumber     from './LuckyNumber';
+import TeddyKisses     from './TeddyKisses';
 import FinalSurprise   from './FinalSurprise';
 import RomanticShareModal from './RomanticShareModal';
 
@@ -41,6 +42,7 @@ const ALL_SECTIONS = [
   LoveAlphabetBook,
   LoveLetter,
   LuckyNumber,
+  TeddyKisses,
   FinalSurprise,
 ];
 
@@ -117,6 +119,9 @@ export default function RomanticSurprise({ data = null }) {
     if (config.luckyNumber?.show === false) {
       list = list.filter((section) => section !== LuckyNumber);
     }
+    if (config.teddy?.show === false) {
+      list = list.filter((section) => section !== TeddyKisses);
+    }
     return list;
   }, [
     config.lyrics?.show,
@@ -125,6 +130,7 @@ export default function RomanticSurprise({ data = null }) {
     config.thumbHeart?.show,
     config.alphabet?.show,
     config.luckyNumber?.show,
+    config.teddy?.show,
   ]);
 
   const goNext    = () => setStep((s) => Math.min(s + 1, sections.length - 1));
@@ -148,7 +154,7 @@ export default function RomanticSurprise({ data = null }) {
           senderName={config.person.yourName}
           onPrev={goPrev}
           onNext={goNext}
-          edgeNav={CurrentSection !== LoveMatchGame && CurrentSection !== LyricsChapter && CurrentSection !== LoveAlphabetBook && CurrentSection !== LuckyNumber}
+          edgeNav={CurrentSection !== LoveMatchGame && CurrentSection !== LyricsChapter && CurrentSection !== LoveAlphabetBook && CurrentSection !== LuckyNumber && CurrentSection !== TeddyKisses}
         />
 
         {/* ── Animated section ─────────────────────────────────────── */}

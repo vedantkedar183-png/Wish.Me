@@ -222,6 +222,28 @@ export const surpriseConfig = {
     continueText: 'Keep going \u2764\ufe0f \u2192',
   },
 
+  // ─── SLIDE 12: A TEDDY FULL OF KISSES ─────────────────────────────
+  // A hand-drawn teddy who gives kisses when tapped.
+  teddy: {
+    show: true,
+    title: 'A Teddy Full of Kisses',
+    subtitle: 'He has been saving 2,228 kisses just for you',
+    firstMessage: 'Tap me \u2014 I have kisses to give!',
+    messages: [
+      'Mwah! That one was for your smile.',
+      'A kiss for the way you laugh.',
+      'This one is for your kind heart.',
+      'And one more, because I can.',
+    ],
+    afterKisses: 3,
+    counterLabel: 'kisses given',
+    winTitle: 'You have been kissed, teddy-style',
+    winMessage:
+      'He says what I have been trying to say all along: you are loved, today and every day.',
+    hint: 'Tap the teddy for a kiss',
+    continueText: 'Keep going \u2764\ufe0f \u2192',
+  },
+
   // ─── SLIDE 6: FINAL BIRTHDAY SURPRISE ─────────────────────────────
   // Tone: Grand & cinematic — the epic finale
   final: {
@@ -422,6 +444,10 @@ export function getRomanticConfig(data = {}) {
 
     luckyNumber: {
       ...surpriseConfig.luckyNumber,
+    },
+
+    teddy: {
+      ...surpriseConfig.teddy,
     },
 
     letter: {

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useRomanticConfig } from '../../context/RomanticConfigContext';
+import KissMark from './KissMark';
 
 /**
  * Section 12 — 2228, Our Lucky Number
@@ -12,12 +13,6 @@ import { useRomanticConfig } from '../../context/RomanticConfigContext';
  * All copy lives in `config.luckyNumber`.
  */
 
-/* Two soft lip-print halves so each mark clearly reads as a kiss. */
-const KISS_UPPER =
-  'M16,46 C10,36 17,25 29,27 C39,29 45,35 50,40 C55,35 61,29 71,27 C83,25 90,36 84,46 C75,49 63,47 50,45 C37,47 25,49 16,46 Z';
-const KISS_LOWER =
-  'M17,50 C21,62 34,70 50,70 C66,70 79,62 83,50 C74,53 62,55 50,55 C38,55 26,53 17,50 Z';
-
 /** Deterministic pseudo-random so the kisses stay in the same place. */
 function seeded(seed) {
   const value = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
@@ -25,17 +20,6 @@ function seeded(seed) {
 }
 
 const KISS_COUNT = 64;
-
-function Kiss({ className = '', style }) {
-  return (
-    <svg viewBox="0 0 100 80" className={className} style={style} aria-hidden="true">
-      <g fill="currentColor">
-        <path d={KISS_UPPER} />
-        <path d={KISS_LOWER} />
-      </g>
-    </svg>
-  );
-}
 
 export default function LuckyNumber({ onNext }) {
   const config = useRomanticConfig();
@@ -103,7 +87,7 @@ export default function LuckyNumber({ onNext }) {
               animationDuration: kiss.duration,
             }}
           >
-            <Kiss className="block h-auto w-full" />
+            <KissMark className="block h-auto w-full" />
           </span>
         ))}
       </div>
@@ -154,7 +138,7 @@ export default function LuckyNumber({ onNext }) {
               }
               className="kiss-burst absolute left-1/2 top-1/2 w-7 text-romantic-300"
             >
-              <Kiss className="block h-auto w-full" />
+              <KissMark className="block h-auto w-full" />
             </motion.span>
           ))}
         </motion.div>
