@@ -876,3 +876,21 @@ html {
   20%  { transform: translate(214px, 94px); opacity: 0; }
   100% { transform: translate(214px, 94px); opacity: 0; }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   A HEART FULL OF YOU (tap-to-fill heart game)
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.heartbeat {
+  transform-origin: 50% 55%;
+  animation: heartbeat 1.9s ease-in-out infinite;
+  filter: drop-shadow(0 16px 32px rgba(244, 63, 120, 0.35));
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  12%      { transform: scale(1.06); }
+  22%      { transform: scale(1); }
+  32%      { transform: scale(1.04); }
+  44%      { transform: scale(1); }
+}

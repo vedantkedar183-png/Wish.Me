@@ -128,6 +128,29 @@ export const surpriseConfig = {
     ],
   },
 
+  // ─── SLIDE 8: A HEART FULL OF YOU ─────────────────────────────────
+  // A big glowing heart the reader taps to fill. Each tap pops a small heart
+  // and lights the ring; fill it and confetti + a message unlock.
+  heartGame: {
+    show: true,
+    title: 'A Heart Full of You',
+    subtitle: 'One tap, one little piece of my heart \u2014 fill it up \ud83d\udc97',
+    tapsLabel: 'taps',
+    tapTarget: 10,
+    prompts: [
+      'Tap the heart\u2026',
+      'Ooh, it glows brighter',
+      'Halfway to my whole heart',
+      'Almost bursting with love',
+    ],
+    winTitle: 'It\u2019s full \u2014 and it\u2019s all yours',
+    winMessage:
+      'Every tap was a little piece of my heart \u2014 and every piece has always belonged to you. \ud83d\udc9e',
+    hint: 'Tap the heart \u2014 or press Space / Enter',
+    continueText: 'Keep going \u2764\ufe0f \u2192',
+    retryText: 'Fill it again \ud83d\udd04',
+  },
+
   // ─── SLIDE 5: LOVE LETTER ─────────────────────────────────────────
   // Tone: Intimate & poetic — a handwritten-feel confession
   letter: {
@@ -327,6 +350,10 @@ export function getRomanticConfig(data = {}) {
 
     lyrics: {
       ...surpriseConfig.lyrics,
+    },
+
+    heartGame: {
+      ...surpriseConfig.heartGame,
     },
 
     letter: {
