@@ -6,7 +6,6 @@ import { RomanticConfigProvider } from '../../context/RomanticConfigContext';
 
 import DecorationLayer from './DecorationLayer';
 import MusicButton    from './MusicButton';
-import LyricOverlay   from './LyricOverlay';
 import StoryProgress  from './StoryProgress';
 
 import LockScreen      from './LockScreen';
@@ -15,19 +14,22 @@ import BirthdayReveal  from './BirthdayReveal';
 import MemoriesGallery from './MemoriesGallery';
 import ReasonsCards    from './ReasonsCards';
 import LoveMatchGame   from './LoveMatchGame';
+import LyricsChapter   from './LyricsChapter';
 import LoveLetter      from './LoveLetter';
 import FinalSurprise   from './FinalSurprise';
 import RomanticShareModal from './RomanticShareModal';
 
 // ─── Section registry ────────────────────────────────────────────────────────
 // Lock screen is a hook, not a chapter — StoryProgress skips it.
-const SECTIONS = [
+// LyricsChapter can be switched off with `lyrics.show: false` in the config.
+const ALL_SECTIONS = [
   LockScreen,
   WelcomeScreen,
   BirthdayReveal,
   MemoriesGallery,
   ReasonsCards,
   LoveMatchGame,
+  LyricsChapter,
   LoveLetter,
   FinalSurprise,
 ];
@@ -85,11 +87,18 @@ export default function RomanticSurprise({ data = null }) {
     return surpriseConfig;
   }, [data]);
 
-  const goNext    = () => setStep((s) => Math.min(s + 1, SECTIONS.length - 1));
+  const sections = useMemo(() => {
+    if (config.lyrics?.show === false) {
+      return ALL_SECTIONS.filter((section) => section !== LyricsChapter);
+    }
+    return ALL_SECTIONS;
+  }, [config.lyrics?.show]);
+
+  const goNext    = () => setStep((s) => Math.min(s + 1, sections.length - 1));
   const goPrev    = () => setStep((s) => Math.max(s - 1, 0));
   const goRestart = () => setStep(0);
 
-  const CurrentSection = SECTIONS[step];
+  const CurrentSection = sections[step];
 
   return (
     <RomanticConfigProvider config={config}>
@@ -98,23 +107,15 @@ export default function RomanticSurprise({ data = null }) {
         {/* ── Always-on layers ──────────────────────────────────────── */}
         <DecorationLayer />
         <MusicButton />
-        <LyricOverlay
-          lyrics={config.lyrics}
-          visible={
-            step > 0 &&
-            CurrentSection !== LoveMatchGame &&
-            CurrentSection !== FinalSurprise
-          }
-        />
 
         {/* ── Instagram-style story header + edge tap zones ──────────── */}
         <StoryProgress
-          total={SECTIONS.length}
+          total={sections.length}
           current={step}
           senderName={config.person.yourName}
           onPrev={goPrev}
           onNext={goNext}
-          edgeNav={CurrentSection !== LoveMatchGame}
+          edgeNav={CurrentSection !== LoveMatchGame && CurrentSection !== LyricsChapter}
         />
 
         {/* ── Animated section ─────────────────────────────────────── */}

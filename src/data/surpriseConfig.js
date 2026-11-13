@@ -90,13 +90,16 @@ export const surpriseConfig = {
     skipText: 'Skip for now \u2192',
   },
 
-  // ─── FLOATING LYRIC EFFECT ────────────────────────────────────────
-  // A soft lyric line drifts along the bottom of the story, changing every
-  // few seconds. `lines` is a plain list — put your own words here, add more,
-  // or set `show: false` to turn the effect off.
+  // ─── OUR SONG: FULL-SCREEN LYRICS CHAPTER ─────────────────────────
+  // A dedicated black stage that shows one line at a time in a big serif.
+  // `lines` is a plain list — replace or extend it with your own words.
+  // Set `show: false` to remove the whole chapter from the story.
   lyrics: {
     show: true,
-    label: 'Love Me Like You Do \u2014 our little song',
+    title: 'Love Me Like You Do',
+    subtitle: 'our little song',
+    hint: 'Tap the words for the next line',
+    continueText: 'Continue our story \u2192',
     intervalMs: 7000,
     lines: [
       'You light up every room you walk into',
