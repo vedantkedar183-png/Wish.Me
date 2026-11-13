@@ -354,7 +354,7 @@ export default function RomanticCreate() {
 
           <div className="flex items-center justify-center gap-2 mb-1">
             <span className="text-3xl" aria-hidden="true">💌</span>
-            <span className="text-2xl font-bold font-display text-gray-800 dark:text-white">
+            <span className="font-script text-3xl text-romantic-600 dark:text-romantic-300">
               Wishora Romantic
             </span>
           </div>

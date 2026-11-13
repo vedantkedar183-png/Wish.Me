@@ -11,6 +11,7 @@ import SurpriseGallery     from './surprise/SurpriseGallery';
 import SurpriseMessage     from './surprise/SurpriseMessage';
 import SurpriseCelebration from './surprise/SurpriseCelebration';
 import SurpriseFinale      from './surprise/SurpriseFinale';
+import ThemeEffect         from './surprise/ThemeEffect';
 import ShareModal          from './ShareModal';
 
 // ─── Page transition variants ─────────────────────────────────────────────────
@@ -142,6 +143,7 @@ export default function SurpriseExperience({ data }) {
     <div className="relative min-h-screen overflow-x-hidden" style={{ isolation: 'isolate' }}>
 
       {/* ── Always-on layers ────────────────────────────────────────── */}
+      <ThemeEffect effect={themeObj.effect} />
       <SurpriseMusic musicId={data?.music} />
       <SurpriseProgress total={sections.length} current={step} themeObj={themeObj} />
 

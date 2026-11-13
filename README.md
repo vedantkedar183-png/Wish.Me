@@ -32,7 +32,7 @@
 
 ## 🚀 Features
 
-- 🎨 **6 Hand-crafted Themes** — Romantic Rose, Galaxy Dreams, Tropical Sunset, Golden Classic, Midnight Magic, and Pastel Candy
+- 🎨 **14 Hand-crafted Themes** — Romantic Rose, Galaxy Dreams, Tropical Sunset, Golden Classic, Midnight Magic, Pastel Candy, plus signature CSS-effect themes: Aurora Borealis (drifting light curtains), Sakura Dream (falling petals), Holo Prism (prismatic sheen) and Royal Velvet (golden dust)
 - 📸 **Photo Upload** — Drag & drop or click. Instant preview. Validates type & size (≤ 5 MB)
 - ✍️ **Personal Message** — Up to 500 characters with a live character counter
 - 🎵 **Background Music** — 4 royalty-free birthday tracks, or silent mode
@@ -60,7 +60,7 @@
 | [qrcode.react](https://github.com/zpao/qrcode.react) | Client-side QR code |
 | [React Router v6](https://reactrouter.com) | Client-side routing |
 | [clsx](https://github.com/lukeed/clsx) | Conditional class names |
-| Google Fonts | Dancing Script, Playfair Display, Inter |
+| Google Fonts | Playfair Display, Cormorant Garamond, Dancing Script, Great Vibes, Inter |
 
 ---
 
@@ -177,6 +177,10 @@ Because `localStorage` is **device-local**, the uploaded photo will only appear 
 | 🎂 Golden Classic | Yellow → Amber | 🎂🎁🥂🎈⭐🏆 |
 | 🌙 Midnight Magic | Slate → Indigo | 🌙⭐🎇💎🌟✨ |
 | 🎀 Pastel Candy | Purple → Rose | 🍭🎀🦋🌈💝🍬 |
+| 🌌 Aurora Borealis | Emerald → Cyan → Indigo | 🌌❄️🦋✨💚🪐 |
+| 🌸 Sakura Dream | Rose → Pink → Fuchsia | 🌸🌷🦋🎀💗🌺 |
+| 🪩 Holo Prism | Violet → Fuchsia → Cyan | 🪩💎🌈✨🦄💜 |
+| 👑 Royal Velvet | Purple → Fuchsia → Rose | 👑🥂💎✨🌹🕯️ |
 
 ---
 

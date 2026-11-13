@@ -25,6 +25,10 @@ const THEME_COLORS = {
   vintage:    ['#d97706', '#b45309', '#a16207', '#fbbf24', '#f59e0b', '#92400e', '#facc15', '#78716c'],
   minimalist: ['#94a3b8', '#64748b', '#cbd5e1', '#e2e8f0', '#475569', '#9ca3af', '#a1a1aa', '#d4d4d8'],
   kidsParty:  ['#fde047', '#4ade80', '#3b82f6', '#f472b6', '#a855f7', '#fb923c', '#06b6d4', '#ef4444'],
+  aurora:     ['#34d399', '#22d3ee', '#60a5fa', '#818cf8', '#a78bfa', '#5eead4', '#38bdf8', '#c4b5fd'],
+  sakura:     ['#fecdd3', '#f9a8d4', '#f472b6', '#e879f9', '#fda4af', '#fb7185', '#fbcfe8', '#f5d0fe'],
+  holo:       ['#8b5cf6', '#e879f9', '#22d3ee', '#c084fc', '#67e8f9', '#f0abfc', '#a78bfa', '#5eead4'],
+  royal:      ['#fbbf24', '#f59e0b', '#fcd34d', '#a855f7', '#86198f', '#e11d48', '#fde68a', '#c084fc'],
 };
 
 /**

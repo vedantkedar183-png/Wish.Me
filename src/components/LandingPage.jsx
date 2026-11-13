@@ -10,8 +10,8 @@ import TestimonialSection from './TestimonialCard';
 const FEATURES = [
   {
     icon: '🎨',
-    title: '10 Stunning Themes',
-    desc: 'From Romantic Rose to Neon Glow, Kids Party to Minimalist — find the perfect vibe.',
+    title: '14 Stunning Themes',
+    desc: 'From Romantic Rose to Aurora Borealis and Royal Velvet — find the perfect vibe.',
   },
   {
     icon: '📸',

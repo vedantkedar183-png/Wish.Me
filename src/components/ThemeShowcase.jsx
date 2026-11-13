@@ -24,7 +24,7 @@ export default function ThemeShowcase() {
         className="text-center mb-10"
       >
         <h2 className="text-3xl md:text-4xl font-bold font-display text-white mb-3">
-          10 Stunning Themes 🎨
+           {THEME_LIST.length} Stunning Themes 🎨
         </h2>
         <p className="text-white/70 max-w-lg mx-auto">
           Each theme comes with unique colors, emojis, and glow effects

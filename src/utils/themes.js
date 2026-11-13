@@ -132,6 +132,67 @@ export const themes = {
     previewGradient: 'linear-gradient(135deg, #fde047, #4ade80, #3b82f6)',
     previewEmoji: '🎈',
   },
+
+  // ─── Signature themes ──────────────────────────────────────────────────
+  // These four ship with a CSS "effect" layer (see ThemeEffect.jsx) on top of
+  // the gradient: drifting aurora, falling sakura petals, a prismatic sheen and
+  // golden dust. `effect` is optional — themes without it render normally.
+  aurora: {
+    id: 'aurora',
+    name: 'Aurora Borealis',
+    bgGradient: 'from-emerald-500 via-cyan-600 to-indigo-800',
+    cardBg: 'bg-white/10',
+    textColor: 'text-white',
+    accentColor: 'text-emerald-200',
+    buttonBg: 'bg-white/15 hover:bg-white/25',
+    emojis: ['🌌', '❄️', '🦋', '✨', '💚', '🪐', '🌠', '💫'],
+    glowColorHex: '#34d399',
+    previewGradient: 'linear-gradient(135deg, #10b981, #06b6d4, #4338ca)',
+    previewEmoji: '🌌',
+    effect: 'aurora',
+  },
+  sakura: {
+    id: 'sakura',
+    name: 'Sakura Dream',
+    bgGradient: 'from-rose-200 via-pink-300 to-fuchsia-300',
+    cardBg: 'bg-white/55',
+    textColor: 'text-rose-950',
+    accentColor: 'text-fuchsia-700',
+    buttonBg: 'bg-white/65 hover:bg-white/85',
+    emojis: ['🌸', '🌷', '🦋', '🎀', '💗', '🌺', '✨', '🍃'],
+    glowColorHex: '#f9a8d4',
+    previewGradient: 'linear-gradient(135deg, #fecdd3, #f9a8d4, #e879f9)',
+    previewEmoji: '🌸',
+    effect: 'sakura',
+  },
+  holo: {
+    id: 'holo',
+    name: 'Holo Prism',
+    bgGradient: 'from-violet-500 via-fuchsia-500 to-cyan-400',
+    cardBg: 'bg-white/15',
+    textColor: 'text-white',
+    accentColor: 'text-cyan-100',
+    buttonBg: 'bg-white/20 hover:bg-white/30',
+    emojis: ['🪩', '💎', '🌈', '✨', '🦄', '💜', '🫧', '⭐'],
+    glowColorHex: '#c084fc',
+    previewGradient: 'linear-gradient(135deg, #8b5cf6, #e879f9, #22d3ee)',
+    previewEmoji: '🪩',
+    effect: 'holo',
+  },
+  royal: {
+    id: 'royal',
+    name: 'Royal Velvet',
+    bgGradient: 'from-purple-950 via-fuchsia-900 to-rose-900',
+    cardBg: 'bg-white/10',
+    textColor: 'text-amber-50',
+    accentColor: 'text-amber-300',
+    buttonBg: 'bg-amber-300/15 hover:bg-amber-300/25',
+    emojis: ['👑', '🥂', '💎', '✨', '🌹', '🕯️', '🏰', '💫'],
+    glowColorHex: '#fbbf24',
+    previewGradient: 'linear-gradient(135deg, #4c1d95, #86198f, #881337)',
+    previewEmoji: '👑',
+    effect: 'gold',
+  },
 };
 
 // ─── Music Options ────────────────────────────────────────────────────────────

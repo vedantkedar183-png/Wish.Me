@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRomanticConfig } from '../../context/RomanticConfigContext';
 import useConfetti from '../../hooks/useConfetti';
 import ScratchReveal from './ScratchReveal';
+import GiftBox from './GiftBox';
 
 /** Massive confetti explosion — fires once the scratch card is cleared */
 function useCelebrationConfetti(fire, enabled) {
@@ -170,6 +171,9 @@ export default function FinalSurprise({ onRestart, onShare }) {
                 <div className="h-px flex-1 bg-gradient-to-l from-transparent to-romantic-200 max-w-[80px]" />
               </div>
 
+              {/* Interactive gift box with love coupons */}
+              <GiftBox gift={final.gift} recipient={person.name} />
+
               {/* Main message */}
               <div className="glass-card rounded-3xl p-6 md:p-8">
                 <p className="text-romantic-warm/85 leading-relaxed text-sm md:text-base mb-4">
@@ -181,7 +185,7 @@ export default function FinalSurprise({ onRestart, onShare }) {
               </div>
 
               {/* Signature */}
-              <p className="font-cursive text-xl text-romantic-muted">
+              <p className="font-script text-2xl text-romantic-500">
                 — From {person.yourName}, always in your corner 🤞
               </p>
 

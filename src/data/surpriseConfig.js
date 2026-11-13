@@ -100,6 +100,37 @@ export const surpriseConfig = {
     emotionalNote:
       'You are rare. You are irreplaceable. And this world would be missing its brightest color without you. 🦋',
     replayText: 'Rewind & Relive 🔄',
+
+    // ── Interactive gift box shown on the finale ──
+    // Fully customisable: rename the coupons, change the emojis, add or remove
+    // entries. Set `coupons: []` to hide the gift box entirely.
+    gift: {
+      title: 'One last thing… a gift for you',
+      subtitle: 'Tap the box — every coupon is yours',
+      note: 'No expiry. Redeemable whenever you need me. 💝',
+      coupons: [
+        {
+          emoji: '🍿',
+          title: 'Movie night, your pick',
+          text: 'You choose the film — I bring the snacks and zero complaints.',
+        },
+        {
+          emoji: '🍳',
+          title: 'Breakfast in bed',
+          text: 'One lazy morning, cooked and served with extra love.',
+        },
+        {
+          emoji: '🫂',
+          title: 'Unlimited hugs',
+          text: 'Valid on good days, bad days and everything in between.',
+        },
+        {
+          emoji: '📞',
+          title: 'A whole day, just us',
+          text: 'Phones off, plans cancelled. The calendar belongs to you.',
+        },
+      ],
+    },
   },
 
   // ─── BACKGROUND MUSIC ──────────────────────────────────────────────

@@ -28,6 +28,8 @@ export default {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
         cursive: ['"Dancing Script"', 'cursive'],
+        script: ['"Great Vibes"', '"Dancing Script"', 'cursive'],
+        elegant: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',

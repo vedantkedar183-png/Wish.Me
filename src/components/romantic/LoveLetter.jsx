@@ -7,17 +7,25 @@ import { useRomanticConfig } from '../../context/RomanticConfigContext';
  * Reveals paragraphs one by one, character by character.
  * After each paragraph finishes typing, waits 700ms then moves to the next.
  */
-function useLetterReveal(paragraphs, charDelay = 18) {
+function useLetterReveal(paragraphs, charDelay = 18, active = true) {
   const [revealed, setRevealed] = useState([]);   // fully typed paragraphs
   const [current, setCurrent] = useState('');       // paragraph currently typing
   const [paraIndex, setParaIndex] = useState(0);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (!paragraphs || paragraphs.length === 0) return;
+    if (!active) return undefined;
+
+    // An empty letter (e.g. a shared story where the sender left it blank)
+    // must not trap the recipient on a blank page — treat it as finished.
+    if (!paragraphs || paragraphs.length === 0) {
+      setDone(true);
+      return undefined;
+    }
+
     if (paraIndex >= paragraphs.length) {
       setDone(true);
-      return;
+      return undefined;
     }
 
     const fullText = paragraphs[paraIndex];
@@ -37,7 +45,7 @@ function useLetterReveal(paragraphs, charDelay = 18) {
     }, charDelay);
 
     return () => clearInterval(interval);
-  }, [paraIndex, paragraphs, charDelay]);
+  }, [paraIndex, paragraphs, charDelay, active]);
 
   return { revealed, current, done };
 }
@@ -54,6 +62,7 @@ export default function LoveLetter({ onNext }) {
   const { revealed, current, done } = useLetterReveal(
     started ? letter.paragraphs : [],
     20,
+    started,
   );
 
   // Auto-start the letter after a short entrance delay
@@ -107,7 +116,7 @@ export default function LoveLetter({ onNext }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="font-cursive text-2xl text-romantic-500 mb-4"
+            className="font-script text-3xl text-romantic-500 mb-4"
           >
             {letter.salutation}
           </motion.p>
@@ -140,10 +149,10 @@ export default function LoveLetter({ onNext }) {
                 transition={{ duration: 0.6 }}
                 className="mt-5 pt-4 border-t border-romantic-100"
               >
-                <p className="font-cursive text-xl text-romantic-muted mb-1">
+                <p className="font-elegant italic text-xl text-romantic-muted mb-1">
                   {letter.closing}
                 </p>
-                <p className="font-cursive text-2xl text-romantic-500">
+                <p className="font-script text-3xl text-romantic-500">
                   {person.yourName} — {letter.signature}
                 </p>
               </motion.div>
