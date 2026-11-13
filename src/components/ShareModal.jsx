@@ -1,7 +1,47 @@
-import { useState, useEffect } from 'react';
+import { Component, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 import { generateShareUrl } from '../utils/encode';
+
+// ─── Safe QR ──────────────────────────────────────────────────────────────────
+// QR codes have a hard capacity limit. Birthday URLs grow with the message
+// (percent-encoding then base64 makes emoji especially expensive), so pick the
+// strongest error-correction level that still fits and hide the code entirely
+// when even the lowest level can't hold it. Without this, qrcode.react throws
+// during render and the app-level ErrorBoundary replaces the whole page.
+function qrLevelFor(length) {
+  if (length <= 1100) return 'H';
+  if (length <= 1500) return 'Q';
+  if (length <= 2100) return 'M';
+  if (length <= 2800) return 'L';
+  return null;
+}
+
+class QrBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { failed: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
+
+function QrFallback() {
+  return (
+    <div className="w-[172px] h-[172px] rounded-2xl bg-gray-50 border border-gray-200 flex flex-col items-center justify-center gap-2 px-4 text-center">
+      <span className="text-3xl" aria-hidden="true">🔗</span>
+      <p className="text-[11px] text-gray-500 leading-snug">
+        This link is too long for a QR code — use Copy or WhatsApp instead.
+      </p>
+    </div>
+  );
+}
 
 /**
  * Share modal — displays a QR code, copyable link, and WhatsApp button.
@@ -13,6 +53,8 @@ export default function ShareModal({ isOpen, onClose, data }) {
   const [shareUrl, setShareUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [qrError, setQrError] = useState(false);
+
+  const qrLevel = qrLevelFor(shareUrl.length);
 
   useEffect(() => {
     if (isOpen && data) {
@@ -116,16 +158,25 @@ export default function ShareModal({ isOpen, onClose, data }) {
                 {/* QR Code */}
                 {!qrError && shareUrl && (
                   <div className="flex justify-center">
-                    <div className="p-3 bg-gray-50 rounded-2xl border border-gray-100 shadow-inner">
-                      <QRCodeSVG
-                        value={shareUrl}
-                        size={148}
-                        level="H"
-                        fgColor="#1e1e2e"
-                        bgColor="#f9fafb"
-                        includeMargin={false}
-                      />
-                    </div>
+                    {qrLevel ? (
+                      <div className="p-3 bg-gray-50 rounded-2xl border border-gray-100 shadow-inner">
+                        <QrBoundary
+                          key={`${qrLevel}-${shareUrl.length}`}
+                          fallback={<QrFallback />}
+                        >
+                          <QRCodeSVG
+                            value={shareUrl}
+                            size={148}
+                            level={qrLevel}
+                            fgColor="#1e1e2e"
+                            bgColor="#f9fafb"
+                            includeMargin={false}
+                          />
+                        </QrBoundary>
+                      </div>
+                    ) : (
+                      <QrFallback />
+                    )}
                   </div>
                 )}
 
