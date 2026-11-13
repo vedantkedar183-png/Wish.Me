@@ -821,3 +821,24 @@ html {
     font-size: 1.9rem;
   }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   FLOATING LYRIC EFFECT
+   Decorative notes that drift around the lyric pill (LyricOverlay.jsx).
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.lyric-note {
+  position: absolute;
+  font-size: 0.85rem;
+  line-height: 1;
+  color: #f472b6;
+  opacity: 0;
+  animation: lyricNoteFloat 3.4s ease-in-out infinite;
+}
+
+@keyframes lyricNoteFloat {
+  0%   { opacity: 0; transform: translateY(5px) rotate(-8deg); }
+  30%  { opacity: 0.9; }
+  60%  { opacity: 0.65; transform: translateY(-8px) rotate(6deg); }
+  100% { opacity: 0; transform: translateY(-16px) rotate(12deg); }
+}

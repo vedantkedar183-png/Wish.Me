@@ -90,6 +90,26 @@ export const surpriseConfig = {
     skipText: 'Skip for now \u2192',
   },
 
+  // ─── FLOATING LYRIC EFFECT ────────────────────────────────────────
+  // A soft lyric line drifts along the bottom of the story, changing every
+  // few seconds. `lines` is a plain list — put your own words here, add more,
+  // or set `show: false` to turn the effect off.
+  lyrics: {
+    show: true,
+    label: 'Love Me Like You Do \u2014 our little song',
+    intervalMs: 7000,
+    lines: [
+      'You light up every room you walk into',
+      'Every love song sounds a little like you',
+      'I\u2019d live this moment a thousand times',
+      'You\u2019re the melody stuck in my head',
+      'If forever had a face, it would be yours',
+      'Ordinary days turn cinematic with you',
+      'My favourite place is anywhere you are',
+      'Dance with me in the kitchen, forever',
+    ],
+  },
+
   // ─── SLIDE 5: LOVE LETTER ─────────────────────────────────────────
   // Tone: Intimate & poetic — a handwritten-feel confession
   letter: {
@@ -281,6 +301,10 @@ export function getRomanticConfig(data = {}) {
 
     game: {
       ...surpriseConfig.game,
+    },
+
+    lyrics: {
+      ...surpriseConfig.lyrics,
     },
 
     letter: {

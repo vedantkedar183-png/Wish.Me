@@ -6,6 +6,7 @@ import { RomanticConfigProvider } from '../../context/RomanticConfigContext';
 
 import DecorationLayer from './DecorationLayer';
 import MusicButton    from './MusicButton';
+import LyricOverlay   from './LyricOverlay';
 import StoryProgress  from './StoryProgress';
 
 import LockScreen      from './LockScreen';
@@ -97,6 +98,14 @@ export default function RomanticSurprise({ data = null }) {
         {/* ── Always-on layers ──────────────────────────────────────── */}
         <DecorationLayer />
         <MusicButton />
+        <LyricOverlay
+          lyrics={config.lyrics}
+          visible={
+            step > 0 &&
+            CurrentSection !== LoveMatchGame &&
+            CurrentSection !== FinalSurprise
+          }
+        />
 
         {/* ── Instagram-style story header + edge tap zones ──────────── */}
         <StoryProgress
