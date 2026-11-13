@@ -48,11 +48,17 @@ export default function LoveAlphabetBook({ onNext }) {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [celebrated, setCelebrated] = useState(false);
+  const [sealPops, setSealPops] = useState(0);
 
   const shouldReduceMotion = useReducedMotion();
   const { fireConfetti } = useConfetti('romantic');
 
-  const entry = letters[index] || { letter: '?', word: '', message: '' };
+  const entry = letters[index] || {
+    letter: '?',
+    symbol: '\ud83d\udc96',
+    word: '',
+    message: '',
+  };
   const isLast = index >= total - 1;
 
   const go = useCallback(
@@ -81,6 +87,11 @@ export default function LoveAlphabetBook({ onNext }) {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [go, index]);
+
+  // Clear the seal's little heart burst when the page changes.
+  useEffect(() => {
+    setSealPops(0);
+  }, [index]);
 
   // A little celebration when the reader reaches Z.
   useEffect(() => {
@@ -118,6 +129,11 @@ export default function LoveAlphabetBook({ onNext }) {
           <div className="alphabet-book relative overflow-hidden rounded-[1.75rem] border border-romantic-200/80 shadow-[0_26px_60px_rgba(122,26,48,0.22)]">
             <span className="alphabet-spine hidden sm:block" aria-hidden="true" />
 
+            {/* Lazy little hearts drifting through the book */}
+            <span className="alphabet-drift left-[7%] top-[24%] text-base" aria-hidden="true">&#9825;</span>
+            <span className="alphabet-drift right-[9%] top-[38%] text-xs" style={{ animationDelay: '2.4s' }} aria-hidden="true">&#9825;</span>
+            <span className="alphabet-drift left-[14%] bottom-[18%] text-[10px]" style={{ animationDelay: '4.8s' }} aria-hidden="true">&#9825;</span>
+
             <AnimatePresence mode="wait" custom={direction} initial={false}>
               <motion.div
                 key={entry.letter}
@@ -140,6 +156,9 @@ export default function LoveAlphabetBook({ onNext }) {
                 }}
                 className="alphabet-spread grid cursor-grab active:cursor-grabbing sm:grid-cols-2"
               >
+                {/* Light sweep across the page on every turn */}
+                <span className="alphabet-shine" aria-hidden="true" />
+
                 {/* Left page — the letter */}
                 <div className="alphabet-page alphabet-page-left relative flex min-h-[270px] flex-col items-center justify-center px-6 py-10 sm:min-h-[360px]">
                   <span className="alphabet-ribbon" aria-hidden="true" />
@@ -157,7 +176,7 @@ export default function LoveAlphabetBook({ onNext }) {
                   </p>
 
                   <span className="alphabet-flourish mt-4" aria-hidden="true">
-                    {'\u2766'}
+                    {entry.symbol}
                   </span>
 
                   <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-romantic-muted/80">
@@ -167,9 +186,30 @@ export default function LoveAlphabetBook({ onNext }) {
 
                 {/* Right page — the message */}
                 <div className="alphabet-page alphabet-page-right relative flex min-h-[240px] flex-col justify-center px-6 py-10 sm:min-h-[360px] sm:border-l sm:border-dashed sm:border-romantic-200/80">
-                  <span className="text-2xl" aria-hidden="true">💌</span>
+                  <div className="alphabet-seal-wrap">
+                    <button
+                      type="button"
+                      onClick={() => setSealPops((pops) => pops + 1)}
+                      className="alphabet-symbol"
+                      aria-label={`Send a little love for letter ${entry.letter}`}
+                    >
+                      <span aria-hidden="true">{entry.symbol}</span>
+                    </button>
 
-                  <p className="mt-3 font-elegant text-xl italic leading-relaxed text-romantic-warm/90 sm:text-2xl">
+                    {sealPops > 0 &&
+                      [0, 1, 2].map((pop) => (
+                        <span
+                          key={`${entry.letter}-${sealPops}-${pop}`}
+                          className="alphabet-pop-heart"
+                          style={{ '--dx': `${(pop - 1) * 18}px`, animationDelay: `${pop * 0.07}s` }}
+                          aria-hidden="true"
+                        >
+                          &#10084;
+                        </span>
+                      ))}
+                  </div>
+
+                  <p className="mt-4 font-elegant text-xl italic leading-relaxed text-romantic-warm/90 sm:text-2xl">
                     {entry.message}
                   </p>
 

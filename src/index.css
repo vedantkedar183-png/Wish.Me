@@ -1012,11 +1012,18 @@ html {
   font-size: clamp(5rem, 19vw, 7.5rem);
   line-height: 0.85;
   background: linear-gradient(160deg, #ff80a0 0%, #f43f78 45%, #b31f47 100%);
+  background-size: 220% 220%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
   filter: drop-shadow(0 8px 18px rgba(244, 63, 120, 0.28));
+  animation: letterSheen 7s ease-in-out infinite;
+}
+
+@keyframes letterSheen {
+  0%, 100% { background-position: 0% 0%; }
+  50%      { background-position: 100% 100%; }
 }
 
 .alphabet-flourish {
@@ -1024,10 +1031,11 @@ html {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1;
   color: #f43f78;
-  opacity: 0.8;
+  opacity: 0.9;
+  filter: drop-shadow(0 3px 5px rgba(190, 20, 70, 0.18));
 }
 
 .alphabet-flourish::before,
@@ -1109,4 +1117,146 @@ html {
 .alphabet-chip:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(244, 63, 120, 0.3);
+}
+
+/* ── Little love tokens on every page ─────────────────────────────────────── */
+
+.alphabet-seal-wrap {
+  position: relative;
+  display: inline-flex;
+  align-self: flex-start;
+}
+
+.alphabet-symbol {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 9999px;
+  border: 1px solid rgba(244, 63, 120, 0.3);
+  background: radial-gradient(circle at 32% 28%, #ffffff 0%, #fff2f7 45%, #ffd6e3 100%);
+  box-shadow:
+    0 10px 22px rgba(190, 20, 70, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.alphabet-symbol:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow:
+    0 14px 26px rgba(190, 20, 70, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.alphabet-symbol:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(244, 63, 120, 0.35);
+}
+
+.alphabet-symbol::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 1px dashed rgba(244, 63, 120, 0.35);
+  animation: sealSpin 16s linear infinite;
+  pointer-events: none;
+}
+
+.alphabet-symbol > span {
+  display: block;
+  font-size: 25px;
+  line-height: 1;
+  animation: symbolFloat 3.6s ease-in-out infinite;
+  filter: drop-shadow(0 3px 4px rgba(122, 26, 48, 0.18));
+}
+
+@keyframes sealSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes symbolFloat {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50%      { transform: translateY(-3px) rotate(4deg); }
+}
+
+/* Hearts that float up when the seal is tapped. */
+.alphabet-pop-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 13px;
+  color: #f43f78;
+  pointer-events: none;
+  animation: sealHeartFloat 1.05s ease-out forwards;
+}
+
+@keyframes sealHeartFloat {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  25%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), -170%) scale(1.1) rotate(14deg); }
+}
+
+/* A warm light sweep each time a page turns. */
+.alphabet-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 46%,
+    rgba(255, 255, 255, 0.18) 53%,
+    transparent 66%
+  );
+  transform: translateX(-120%);
+  animation: pageShine 1.15s ease-out;
+}
+
+@keyframes pageShine {
+  0%   { transform: translateX(-120%); opacity: 0.9; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+/* Faint hearts drifting inside the book. */
+.alphabet-drift {
+  position: absolute;
+  z-index: 4;
+  color: rgba(244, 63, 120, 0.3);
+  pointer-events: none;
+  animation: bookDrift 9s ease-in-out infinite;
+}
+
+@keyframes bookDrift {
+  0%   { opacity: 0; transform: translateY(10px) rotate(-10deg); }
+  30%  { opacity: 0.8; }
+  60%  { opacity: 0.4; transform: translateY(-8px) rotate(4deg); }
+  100% { opacity: 0; transform: translateY(-26px) rotate(12deg); }
+}
+
+/* Quiet corner hearts on the letter page. */
+.alphabet-page-left::before,
+.alphabet-page-left::after {
+  content: '\2665';
+  position: absolute;
+  z-index: 1;
+  font-size: 12px;
+  line-height: 1;
+  color: rgba(244, 63, 120, 0.22);
+  pointer-events: none;
+}
+
+.alphabet-page-left::before {
+  top: 18px;
+  left: 20px;
+}
+
+.alphabet-page-left::after {
+  right: 22px;
+  bottom: 16px;
+  font-size: 9px;
 }
