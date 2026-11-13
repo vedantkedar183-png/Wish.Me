@@ -1,5 +1,5 @@
 /**
- * A small light-pink lip print, used on the lucky-number page and by the teddy.
+ * A small light-pink lip print, used on the lucky-number page.
  *
  * Two halves with a soft gap so the mark reads as lips rather than a heart.
  */
