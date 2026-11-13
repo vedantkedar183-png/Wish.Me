@@ -17,6 +17,7 @@ import LoveMatchGame   from './LoveMatchGame';
 import LyricsChapter   from './LyricsChapter';
 import HeartGame       from './HeartGame';
 import ThumbprintHeart from './ThumbprintHeart';
+import LoveAlphabetBook from './LoveAlphabetBook';
 import DivineSky       from './DivineSky';
 import LoveLetter      from './LoveLetter';
 import FinalSurprise   from './FinalSurprise';
@@ -36,6 +37,7 @@ const ALL_SECTIONS = [
   LyricsChapter,
   HeartGame,
   ThumbprintHeart,
+  LoveAlphabetBook,
   LoveLetter,
   FinalSurprise,
 ];
@@ -107,8 +109,11 @@ export default function RomanticSurprise({ data = null }) {
     if (config.thumbHeart?.show === false) {
       list = list.filter((section) => section !== ThumbprintHeart);
     }
+    if (config.alphabet?.show === false) {
+      list = list.filter((section) => section !== LoveAlphabetBook);
+    }
     return list;
-  }, [config.lyrics?.show, config.divineSky?.show, config.heartGame?.show, config.thumbHeart?.show]);
+  }, [config.lyrics?.show, config.divineSky?.show, config.heartGame?.show, config.thumbHeart?.show, config.alphabet?.show]);
 
   const goNext    = () => setStep((s) => Math.min(s + 1, sections.length - 1));
   const goPrev    = () => setStep((s) => Math.max(s - 1, 0));
@@ -131,7 +136,7 @@ export default function RomanticSurprise({ data = null }) {
           senderName={config.person.yourName}
           onPrev={goPrev}
           onNext={goNext}
-          edgeNav={CurrentSection !== LoveMatchGame && CurrentSection !== LyricsChapter}
+          edgeNav={CurrentSection !== LoveMatchGame && CurrentSection !== LyricsChapter && CurrentSection !== LoveAlphabetBook}
         />
 
         {/* ── Animated section ─────────────────────────────────────── */}

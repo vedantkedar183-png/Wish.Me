@@ -8,6 +8,8 @@
  * ╚══════════════════════════════════════════════════════════════════╝
  */
 
+import LOVE_ALPHABET from './loveAlphabet';
+
 export const surpriseConfig = {
 
   // ─── PERSON DETAILS ────────────────────────────────────────────────
@@ -166,6 +168,27 @@ export const surpriseConfig = {
       'Different fingerprints, same heart \u2014 that\u2019s the whole story. \ud83d\udc97',
     continueText: 'One last chapter \ud83d\udc8c \u2192',
     retryText: 'Stamp again \ud83d\udd04',
+  },
+
+  // ─── SLIDE 10: THE A TO Z OF YOU ──────────────────────────────────
+  // A keepsake book with one page per letter. `letters` lives in
+  // src/data/loveAlphabet.js — edit the words and lines there.
+  alphabet: {
+    show: true,
+    title: 'The A to Z of You',
+    subtitle: 'Twenty-six little reasons, one for every letter',
+    bookLabel: 'a little book of us',
+    letterLabel: 'Letter',
+    ofLabel: 'of',
+    prevLabel: 'Previous letter',
+    nextLabel: 'Next letter',
+    signature: 'with love, always',
+    hint: 'Turn the page, swipe, or tap a letter to begin anywhere',
+    closingTitle: 'You are my whole alphabet',
+    closingMessage:
+      'Twenty-six letters, and every one of them spells you. I would read this book a hundred times and still find something new to love.',
+    continueText: 'Keep going \u2764\ufe0f \u2192',
+    letters: LOVE_ALPHABET,
   },
 
   // ─── SLIDE 5: LOVE LETTER ─────────────────────────────────────────
@@ -375,6 +398,10 @@ export function getRomanticConfig(data = {}) {
 
     thumbHeart: {
       ...surpriseConfig.thumbHeart,
+    },
+
+    alphabet: {
+      ...surpriseConfig.alphabet,
     },
 
     letter: {
