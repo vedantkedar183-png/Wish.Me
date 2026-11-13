@@ -59,8 +59,8 @@ export const surpriseConfig = {
   // ─── SLIDE 4: REASONS YOU'RE SPECIAL ──────────────────────────────
   // Tone: Warm & personal — specific personality-driven reasons
   reasons: {
-    title: 'The Treasure Map of You',
-    subtitle: "Every gem I've found along the way… 💎",
+    title: 'You’re the Treasure at the End of Every Map',
+    subtitle: 'Here’s every little reason why — and I’d find you a thousand times again 💎✨',
     cards: [
       { icon: '🎭', text: 'Your dramatic storytelling that turns grocery trips into epic adventures'       },
       { icon: '🧲', text: 'That magnetic energy \u2014 people gravitate toward you without even realizing'  },
