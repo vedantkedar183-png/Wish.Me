@@ -1,215 +1,385 @@
-import { useEffect, useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useRomanticConfig } from '../../context/RomanticConfigContext';
-import useConfetti from '../../hooks/useConfetti';
-import ScratchReveal from './ScratchReveal';
-import GiftBox from './GiftBox';
 
-/** Massive confetti explosion — fires once the scratch card is cleared */
-function useCelebrationConfetti(fire, enabled) {
-  useEffect(() => {
-    if (!enabled) return undefined;
-    const delays = [60, 420, 900, 1800];
-    const timers = delays.map((d) => setTimeout(fire, d));
-    return () => timers.forEach(clearTimeout);
-  }, [fire, enabled]);
+/* ────────────────────────────────────────────────────────────────────────────
+   Helpers
+   ──────────────────────────────────────────────────────────────────────────── */
+
+function seeded(seed) {
+  const value = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+  return value - Math.floor(value);
 }
 
-/** Floating celebration hearts fixed across the screen */
-function FloatingHeartField() {
-  const hearts = useMemo(
+function NightStars() {
+  const stars = useMemo(
     () =>
-      Array.from({ length: 24 }, (_, i) => ({
+      Array.from({ length: 110 }, (_, i) => ({
         id: i,
-        symbol: ['🎀', '🥂', '🪩', '🎆', '🦋', '🏆'][i % 6],
-        left: `${(i * 4.2) % 98}%`,
-        delay: `${(i * 0.35) % 8}s`,
-        duration: `${7 + (i % 5)}s`,
-        size: `${0.9 + (i % 4) * 0.25}rem`,
+        left: seeded(i + 1) * 100,
+        top: seeded(i + 41) * 70,
+        size: 0.7 + seeded(i + 73) * 2.1,
+        opacity: 0.2 + seeded(i + 101) * 0.7,
+        duration: 3 + seeded(i + 131) * 5,
+        delay: seeded(i + 151) * 6,
+        warm: seeded(i + 181) > 0.68,
       })),
     [],
   );
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-20" aria-hidden="true">
-      {hearts.map((h) => (
+    <div className="her-stars" aria-hidden="true">
+      {stars.map((star) => (
         <span
-          key={h.id}
-          className="absolute bottom-0"
+          key={star.id}
+          className={`her-star ${star.warm ? 'is-warm' : ''}`}
           style={{
-            left: h.left,
-            fontSize: h.size,
-            animation: `floatFinal ${h.duration} ease-in ${h.delay} infinite`,
-            opacity: 0,
+            left: `${star.left}%`,
+            top: `${star.top}%`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            '--her-star-opacity': star.opacity,
+            '--story-star-opacity': star.opacity,
+            '--her-twinkle': `${star.duration}s`,
+            '--story-twinkle': `${star.duration}s`,
+            '--her-delay': `${star.delay}s`,
+            '--story-delay': `${star.delay}s`,
           }}
-        >
-          {h.symbol}
-        </span>
+        />
       ))}
+      <span className="her-shooting-star her-shooting-one" />
+      <span className="her-shooting-star her-shooting-two" />
     </div>
   );
 }
 
-/**
- * Section 5 — Final Birthday Surprise
- * The grand finale: massive confetti, floating hearts, shimmer name,
- * emotional message, and a Replay button.
- */
+/* ────────────────────────────────────────────────────────────────────────────
+   The moon
+   ──────────────────────────────────────────────────────────────────────────── */
+
+function Moon() {
+  return (
+    <div className="her-moon" aria-hidden="true">
+      <svg viewBox="0 0 200 200" className="her-moon-svg">
+        <defs>
+          <radialGradient id="herMoonGlow" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stopColor="#fff8dd" stopOpacity="0.85" />
+            <stop offset="55%" stopColor="#ffe9b0" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#ffb8d2" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="herMoonBody" cx="36%" cy="30%" r="72%">
+            <stop offset="0%" stopColor="#fffdf0" />
+            <stop offset="46%" stopColor="#ffedbe" />
+            <stop offset="82%" stopColor="#e7c07b" />
+            <stop offset="100%" stopColor="#b98a4f" />
+          </radialGradient>
+          <filter id="herMoonBlur" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="4" />
+          </filter>
+        </defs>
+        <circle cx="100" cy="100" r="96" fill="url(#herMoonGlow)" />
+        <circle cx="100" cy="100" r="66" fill="url(#herMoonBody)" />
+        <g fill="#a8763d" opacity="0.18" filter="url(#herMoonBlur)">
+          <circle cx="76" cy="83" r="12" />
+          <circle cx="118" cy="72" r="7" />
+          <circle cx="126" cy="116" r="10" />
+          <circle cx="88" cy="126" r="6" />
+          <circle cx="108" cy="98" r="4" />
+        </g>
+        <circle cx="100" cy="100" r="79" fill="none" stroke="#ffe8b2" strokeWidth="0.7" opacity="0.34" />
+        <circle cx="100" cy="100" r="88" fill="none" stroke="#ffc8d9" strokeWidth="0.45" opacity="0.22" />
+        <path d="M45 54 Q100 18 155 54" fill="none" stroke="#fff4cf" strokeWidth="1" opacity="0.38" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   The terrace parapet
+   ──────────────────────────────────────────────────────────────────────────── */
+
+const BALUSTERS = Array.from({ length: 15 }, (_, i) => 26 + i * 62);
+
+function Parapet() {
+  return (
+    <div className="her-parapet" aria-hidden="true">
+      <svg viewBox="0 0 960 240" className="her-parapet-svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="herGround" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#0b0514" stopOpacity="0.4" />
+            <stop offset="40%" stopColor="#07030d" stopOpacity="0.97" />
+            <stop offset="100%" stopColor="#040109" />
+          </linearGradient>
+          <linearGradient id="herCapLight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#f2cf8d" stopOpacity="0" />
+            <stop offset="18%" stopColor="#f2cf8d" stopOpacity="0.6" />
+            <stop offset="72%" stopColor="#ffe7af" stopOpacity="0.52" />
+            <stop offset="100%" stopColor="#ffb8d2" stopOpacity="0.2" />
+          </linearGradient>
+          <radialGradient id="herLanternGlow">
+            <stop offset="0%" stopColor="#ffe3a2" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#ffe3a2" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        {/* Ground and parapet face */}
+        <rect x="0" y="0" width="960" height="240" fill="url(#herGround)" />
+        <rect x="0" y="0" width="960" height="14" fill="#150b1f" />
+        <path d="M0 1 H960" stroke="url(#herCapLight)" strokeWidth="2" />
+        <rect x="0" y="14" width="960" height="226" fill="#07030e" opacity="0.92" />
+        <path d="M0 14 H960" stroke="#a9793e" strokeWidth="1" opacity="0.28" />
+
+        {/* Balustrade grooves */}
+        <g className="her-parapet-grooves" stroke="#c79a55" strokeWidth="1.1" opacity="0.12">
+          {BALUSTERS.map((x) => (
+            <path key={x} d={`M${x} 22 L${x} 232`} />
+          ))}
+        </g>
+        <g className="her-parapet-grooves" stroke="#f2cf8d" strokeWidth="0.7" opacity="0.08">
+          <path d="M0 74 H960" />
+          <path d="M0 196 H960" />
+        </g>
+
+        {/* Potted plant on the left */}
+        <g className="her-parapet-plant" transform="translate(34 0)" opacity="0.9">
+          <path d="M18 -40 L46 -40 L40 0 L24 0 Z" fill="#241226" stroke="#c99b57" strokeWidth="1" />
+          <path d="M32 -40 C17 -64 13 -84 22 -100 C35 -86 38 -64 32 -40" fill="#154a4a" stroke="#3e9c88" strokeWidth="1" />
+          <path d="M32 -42 C49 -62 62 -76 64 -94 C47 -90 34 -72 32 -42" fill="#1c615c" stroke="#5fc8b4" strokeWidth="1" />
+          <path d="M32 -42 C30 -72 30 -94 39 -114 C50 -92 45 -64 32 -42" fill="#226f68" stroke="#7ae0cc" strokeWidth="1" />
+        </g>
+
+        {/* Lantern on the right */}
+        <g className="her-parapet-lantern" transform="translate(800 0)">
+          <circle cx="30" cy="-30" r="56" fill="url(#herLanternGlow)" />
+          <path d="M14 -58 L46 -58 L41 -16 L19 -16 Z" fill="#2a1639" stroke="#f0ca7d" strokeWidth="1" />
+          <path d="M21 -50 L39 -50 L35 -24 L25 -24 Z" fill="#ffdda0" opacity="0.82" />
+          <path d="M30 -70 L30 -58 M21 -70 L39 -70" stroke="#e9c27a" strokeWidth="1.4" strokeLinecap="round" />
+        </g>
+
+        {/* Rose petals on the terrace floor */}
+        <g fill="#e78aa6" opacity="0.32">
+          <ellipse cx="150" cy="206" rx="6" ry="2.3" transform="rotate(-18 150 206)" />
+          <ellipse cx="390" cy="218" rx="5" ry="2" transform="rotate(12 390 218)" />
+          <ellipse cx="720" cy="210" rx="7" ry="2.5" transform="rotate(-8 720 210)" />
+          <ellipse cx="880" cy="222" rx="4" ry="1.8" transform="rotate(22 880 222)" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Him, sitting on the parapet, looking up
+   ──────────────────────────────────────────────────────────────────────────── */
+
+function SeatedFigure() {
+  return (
+    <div className="her-seated" aria-hidden="true">
+      <svg viewBox="0 0 240 270" className="her-seated-svg">
+        <defs>
+          <linearGradient id="herRim" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stopColor="#f2cf8d" stopOpacity="0" />
+            <stop offset="48%" stopColor="#ffe7af" stopOpacity="0.75" />
+            <stop offset="100%" stopColor="#ffb8d2" stopOpacity="0.25" />
+          </linearGradient>
+          <linearGradient id="herRimSoft" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stopColor="#f2cf8d" stopOpacity="0" />
+            <stop offset="100%" stopColor="#ffb8d2" stopOpacity="0.5" />
+          </linearGradient>
+          <radialGradient id="herSeatGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#f2cf8d" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#f2cf8d" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        <ellipse cx="120" cy="196" rx="104" ry="74" fill="url(#herSeatGlow)" />
+        <ellipse cx="112" cy="250" rx="70" ry="8" fill="#000" opacity="0.5" />
+
+        {/* Body */}
+        <path
+          d="M64 250 C60 214 66 184 80 166 C88 154 98 148 108 152 C124 158 132 180 136 206 C139 224 140 238 140 250 Z"
+          fill="#08040e"
+        />
+        {/* Thigh and shin */}
+        <path d="M86 250 C92 226 112 202 140 190 L166 214 C142 226 124 240 116 252 Z" fill="#0a0511" />
+        <path d="M150 206 C160 218 166 232 166 250 L190 250 C188 226 178 206 162 192 Z" fill="#0a0511" />
+        <path d="M160 246 L194 246 C200 246 200 252 194 253 L160 253 Z" fill="#0a0511" />
+
+        {/* Head, tilted up */}
+        <path
+          d="M96 156 C86 138 90 112 106 102 C122 92 140 102 144 120 L148 125 L143 129 C145 140 140 150 130 156 C118 163 104 163 96 156 Z"
+          fill="#08040e"
+        />
+        <path d="M96 116 C94 100 104 90 118 90 C132 90 142 98 144 110" fill="none" stroke="#0b0612" strokeWidth="6" strokeLinecap="round" />
+
+        {/* Arm resting on the knee */}
+        <path d="M104 170 C124 178 142 190 150 200" stroke="#08040e" strokeWidth="12" strokeLinecap="round" fill="none" />
+        <circle cx="151" cy="201" r="6" fill="#08040e" />
+
+        {/* Gold rim light */}
+        <path d="M67 248 C65 214 70 186 82 168 C90 156 100 150 108 154" fill="none" stroke="url(#herRim)" strokeWidth="2.2" opacity="0.9" />
+        <path d="M108 100 C124 94 140 104 144 120 L148 125 L143 129" fill="none" stroke="url(#herRim)" strokeWidth="1.9" opacity="0.95" />
+        <path d="M146 192 C162 204 174 224 180 246" fill="none" stroke="url(#herRimSoft)" strokeWidth="1.3" opacity="0.48" />
+        <path d="M80 168 C74 190 69 216 69 246" fill="none" stroke="#ffb8d2" strokeWidth="0.8" opacity="0.3" />
+
+        {/* A small star caught on his shoulder */}
+        <g fill="#fff3ce" opacity="0.8">
+          <circle cx="143" cy="172" r="1.4" />
+          <circle cx="154" cy="166" r="0.9" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Final page
+   ──────────────────────────────────────────────────────────────────────────── */
+
 export default function FinalSurprise({ onRestart, onShare }) {
   const config = useRomanticConfig();
   const { final, person } = config;
-  const { fireConfetti } = useConfetti();
-  const [revealed, setRevealed] = useState(false);
-  useCelebrationConfetti(fireConfetti, revealed);
+  const reduceMotion = useReducedMotion();
+
+  const scrollToLetter = () => {
+    document.getElementById('her-final-wish')?.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  };
 
   return (
-    <div
-      className="romantic-section overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #ffe4ef 0%, #fce4ec 35%, #fff5f7 65%, #ffd6e7 100%)',
-      }}
-    >
-      <FloatingHeartField />
+    <section className="her-finale" aria-labelledby="her-finale-title">
+      <div className="her-stage">
+        <NightStars />
+        <div className="her-nebula her-nebula-one" aria-hidden="true" />
+        <div className="her-nebula her-nebula-two" aria-hidden="true" />
+        <Moon />
+        <Parapet />
+        <SeatedFigure />
+        <div className="her-stage-vignette" aria-hidden="true" />
 
-      {/* Radial glow */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,107,157,0.18) 0%, transparent 70%)',
-        }}
-      />
-
-      <div className="relative z-30 text-center max-w-xl mx-auto px-4 space-y-5">
-
-        {/* Pre-text */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="font-cursive text-xl md:text-2xl text-romantic-muted"
-        >
-          {final.preText}
-        </motion.p>
-
-        {/* Animated cake */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.3 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, type: 'spring', stiffness: 200, damping: 15 }}
-          aria-hidden="true"
-        >
-          <motion.span
-            className="text-6xl md:text-8xl inline-block"
-            animate={{ rotate: [-5, 5, -5], scale: [1, 1.08, 1] }}
-            transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
-          >
-            🪅
-          </motion.span>
-        </motion.div>
-
-        {/* Main wish — hidden behind a scratch card until revealed */}
-        <ScratchReveal
-          className="rounded-3xl shadow-xl"
-          onRevealed={() => {
-            setRevealed(true);
-            fireConfetti();
-          }}
-          label="Scratch to reveal your wish ✨"
-          hint="Swipe with your finger or mouse"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+        <div className="her-copy">
+          <motion.p
+            className="her-eyebrow"
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.7 }}
-            className="glass-card rounded-3xl px-6 py-9 md:px-8 md:py-11"
+            transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <h1 className="font-display text-4xl md:text-6xl font-bold text-romantic-warm leading-tight">
-              {final.mainWish}
-            </h1>
-            <h2
-              className="font-display text-5xl md:text-7xl font-black mt-1 shimmer-name"
-              aria-label={final.nameWish}
-            >
-              {final.nameWish}
-            </h2>
+            the last page &middot; under one sky
+          </motion.p>
 
-            <div className="mt-4 flex justify-center">
-              <span className="inline-block bg-white/70 backdrop-blur-sm border border-romantic-200 text-romantic-600 font-semibold px-5 py-2 rounded-full text-sm md:text-base shadow-md">
-                {final.ageText}
-              </span>
-            </div>
+          <motion.h2
+            id="her-finale-title"
+            className="her-title"
+            initial={reduceMotion ? false : { opacity: 0, y: 22, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.95, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Her eyes,
+            <span>in my sky.</span>
+          </motion.h2>
 
-            <div className="mt-5 flex justify-center gap-3 text-3xl" aria-hidden="true">
-              {['🥂', '🪩', '🏆', '🎀', '🎭', '🌈'].map((e, i) => (
-                <motion.span
-                  key={i}
-                  animate={{ y: [0, -10, 0], rotate: [0, i % 2 === 0 ? 10 : -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.6 + i * 0.15, delay: i * 0.2 }}
-                >
-                  {e}
-                </motion.span>
-              ))}
-            </div>
+          <motion.p
+            className="her-poem"
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.52 }}
+          >
+            I sat on my terrace tonight. The moon was there. The stars were there.
+            Then I found you in all of them &mdash; your eyes, soft as moonlight,
+            looking back at me.
+          </motion.p>
+
+          <motion.p
+            className="her-forever-line"
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            My love. <span>My forever.</span>
+          </motion.p>
+
+          <motion.div
+            className="her-copy-actions"
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.88 }}
+          >
+            <button type="button" className="rani-btn-gold her-btn" onClick={scrollToLetter}>
+              Read my last wish <span aria-hidden="true">&darr;</span>
+            </button>
+            <button type="button" className="her-btn-ghost" onClick={onRestart}>
+              Replay our story <span aria-hidden="true">&#8635;</span>
+            </button>
           </motion.div>
-        </ScratchReveal>
+        </div>
 
-        {/* Everything else appears only after the reveal */}
-        <AnimatePresence>
-          {revealed && (
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="space-y-5"
-            >
-              {/* Divider */}
-              <div className="flex items-center justify-center gap-3" aria-hidden="true">
-                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-romantic-200 max-w-[80px]" />
-                <span className="text-romantic-300">🎀</span>
-                <div className="h-px flex-1 bg-gradient-to-l from-transparent to-romantic-200 max-w-[80px]" />
-              </div>
-
-              {/* Interactive gift box with love coupons */}
-              <GiftBox gift={final.gift} recipient={person.name} />
-
-              {/* Main message */}
-              <div className="glass-card rounded-3xl p-6 md:p-8">
-                <p className="text-romantic-warm/85 leading-relaxed text-sm md:text-base mb-4">
-                  {final.message}
-                </p>
-                <p className="font-cursive text-lg md:text-xl text-romantic-500">
-                  {final.emotionalNote}
-                </p>
-              </div>
-
-              {/* Signature */}
-              <p className="font-script text-2xl text-romantic-500">
-                — From {person.yourName}, always in your corner 🤞
-              </p>
-
-              {/* Actions */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pb-8">
-                <button
-                  onClick={onRestart}
-                  className="btn-romantic"
-                  style={{ background: 'linear-gradient(135deg, #e63946, #ff6b9d)' }}
-                >
-                  {final.replayText}
-                </button>
-
-                <button
-                  onClick={onShare}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-romantic-400 text-romantic-600 px-6 py-3 text-sm font-semibold hover:bg-romantic-50 transition-colors"
-                >
-                  🔗 Share Story
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.button
+          type="button"
+          className="her-scroll-cue"
+          onClick={scrollToLetter}
+          aria-label="Scroll to the final wish"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1, duration: 0.8 }}
+        >
+          <span>for the last wish</span>
+          <i aria-hidden="true">&darr;</i>
+        </motion.button>
       </div>
-    </div>
+
+      <div className="her-letter" id="her-final-wish">
+        <div className="her-letter-inner">
+          <motion.p
+            className="her-eyebrow"
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7 }}
+          >
+            {final.preText}
+          </motion.p>
+
+          <motion.h3
+            className="her-letter-title"
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, delay: 0.05 }}
+          >
+            {final.mainWish}
+            <span className="shimmer-name">{person.name}</span>
+          </motion.h3>
+
+          <p className="her-letter-age">{final.ageText}</p>
+
+          <div className="her-letter-rule" aria-hidden="true">
+            <span />
+            <i>✦</i>
+            <span />
+          </div>
+
+          <p className="her-letter-message">{final.message}</p>
+          <p className="her-letter-note">{final.emotionalNote}</p>
+
+          <p className="her-letter-forever">My love. My forever.</p>
+          <p className="her-letter-signature">
+            From {person.yourName}, always in your corner
+          </p>
+
+          <div className="her-letter-actions">
+            <button type="button" className="rani-btn-gold her-btn" onClick={onRestart}>
+              {final.replayText || 'Rewind & relive'}
+            </button>
+            <button type="button" className="her-btn-ghost" onClick={onShare}>
+              Share this story <span aria-hidden="true">&#9825;</span>
+            </button>
+          </div>
+
+          <p className="her-letter-footnote">the stars will keep this page for us</p>
+        </div>
+      </div>
+    </section>
   );
 }

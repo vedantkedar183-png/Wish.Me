@@ -136,14 +136,14 @@ export default function ThumbprintHeart({ onNext }) {
           >
             <defs>
               <linearGradient id="thumbLeft" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#ffb3c6" />
-                <stop offset="45%" stopColor="#f43f78" />
-                <stop offset="100%" stopColor="#b31f47" />
+                <stop offset="0%" stopColor="#ffdcae" />
+                <stop offset="45%" stopColor="#e98f93" />
+                <stop offset="100%" stopColor="#8e2f4f" />
               </linearGradient>
               <linearGradient id="thumbRight" x1="1" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#ffc2d4" />
-                <stop offset="45%" stopColor="#f472b6" />
-                <stop offset="100%" stopColor="#d61f4e" />
+                <stop offset="0%" stopColor="#ffe8c4" />
+                <stop offset="45%" stopColor="#f2cf8d" />
+                <stop offset="100%" stopColor="#c08a54" />
               </linearGradient>
               <clipPath id="thumbClipLeft">
                 <path d={LEFT_LOBE} />

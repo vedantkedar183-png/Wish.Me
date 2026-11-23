@@ -242,6 +242,14 @@ export const surpriseConfig = {
     continueText: 'Keep going \u2764\ufe0f \u2192',
   },
 
+  // ─── THE CONSTELLATION & VIRTUAL EXHIBITION ───────────────────────
+  // A star-map spelling her name, a gallery room and 100 reasons.
+  // Content lives in src/data/raniConstellation.js — set `show: false`
+  // to remove the whole chapter from the story.
+  constellation: {
+    show: true,
+  },
+
   // ─── SLIDE 6: FINAL BIRTHDAY SURPRISE ─────────────────────────────
   // Tone: Grand & cinematic — the epic finale
   final: {
@@ -288,11 +296,12 @@ export const surpriseConfig = {
   },
 
   // ─── BACKGROUND MUSIC ──────────────────────────────────────────────
-  // Replace the file at /public/music/romantic.mp3 with your own MP3.
-  // Set url to null to disable music entirely.
+  // The full instrumental of "Love Me Like You Do" is synthesized live with
+  // the Web Audio API (see src/audio/loveMeLikeYouDoPiano.js).
+  // Set `enabled: false` to hide the player and the soundtrack entirely.
   music: {
-    url: '/music/romantic.mp3',
-    label: 'Romantic melody',
+    enabled: true,
+    label: 'Love Me Like You Do - instrumental',
   },
 };
 
@@ -391,10 +400,10 @@ export function getRomanticConfig(data = {}) {
 
     welcome: {
       ...surpriseConfig.welcome,
-      // The sender's name always closes the opening line, so the very first
-      // screen says who the surprise is from.
-      mainTitle: `${surpriseConfig.welcome.mainTitle}\n${yourName} 💌`,
-      subtitle: `A journey crafted with heart and soul for ${name}`,
+      // The recipient's name closes the opening line so the first screen is
+      // unmistakably for her. The subtitle credits the sender.
+      mainTitle: `${surpriseConfig.welcome.mainTitle}\n${name} 💌`,
+      subtitle: `A journey crafted with heart and soul, from ${yourName}`,
     },
 
     reveal: {
@@ -446,6 +455,10 @@ export function getRomanticConfig(data = {}) {
 
     firstKiss: {
       ...surpriseConfig.firstKiss,
+    },
+
+    constellation: {
+      ...surpriseConfig.constellation,
     },
 
     letter: {

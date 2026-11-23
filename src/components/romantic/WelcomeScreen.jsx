@@ -40,18 +40,18 @@ export default function WelcomeScreen({ onNext }) {
       {/* Decorative blobs */}
       <div
         aria-hidden="true"
-        className="absolute -top-32 -left-32 w-80 h-80 rounded-full opacity-30 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #ffb3c6, transparent)' }}
+        className="absolute -top-32 -left-32 w-80 h-80 rounded-full opacity-40 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(255, 179, 198, 0.5), rgba(255, 179, 198, 0) 68%)' }}
       />
       <div
         aria-hidden="true"
-        className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full opacity-25 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #ffd6e7, transparent)' }}
+        className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full opacity-40 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(242, 207, 141, 0.42), rgba(242, 207, 141, 0) 68%)' }}
       />
       <div
         aria-hidden="true"
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full opacity-15 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #ff80a0, transparent)' }}
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full opacity-30 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(255, 128, 160, 0.3), rgba(255, 128, 160, 0) 68%)' }}
       />
 
       {/* Sparkles */}

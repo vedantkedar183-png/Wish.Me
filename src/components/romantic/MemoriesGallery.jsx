@@ -27,7 +27,7 @@ function PolaroidCard({ photo, index }) {
         {!photo.src || imgError ? (
           /* Gradient placeholder when the photo is device-local or fails to load */
           <div
-            className="w-full h-full flex flex-col items-center justify-center gap-2 text-4xl"
+            className="polaroid-fallback w-full h-full flex flex-col items-center justify-center gap-2 text-4xl"
             style={{
               background: `linear-gradient(135deg, hsl(${(index * 40) % 360}, 60%, 85%), hsl(${(index * 40 + 40) % 360}, 60%, 80%))`,
             }}

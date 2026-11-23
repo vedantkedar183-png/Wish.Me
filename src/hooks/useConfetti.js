@@ -15,7 +15,7 @@ const DEFAULT_COLORS = [
 
 // ── Theme-aware color palettes ────────────────────────────────────────────────
 const THEME_COLORS = {
-  romantic:   ['#ff69b4', '#ff1493', '#ff6b81', '#ffd700', '#ff4081', '#e91e63', '#f06292', '#ffb6c1'],
+  romantic:   ['#ffd9a4', '#f2cf8d', '#e7b86a', '#ff9fc4', '#e78aa6', '#ffeccb', '#c9a0e0', '#f7b267'],
   galaxy:     ['#a78bfa', '#7c3aed', '#818cf8', '#c084fc', '#6366f1', '#ffd700', '#38bdf8', '#a855f7'],
   tropical:   ['#fb923c', '#f97316', '#fbbf24', '#ff6b6b', '#ec4899', '#f43f5e', '#4ade80', '#06b6d4'],
   golden:     ['#ffd700', '#f59e0b', '#facc15', '#fb923c', '#f97316', '#fbbf24', '#eab308', '#d97706'],

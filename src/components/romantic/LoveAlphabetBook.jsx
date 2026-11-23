@@ -277,9 +277,9 @@ export default function LoveAlphabetBook({ onNext }) {
         </div>
 
         {/* Progress */}
-        <div className="mx-auto mt-3 h-1.5 w-full max-w-sm overflow-hidden rounded-full bg-romantic-200/60">
+        <div className="alphabet-progress mx-auto mt-3 h-1.5 w-full max-w-sm overflow-hidden rounded-full bg-romantic-200/60">
           <motion.div
-            className="h-full rounded-full"
+            className="alphabet-progress-fill h-full rounded-full"
             style={{ background: 'linear-gradient(90deg, #ffb3c6, #f43f78, #c0294f)' }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.4, ease: 'easeOut' }}

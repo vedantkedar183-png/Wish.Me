@@ -5,6 +5,7 @@ import { surpriseConfig, getRomanticConfig } from '../../data/surpriseConfig';
 import { RomanticConfigProvider } from '../../context/RomanticConfigContext';
 
 import DecorationLayer from './DecorationLayer';
+import StoryThemeLayer from './StoryThemeLayer';
 import MusicButton    from './MusicButton';
 import StoryProgress  from './StoryProgress';
 
@@ -22,6 +23,7 @@ import DivineSky       from './DivineSky';
 import LoveLetter      from './LoveLetter';
 import LuckyNumber     from './LuckyNumber';
 import FirstKiss       from './FirstKiss';
+import ConstellationExhibition from './ConstellationExhibition';
 import FinalSurprise   from './FinalSurprise';
 import RomanticShareModal from './RomanticShareModal';
 
@@ -43,6 +45,7 @@ const ALL_SECTIONS = [
   LoveLetter,
   LuckyNumber,
   FirstKiss,
+  ConstellationExhibition,
   FinalSurprise,
 ];
 
@@ -122,6 +125,9 @@ export default function RomanticSurprise({ data = null }) {
     if (config.firstKiss?.show === false) {
       list = list.filter((section) => section !== FirstKiss);
     }
+    if (config.constellation?.show === false) {
+      list = list.filter((section) => section !== ConstellationExhibition);
+    }
     return list;
   }, [
     config.lyrics?.show,
@@ -131,6 +137,7 @@ export default function RomanticSurprise({ data = null }) {
     config.alphabet?.show,
     config.luckyNumber?.show,
     config.firstKiss?.show,
+    config.constellation?.show,
   ]);
 
   const goNext    = () => setStep((s) => Math.min(s + 1, sections.length - 1));
@@ -141,9 +148,10 @@ export default function RomanticSurprise({ data = null }) {
 
   return (
     <RomanticConfigProvider config={config}>
-      <div className="relative min-h-screen overflow-x-hidden" style={{ isolation: 'isolate' }}>
+      <div className="romantic-story-theme relative min-h-screen overflow-x-hidden" style={{ isolation: 'isolate' }}>
 
         {/* ── Always-on layers ──────────────────────────────────────── */}
+        <StoryThemeLayer />
         <DecorationLayer />
         <MusicButton />
 
@@ -154,7 +162,7 @@ export default function RomanticSurprise({ data = null }) {
           senderName={config.person.yourName}
           onPrev={goPrev}
           onNext={goNext}
-          edgeNav={CurrentSection !== LoveMatchGame && CurrentSection !== LyricsChapter && CurrentSection !== LoveAlphabetBook && CurrentSection !== LuckyNumber && CurrentSection !== FirstKiss}
+          edgeNav={CurrentSection !== LoveMatchGame && CurrentSection !== LyricsChapter && CurrentSection !== LoveAlphabetBook && CurrentSection !== LuckyNumber && CurrentSection !== FirstKiss && CurrentSection !== ConstellationExhibition}
         />
 
         {/* ── Animated section ─────────────────────────────────────── */}

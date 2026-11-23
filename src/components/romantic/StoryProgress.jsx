@@ -38,7 +38,7 @@ export default function StoryProgress({ total, current, senderName, onPrev, onNe
                 <motion.div
                   className="h-full rounded-full"
                   style={{
-                    background: 'linear-gradient(90deg, #ff80a0, #f43f78)',
+                    background: 'linear-gradient(90deg, #ffc0d2, #f5d488 55%, #d4a24c)',
                   }}
                   initial={false}
                   animate={{ width: i <= active ? '100%' : '0%' }}
@@ -49,7 +49,7 @@ export default function StoryProgress({ total, current, senderName, onPrev, onNe
           </div>
 
           <div className="mt-2 flex items-center gap-2">
-            <span className="w-7 h-7 rounded-full bg-gradient-to-br from-romantic-400 to-romantic-600 text-white text-[11px] font-bold flex items-center justify-center shadow-sm ring-2 ring-white/70">
+            <span className="w-7 h-7 rounded-full bg-gradient-to-br from-[#f5d488] to-[#9c6a23] text-[#211208] text-[11px] font-bold flex items-center justify-center shadow-sm ring-2 ring-white/30">
               {initial}
             </span>
             <span className="text-xs font-semibold text-romantic-warm/90">

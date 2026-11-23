@@ -7,6 +7,8 @@ import Create from './pages/Create';
 import Surprise from './pages/Surprise';
 import Romantic from './pages/Romantic';
 import RomanticCreate from './pages/RomanticCreate';
+import Rani from './pages/Rani';
+import RaniStory from './pages/RaniStory';
 
 /**
  * Root application component.
@@ -25,6 +27,8 @@ export default function App() {
             <Route path="/surprise" element={<Surprise />} />
             <Route path="/romantic" element={<Romantic />} />
             <Route path="/romantic/create" element={<RomanticCreate />} />
+            <Route path="/rani" element={<Rani />} />
+            <Route path="/rani-story" element={<RaniStory />} />
             {/* Catch-all: redirect unknown routes to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

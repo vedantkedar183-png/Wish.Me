@@ -47,7 +47,7 @@ export default function LyricsChapter({ onNext }) {
   const step = (delta) => setIndex((current) => (current + delta + total) % total);
 
   return (
-    <section className="relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden bg-[#08060c] px-6 pb-28 pt-24 text-center">
+    <section className="story-lyrics-page relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-6 pb-28 pt-24 text-center">
 
       {/* ── Ambient stage lighting ─────────────────────────────────── */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">

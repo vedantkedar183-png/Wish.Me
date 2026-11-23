@@ -13,7 +13,7 @@ import useConfetti from '../../hooks/useConfetti';
  * Copy, tap target and prompts all live in `config.heartGame`.
  */
 
-const PARTICLE_COLORS = ['#fb7185', '#f472b6', '#f9a8d4', '#fda4af', '#fbbf24'];
+const PARTICLE_COLORS = ['#f2cf8d', '#ffd9a4', '#f0a6a0', '#e78aa6', '#ffe9bb'];
 
 const HEART_PATH =
   'M100,170 C60,135 20,105 20,66 C20,38 42,20 66,20 C82,20 94,29 100,42 C106,29 118,20 134,20 C158,20 180,38 180,66 C180,105 140,135 100,170 Z';
@@ -105,7 +105,7 @@ export default function HeartGame({ onNext }) {
             aria-hidden="true"
             className="pointer-events-none absolute inset-4 rounded-full blur-2xl transition-opacity duration-500"
             style={{
-              background: 'radial-gradient(circle, rgba(244,63,120,0.45) 0%, rgba(244,63,120,0) 70%)',
+              background: 'radial-gradient(circle, rgba(242,199,141,0.42) 0%, rgba(242,199,141,0) 70%)',
               opacity: 0.35 + progress * 0.6,
             }}
           />
@@ -114,12 +114,12 @@ export default function HeartGame({ onNext }) {
           <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full -rotate-90" aria-hidden="true">
             <defs>
               <linearGradient id="heartRing" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#fda4af" />
-                <stop offset="50%" stopColor="#f43f78" />
-                <stop offset="100%" stopColor="#fbbf24" />
+                <stop offset="0%" stopColor="#ffe6bc" />
+                <stop offset="50%" stopColor="#f2cf8d" />
+                <stop offset="100%" stopColor="#f09ab2" />
               </linearGradient>
             </defs>
-            <circle cx="50" cy="50" r={radius} fill="none" stroke="rgba(244,63,120,0.14)" strokeWidth="3" />
+            <circle cx="50" cy="50" r={radius} fill="none" stroke="rgba(242,207,141,0.16)" strokeWidth="3" />
             <circle
               cx="50"
               cy="50"
@@ -192,9 +192,9 @@ export default function HeartGame({ onNext }) {
             <svg viewBox="0 0 200 180" className="heartbeat h-44 w-44 sm:h-52 sm:w-52" aria-hidden="true">
               <defs>
                 <linearGradient id="heartFill" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#ffb3c6" />
-                  <stop offset="42%" stopColor="#f43f78" />
-                  <stop offset="100%" stopColor="#b31f47" />
+                  <stop offset="0%" stopColor="#ffdfb2" />
+                  <stop offset="42%" stopColor="#f0969f" />
+                  <stop offset="100%" stopColor="#96294f" />
                 </linearGradient>
                 <radialGradient id="heartShine" cx="0.3" cy="0.26" r="0.62">
                   <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />

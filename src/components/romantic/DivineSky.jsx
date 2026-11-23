@@ -270,7 +270,7 @@ export default function DivineSky({ onNext }) {
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 24, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-[2rem] border-4 border-white/75 shadow-[0_24px_60px_rgba(74,16,32,0.35)]"
+          className="divine-frame relative overflow-hidden rounded-[2rem] border-4 border-white/75 shadow-[0_24px_60px_rgba(74,16,32,0.35)]"
         >
           <NightSky stars={stars} />
 
