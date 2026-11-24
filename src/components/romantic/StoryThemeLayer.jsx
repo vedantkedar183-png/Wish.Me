@@ -1,10 +1,14 @@
 import { useMemo } from 'react';
+import { getDeviceProfile } from '../../utils/device';
 
 /**
  * Fixed midnight sky that sits behind every chapter of the romantic story.
  *
  * The stars are deterministic so the sky does not reshuffle between scenes.
  * It is purely decorative and never blocks interaction.
+ *
+ * Phones get a smaller, quieter sky: the same look, but far fewer composited
+ * layers to animate every frame.
  */
 
 function seeded(seed) {
@@ -13,9 +17,12 @@ function seeded(seed) {
 }
 
 export default function StoryThemeLayer() {
+  const { reduceAmbient, ambientScale } = getDeviceProfile();
+  const starCount = Math.max(24, Math.round(130 * ambientScale));
+
   const stars = useMemo(
     () =>
-      Array.from({ length: 130 }, (_, i) => ({
+      Array.from({ length: starCount }, (_, i) => ({
         id: i,
         left: seeded(i + 1) * 100,
         top: seeded(i + 17) * 100,
@@ -25,11 +32,11 @@ export default function StoryThemeLayer() {
         delay: seeded(i + 81) * 7,
         warm: seeded(i + 97) > 0.78,
       })),
-    [],
+    [starCount],
   );
 
   return (
-    <div className="story-theme-layer" aria-hidden="true">
+    <div className={`story-theme-layer ${reduceAmbient ? 'is-lite' : ''}`} aria-hidden="true">
       <div className="story-theme-aurora story-theme-aurora-one" />
       <div className="story-theme-aurora story-theme-aurora-two" />
       <div className="story-theme-haze" />

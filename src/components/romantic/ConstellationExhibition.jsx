@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useRomanticConfig } from '../../context/RomanticConfigContext';
+import { getDeviceProfile } from '../../utils/device';
+import MusicButton from './MusicButton';
 import {
   CONSTELLATION_STARS,
   FOREVER_STAR,
@@ -38,9 +40,11 @@ function seeded(seed) {
    ──────────────────────────────────────────────────────────────────────────── */
 
 function Starfield({ count = 110, className = '' }) {
+  const { ambientScale } = getDeviceProfile();
+  const total = Math.max(14, Math.round(count * ambientScale));
   const stars = useMemo(
     () =>
-      Array.from({ length: count }, (_, i) => ({
+      Array.from({ length: total }, (_, i) => ({
         id: i,
         left: seeded(i + 1) * 100,
         top: seeded(i + 2) * 100,
@@ -50,7 +54,7 @@ function Starfield({ count = 110, className = '' }) {
         delay: seeded(i + 6) * 6,
         tint: seeded(i + 7) > 0.86 ? '#ffd6e7' : seeded(i + 8) > 0.7 ? '#ffe9b0' : '#ffffff',
       })),
-    [count],
+    [total],
   );
 
   return (
@@ -90,7 +94,7 @@ function SceneGlow() {
    The constellation
    ──────────────────────────────────────────────────────────────────────────── */
 
-function Constellation({ found, allFound, onOpenStar, onOpenForever, reduceMotion }) {
+function Constellation({ found, allFound, onOpenStar, onOpenForever, reduceMotion, lite }) {
   const foundSet = useMemo(() => new Set(found), [found]);
 
   return (
@@ -116,7 +120,7 @@ function Constellation({ found, allFound, onOpenStar, onOpenForever, reduceMotio
           </filter>
         </defs>
 
-        <g filter="url(#raniLineGlow)">
+        <g filter={lite ? undefined : 'url(#raniLineGlow)'}>
           {LETTER_PATHS.map((path, index) => (
             <motion.path
               key={path.letter}
@@ -224,7 +228,7 @@ function Constellation({ found, allFound, onOpenStar, onOpenForever, reduceMotio
    Gallery artwork — small original SVG pieces, no external photos needed
    ──────────────────────────────────────────────────────────────────────────── */
 
-function RoomArt({ variant }) {
+function RoomArt({ variant, lite }) {
   const artId = `rani-art-${variant}`;
 
   if (variant === 'dawn') {
@@ -289,7 +293,7 @@ function RoomArt({ variant }) {
         ].map(([cx, cy, r]) => (
           <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} fill="#ffffff" opacity="0.75" />
         ))}
-        <g filter={`url(#${artId}-glow)`}>
+        <g filter={lite ? undefined : `url(#${artId}-glow)`}>
           <path
             d="M60 112 L40 88 L31 71 L35 55 L50 49 L60 62 L70 49 L85 55 L89 71 L80 88 Z"
             fill="none"
@@ -392,7 +396,7 @@ function RoomArt({ variant }) {
       ].map(([cx, cy, r]) => (
         <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} fill="#fff5d6" opacity="0.8" />
       ))}
-      <g filter={`url(#${artId}-glow)`} fill="none" stroke={`url(#${artId}-gold)`}>
+      <g filter={lite ? undefined : `url(#${artId}-glow)`} fill="none" stroke={`url(#${artId}-gold)`}>
         <ellipse cx="48" cy="76" rx="22" ry="28" strokeWidth="1.5" transform="rotate(-18 48 76)" />
         <ellipse cx="72" cy="76" rx="22" ry="28" strokeWidth="1.5" transform="rotate(18 72 76)" />
         <path d="M40 108 Q60 116 80 108" strokeWidth="0.8" opacity="0.55" />
@@ -408,7 +412,7 @@ function RoomArt({ variant }) {
    Scene one — the constellation
    ──────────────────────────────────────────────────────────────────────────── */
 
-function SkyScene({ name, found, allFound, onOpenStar, onOpenForever, onEnter, reduceMotion }) {
+function SkyScene({ name, found, allFound, onOpenStar, onOpenForever, onEnter, reduceMotion, lite }) {
   const progress = Math.round((found.length / CONSTELLATION_STARS.length) * 100);
 
   return (
@@ -429,8 +433,8 @@ function SkyScene({ name, found, allFound, onOpenStar, onOpenForever, onEnter, r
         <motion.h1
           id="rani-sky-title"
           className="rani-hero-title"
-          initial={reduceMotion ? false : { opacity: 0, y: 22, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          initial={reduceMotion ? false : lite ? { opacity: 0, y: 18 } : { opacity: 0, y: 22, filter: 'blur(10px)' }}
+          animate={lite ? { opacity: 1, y: 0 } : { opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1.05, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           {name}
@@ -452,6 +456,7 @@ function SkyScene({ name, found, allFound, onOpenStar, onOpenForever, onEnter, r
           onOpenStar={onOpenStar}
           onOpenForever={onOpenForever}
           reduceMotion={reduceMotion}
+          lite={lite}
         />
 
         <div className="rani-progress-block">
@@ -488,7 +493,7 @@ function SkyScene({ name, found, allFound, onOpenStar, onOpenForever, onEnter, r
    Scene two — the virtual gallery
    ──────────────────────────────────────────────────────────────────────────── */
 
-function GalleryScene({ name, onOpenPiece, onContinue, reduceMotion }) {
+function GalleryScene({ name, onOpenPiece, onContinue, reduceMotion, lite }) {
   return (
     <section className="rani-scene rani-scene-gallery" aria-labelledby="rani-gallery-title">
       <Starfield count={55} className="rani-starfield-dim" />
@@ -553,7 +558,7 @@ function GalleryScene({ name, onOpenPiece, onContinue, reduceMotion }) {
                     whileTap={reduceMotion ? undefined : { scale: 0.985 }}
                   >
                     <span className="rani-frame-art">
-                      <RoomArt variant={piece.art} />
+                      <RoomArt variant={piece.art} lite={lite} />
                       <span className="rani-frame-sheen" aria-hidden="true" />
                     </span>
                     <span className="rani-frame-plaque">{piece.title}</span>
@@ -612,7 +617,24 @@ const reasonVariants = {
   }),
 };
 
-function ReasonsScene({ name, page, direction, onPage, onForever, reduceMotion }) {
+const liteReasonVariants = {
+  enter: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? 26 : -26,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? -20 : 20,
+    transition: { duration: 0.18, ease: 'easeIn' },
+  }),
+};
+
+function ReasonsScene({ name, page, direction, onPage, onForever, reduceMotion, lite }) {
   const start = page * PER_PAGE;
   const reasons = HUNDRED_REASONS.slice(start, start + PER_PAGE);
 
@@ -676,7 +698,7 @@ function ReasonsScene({ name, page, direction, onPage, onForever, reduceMotion }
               key={page}
               className="rani-reason-grid"
               custom={direction}
-              variants={reduceMotion ? undefined : reasonVariants}
+              variants={reduceMotion ? undefined : lite ? liteReasonVariants : reasonVariants}
               initial={reduceMotion ? { opacity: 0 } : 'enter'}
               animate={reduceMotion ? { opacity: 1 } : 'center'}
               exit={reduceMotion ? { opacity: 0 } : 'exit'}
@@ -769,7 +791,7 @@ const HEART_POINTS = [
   [68, 54],
 ];
 
-function HeartConstellation({ reduceMotion, name }) {
+function HeartConstellation({ reduceMotion, name, lite }) {
   return (
     <motion.div
       className="rani-heart-map"
@@ -800,7 +822,7 @@ function HeartConstellation({ reduceMotion, name }) {
           stroke="url(#raniHeartLine)"
           strokeWidth="0.42"
           strokeLinejoin="round"
-          filter="url(#raniHeartGlow)"
+          filter={lite ? undefined : 'url(#raniHeartGlow)'}
           initial={reduceMotion ? false : { pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 1 }}
           transition={{ duration: 2.2, delay: 0.4, ease: 'easeInOut' }}
@@ -829,7 +851,7 @@ function HeartConstellation({ reduceMotion, name }) {
   );
 }
 
-function ForeverScene({ name, onRestart, onNext, standalone, reduceMotion }) {
+function ForeverScene({ name, onRestart, onNext, standalone, reduceMotion, lite }) {
   const [copied, setCopied] = useState(false);
 
   const copyPage = () => {
@@ -869,7 +891,7 @@ function ForeverScene({ name, onRestart, onNext, standalone, reduceMotion }) {
           <span>My forever.</span>
         </motion.h2>
 
-        <HeartConstellation reduceMotion={reduceMotion} name={name} />
+        <HeartConstellation reduceMotion={reduceMotion} name={name} lite={lite} />
 
         <motion.div
           className="rani-letter-card"
@@ -1014,10 +1036,17 @@ const sceneVariants = {
   },
 };
 
+const liteSceneVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.4 } },
+  exit: { opacity: 0, transition: { duration: 0.2 } },
+};
+
 export default function ConstellationExhibition({ name: nameProp, onNext, standalone = false }) {
   const config = useRomanticConfig();
   const name = (nameProp || config?.person?.name || 'Rani').trim();
   const reduceMotion = useReducedMotion();
+  const { reduceAmbient: lite } = getDeviceProfile();
 
   const [scene, setScene] = useState(() => {
     if (!standalone || typeof window === 'undefined') return 'sky';
@@ -1112,13 +1141,15 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
   }, [scene, changeScene, scrollToSceneTop]);
 
   return (
-    <div className="rani-page">
+    <div className={`rani-page ${lite ? 'rani-page-lite' : ''}`}>
       <div className="rani-film-grain" aria-hidden="true" />
+
+      {standalone && <MusicButton />}
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={scene}
-          variants={reduceMotion ? undefined : sceneVariants}
+          variants={reduceMotion ? undefined : lite ? liteSceneVariants : sceneVariants}
           initial={reduceMotion ? { opacity: 0 } : 'initial'}
           animate={reduceMotion ? { opacity: 1 } : 'animate'}
           exit={reduceMotion ? { opacity: 0 } : 'exit'}
@@ -1132,6 +1163,7 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
               onOpenForever={() => openStar(FOREVER_STAR)}
               onEnter={() => changeScene('gallery')}
               reduceMotion={reduceMotion}
+              lite={lite}
             />
           )}
 
@@ -1141,6 +1173,7 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
               onOpenPiece={setActivePiece}
               onContinue={() => changeScene('reasons')}
               reduceMotion={reduceMotion}
+              lite={lite}
             />
           )}
 
@@ -1152,6 +1185,7 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
               onPage={handleReasonPage}
               onForever={() => changeScene('forever')}
               reduceMotion={reduceMotion}
+              lite={lite}
             />
           )}
 
@@ -1162,6 +1196,7 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
               onNext={onNext}
               standalone={standalone}
               reduceMotion={reduceMotion}
+              lite={lite}
             />
           )}
         </motion.div>

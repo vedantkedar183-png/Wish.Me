@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { getDeviceProfile } from '../../utils/device';
 
 const PARTICLES = ['❤️', '🩷', '💕', '💗', '🌸', '✨', '🌹', '💫', '🎀', '🦋'];
 
@@ -23,11 +24,15 @@ function Particle({ symbol, left, delay, duration, size }) {
 /**
  * Fixed-position background layer of slowly rising romantic particles.
  * Very subtle opacity — purely decorative, never interferes with content.
+ * Phones draw fewer particles to keep the frame rate smooth.
  */
-export default function DecorationLayer({ count = 18 }) {
+export default function DecorationLayer({ count }) {
+  const { reduceAmbient } = getDeviceProfile();
+  const finalCount = count ?? (reduceAmbient ? 7 : 18);
+
   const particles = useMemo(
     () =>
-      Array.from({ length: count }, (_, i) => ({
+      Array.from({ length: finalCount }, (_, i) => ({
         id: i,
         symbol: PARTICLES[i % PARTICLES.length],
         left: (i * 5.8 + Math.sin(i * 1.7) * 8 + 100) % 97,
@@ -35,7 +40,7 @@ export default function DecorationLayer({ count = 18 }) {
         duration: 12 + (i % 7) * 2,
         size: 0.7 + (i % 5) * 0.18,
       })),
-    [count],
+    [finalCount],
   );
 
   return (

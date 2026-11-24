@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import { surpriseConfig, getRomanticConfig } from '../../data/surpriseConfig';
 import { RomanticConfigProvider } from '../../context/RomanticConfigContext';
+import { getDeviceProfile } from '../../utils/device';
 
 import DecorationLayer from './DecorationLayer';
 import StoryThemeLayer from './StoryThemeLayer';
@@ -74,6 +75,21 @@ const pageVariants = {
   },
 };
 
+// Phones skip the large vertical travel so a chapter swap feels instant.
+const litePageVariants = {
+  initial: { opacity: 0, y: 18 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+  exit: {
+    opacity: 0,
+    y: -12,
+    transition: { duration: 0.2, ease: 'easeIn' },
+  },
+};
+
 // ─── Main orchestrator ───────────────────────────────────────────────────────
 /**
  * RomanticSurprise — the root component for the birthday story experience.
@@ -85,6 +101,7 @@ const pageVariants = {
 export default function RomanticSurprise({ data = null }) {
   const [step, setStep] = useState(0);
   const [showShare, setShowShare] = useState(false);
+  const { reduceAmbient } = getDeviceProfile();
 
   const config = useMemo(() => {
     // A shared link (?d=…) is decoded by the page and passed in directly.
@@ -169,7 +186,7 @@ export default function RomanticSurprise({ data = null }) {
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            variants={pageVariants}
+            variants={reduceAmbient ? litePageVariants : pageVariants}
             initial="initial"
             animate="animate"
             exit="exit"
