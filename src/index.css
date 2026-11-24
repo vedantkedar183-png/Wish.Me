@@ -4262,3 +4262,46 @@ html {
     animation: none !important;
   }
 }
+
+/* -- WhatsApp share button on the final page --------------------------------- */
+
+.her-btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.75rem 1.3rem;
+  border: 1px solid rgba(37, 211, 102, 0.5);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.28), rgba(18, 140, 126, 0.24));
+  color: #e4fff0;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(18, 140, 126, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.her-btn-whatsapp:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 211, 102, 0.8);
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.4), rgba(18, 140, 126, 0.34));
+  box-shadow: 0 14px 34px rgba(18, 140, 126, 0.28);
+}
+
+.her-btn-whatsapp:focus-visible {
+  outline: 2px solid #7dffc0;
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .her-btn-whatsapp {
+    min-height: 42px;
+    padding: 0.68rem 1rem;
+    font-size: 8px;
+  }
+}

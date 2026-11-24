@@ -865,6 +865,16 @@ function ForeverScene({ name, onRestart, onNext, standalone, reduceMotion, lite 
       .catch(() => {});
   };
 
+  const shareOnWhatsApp = () => {
+    if (typeof window === 'undefined') return;
+    const message = `💌 I made this little universe for you, ${name}.\n\nOpen it here:\n${window.location.href}`;
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(message)}`,
+      '_blank',
+      'noopener,noreferrer',
+    );
+  };
+
   return (
     <section className="rani-scene rani-scene-forever" aria-labelledby="rani-forever-title">
       <Starfield count={100} />
@@ -927,9 +937,14 @@ function ForeverScene({ name, onRestart, onNext, standalone, reduceMotion, lite 
               One last surprise <span aria-hidden="true">→</span>
             </button>
           ) : standalone ? (
-            <button type="button" className="rani-btn-gold" onClick={copyPage}>
-              {copied ? 'Link copied' : 'Keep this page'} <span aria-hidden="true">{copied ? '✓' : '♡'}</span>
-            </button>
+            <>
+              <button type="button" className="rani-btn-ghost" onClick={copyPage}>
+                {copied ? 'Link copied' : 'Copy link'} <span aria-hidden="true">{copied ? '✓' : '🔗'}</span>
+              </button>
+              <button type="button" className="rani-btn-gold" onClick={shareOnWhatsApp}>
+                Share on WhatsApp <span aria-hidden="true">💬</span>
+              </button>
+            </>
           ) : null}
         </div>
 
