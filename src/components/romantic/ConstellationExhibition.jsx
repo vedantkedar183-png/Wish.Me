@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useRomanticConfig } from '../../context/RomanticConfigContext';
+import { generateRomanticShareUrl } from '../../utils/encode';
 import { getDeviceProfile } from '../../utils/device';
 import MusicButton from './MusicButton';
 import {
@@ -851,13 +852,13 @@ function HeartConstellation({ reduceMotion, name, lite }) {
   );
 }
 
-function ForeverScene({ name, onRestart, onNext, standalone, reduceMotion, lite }) {
+function ForeverScene({ name, onRestart, onNext, standalone, shareUrl, reduceMotion, lite }) {
   const [copied, setCopied] = useState(false);
 
   const copyPage = () => {
     if (!navigator.clipboard || typeof window === 'undefined') return;
     navigator.clipboard
-      .writeText(window.location.href)
+      .writeText(shareUrl || window.location.href)
       .then(() => {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 2200);
@@ -867,7 +868,8 @@ function ForeverScene({ name, onRestart, onNext, standalone, reduceMotion, lite 
 
   const shareOnWhatsApp = () => {
     if (typeof window === 'undefined') return;
-    const message = `💌 I made this little universe for you, ${name}.\n\nOpen it here:\n${window.location.href}`;
+    const url = shareUrl || window.location.href;
+    const message = `💌 I made this little universe for you, ${name}.\n\nOpen it here:\n${url}`;
     window.open(
       `https://wa.me/?text=${encodeURIComponent(message)}`,
       '_blank',
@@ -1063,6 +1065,19 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
   const reduceMotion = useReducedMotion();
   const { reduceAmbient: lite } = getDeviceProfile();
 
+  // Inside the romantic story the address bar can be `/romantic` with no
+  // payload (preview hand-off), so build a self-contained link. The standalone
+  // /rani page needs no payload and can share its own address.
+  const shareUrl = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    if (standalone) return window.location.href;
+    try {
+      return generateRomanticShareUrl(config)?.url || window.location.href;
+    } catch {
+      return window.location.href;
+    }
+  }, [standalone, config]);
+
   const [scene, setScene] = useState(() => {
     if (!standalone || typeof window === 'undefined') return 'sky';
     const requested = new URLSearchParams(window.location.search).get('scene');
@@ -1210,6 +1225,7 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
               onRestart={restart}
               onNext={onNext}
               standalone={standalone}
+              shareUrl={shareUrl}
               reduceMotion={reduceMotion}
               lite={lite}
             />

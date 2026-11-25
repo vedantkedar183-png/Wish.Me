@@ -24,6 +24,7 @@ import DivineSky       from './DivineSky';
 import LoveLetter      from './LoveLetter';
 import LuckyNumber     from './LuckyNumber';
 import FirstKiss       from './FirstKiss';
+import SharedSongScene from './SharedSongScene';
 import ConstellationExhibition from './ConstellationExhibition';
 import FinalSurprise   from './FinalSurprise';
 import RomanticShareModal from './RomanticShareModal';
@@ -46,6 +47,7 @@ const ALL_SECTIONS = [
   LoveLetter,
   LuckyNumber,
   FirstKiss,
+  SharedSongScene,
   ConstellationExhibition,
   FinalSurprise,
 ];
@@ -142,6 +144,9 @@ export default function RomanticSurprise({ data = null }) {
     if (config.firstKiss?.show === false) {
       list = list.filter((section) => section !== FirstKiss);
     }
+    if (config.sharedSong?.show === false) {
+      list = list.filter((section) => section !== SharedSongScene);
+    }
     if (config.constellation?.show === false) {
       list = list.filter((section) => section !== ConstellationExhibition);
     }
@@ -154,6 +159,7 @@ export default function RomanticSurprise({ data = null }) {
     config.alphabet?.show,
     config.luckyNumber?.show,
     config.firstKiss?.show,
+    config.sharedSong?.show,
     config.constellation?.show,
   ]);
 

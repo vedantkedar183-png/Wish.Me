@@ -11,10 +11,12 @@
  * Mobile notes
  * ────────────
  * Phones get a lighter version of the same arrangement:
- *   • three oscillator partials instead of five
- *   • a cheap feedback delay instead of a convolution reverb
+ *   • four oscillator partials instead of five
+ *   • two short feedback-delay taps instead of a convolution reverb
  *     (building the reverb impulse was the main cause of the first-tap freeze)
  *   • a longer scheduler tick, so the main thread wakes up less often
+ *   • a catch-up jump if the tab slept, so returning to the page never plays
+ *     a burst of late notes
  *
  * The AudioContext is created and resumed inside the tap that starts the song.
  * `start()` resolves only once the context is actually RUNNING, so the button
@@ -37,17 +39,20 @@ const LOOK_AHEAD_MOBILE = 1.8;
 const midiToHz = (midi) => 440 * Math.pow(2, (midi - 69) / 12);
 
 const FULL_PARTIALS = [
-  { type: 'sine', ratio: 1, gain: 0.58, detune: 0 },
-  { type: 'triangle', ratio: 1, gain: 0.17, detune: 3 },
-  { type: 'sine', ratio: 2, gain: 0.11, detune: -2 },
-  { type: 'sine', ratio: 3, gain: 0.045, detune: 2 },
-  { type: 'sine', ratio: 4.01, gain: 0.018, detune: 4 },
+  { type: 'sine', ratio: 1, gain: 0.5, detune: -2.5 },
+  { type: 'sine', ratio: 1.0015, gain: 0.26, detune: 2.5 },
+  { type: 'sine', ratio: 2, gain: 0.15, detune: 1 },
+  { type: 'sine', ratio: 3, gain: 0.055, detune: -1.5 },
+  { type: 'sine', ratio: 4.01, gain: 0.022, detune: 2 },
 ];
 
+// Four partials keep the fundamental and the first two harmonics — that is
+// where a piano's warmth lives — for about half the oscillator cost.
 const LITE_PARTIALS = [
-  { type: 'triangle', ratio: 1, gain: 0.6, detune: 0 },
-  { type: 'sine', ratio: 2, gain: 0.13, detune: -2 },
-  { type: 'sine', ratio: 3, gain: 0.045, detune: 2 },
+  { type: 'sine', ratio: 1, gain: 0.54, detune: -2 },
+  { type: 'triangle', ratio: 1, gain: 0.075, detune: 3 },
+  { type: 'sine', ratio: 2, gain: 0.155, detune: 1 },
+  { type: 'sine', ratio: 3, gain: 0.05, detune: -1 },
 ];
 
 function createNoiseBuffer(context) {
@@ -61,48 +66,91 @@ function createNoiseBuffer(context) {
 }
 
 function createReverb(context) {
-  const length = Math.floor(context.sampleRate * 2.8);
+  const length = Math.floor(context.sampleRate * 2.4);
   const impulse = context.createBuffer(2, length, context.sampleRate);
+
+  // A handful of distinct early reflections make the tail read as a real
+  // room instead of a wash of noise. Values are in seconds.
+  const early = [
+    { t: 0.011, g: 0.34 },
+    { t: 0.019, g: 0.26 },
+    { t: 0.031, g: 0.2 },
+    { t: 0.047, g: 0.15 },
+    { t: 0.071, g: 0.11 },
+  ];
+
   for (let channel = 0; channel < 2; channel += 1) {
     const data = impulse.getChannelData(channel);
     for (let i = 0; i < length; i += 1) {
-      data[i] = (Math.random() * 2 - 1) * (1 - i / length) ** 2.8;
+      const progress = i / length;
+      data[i] = (Math.random() * 2 - 1) * (1 - progress) ** 2.6;
     }
+    early.forEach((tap, index) => {
+      const offset = Math.floor((tap.t + channel * 0.0023 + index * 0.0004) * context.sampleRate);
+      if (offset < length) data[offset] += tap.g * (channel === 0 ? 1 : 0.82);
+    });
   }
+
   const convolver = context.createConvolver();
   convolver.buffer = impulse;
   return convolver;
 }
 
-/** A tiny feedback delay: almost free on a phone, still adds air. */
+/**
+ * Two short feedback-delay taps: a cheap stereo room that is almost free on a
+ * phone. A mono single tap sounded flat and metallic, so each tap gets its own
+ * damped feedback path and a little pan.
+ */
 function createLiteReverb(context) {
-  const delay = context.createDelay(0.6);
-  delay.delayTime.value = 0.26;
-
-  const feedback = context.createGain();
-  feedback.gain.value = 0.2;
-
-  const tone = context.createBiquadFilter();
-  tone.type = 'lowpass';
-  tone.frequency.value = 2600;
-
+  const input = context.createGain();
   const wet = context.createGain();
-  wet.gain.value = 0.22;
+  wet.gain.value = 0.2;
 
-  delay.connect(tone);
-  tone.connect(wet);
-  tone.connect(feedback);
-  feedback.connect(delay);
+  const taps = [
+    { time: 0.17, feedback: 0.22, pan: -0.4, level: 0.95 },
+    { time: 0.29, feedback: 0.16, pan: 0.4, level: 0.7 },
+  ];
 
-  return { input: delay, output: wet };
+  taps.forEach((tap) => {
+    const delay = context.createDelay(0.6);
+    delay.delayTime.value = tap.time;
+
+    const tone = context.createBiquadFilter();
+    tone.type = 'lowpass';
+    tone.frequency.value = 3000;
+
+    const feedback = context.createGain();
+    feedback.gain.value = tap.feedback;
+
+    const level = context.createGain();
+    level.gain.value = tap.level;
+
+    input.connect(delay);
+    delay.connect(tone);
+    tone.connect(level);
+    tone.connect(feedback);
+    feedback.connect(delay);
+
+    if (context.createStereoPanner) {
+      const pan = context.createStereoPanner();
+      pan.pan.value = tap.pan;
+      level.connect(pan);
+      pan.connect(wet);
+    } else {
+      level.connect(wet);
+    }
+  });
+
+  return { input, output: wet };
 }
 
 function velocityFor(midi) {
-  if (midi < 46) return 0.24;
-  if (midi < 55) return 0.21;
-  if (midi < 64) return 0.19;
-  if (midi < 72) return 0.18;
-  return 0.16;
+  if (midi < 46) return 0.27;
+  if (midi < 55) return 0.24;
+  if (midi < 64) return 0.22;
+  if (midi < 72) return 0.205;
+  if (midi < 80) return 0.19;
+  return 0.175;
 }
 
 function playPianoNote(context, busses, note, when, noiseBuffer, partials) {
@@ -112,24 +160,33 @@ function playPianoNote(context, busses, note, when, noiseBuffer, partials) {
   const end = when + duration;
   const peak = velocityFor(midi);
 
+  // A piano note does not hold: it blooms, then keeps decaying even while the
+  // key is down. The extra sustain stage keeps long chord notes from sounding
+  // like an organ without cutting them short.
   const envelope = context.createGain();
+  const sustainAt = Math.max(when + 0.3, Math.min(end, when + 1.5));
+  const releaseAt = Math.max(end, sustainAt + 0.05);
+
   envelope.gain.setValueAtTime(0.0001, when);
-  envelope.gain.exponentialRampToValueAtTime(peak, when + 0.007);
-  envelope.gain.exponentialRampToValueAtTime(peak * 0.34, when + 0.24);
-  envelope.gain.setValueAtTime(peak * 0.34, Math.max(when + 0.25, end));
-  envelope.gain.exponentialRampToValueAtTime(0.0001, end + 0.55);
+  envelope.gain.exponentialRampToValueAtTime(peak, when + 0.006);
+  envelope.gain.exponentialRampToValueAtTime(peak * 0.44, when + 0.24);
+  envelope.gain.exponentialRampToValueAtTime(peak * 0.19, sustainAt);
+  envelope.gain.exponentialRampToValueAtTime(0.0001, releaseAt + 0.6);
 
   const toneFilter = context.createBiquadFilter();
   toneFilter.type = 'lowpass';
-  toneFilter.Q.value = 0.5;
-  toneFilter.frequency.setValueAtTime(Math.min(9500, freq * 10 + 900), when);
-  toneFilter.frequency.exponentialRampToValueAtTime(Math.max(700, freq * 3.4), when + 0.85);
+  toneFilter.Q.value = 0.4;
+  toneFilter.frequency.setValueAtTime(Math.min(11000, freq * 9 + 1100), when);
+  toneFilter.frequency.exponentialRampToValueAtTime(
+    Math.max(750, freq * 2.8 + 420),
+    when + 0.95,
+  );
   toneFilter.connect(envelope);
 
   // Register-aware stereo: bass sits near the centre, the melody opens up.
   const pan = context.createStereoPanner ? context.createStereoPanner() : null;
   if (pan) {
-    pan.pan.value = Math.max(-0.22, Math.min(0.22, (midi - 62) / 110));
+    pan.pan.value = Math.max(-0.3, Math.min(0.3, (midi - 61) / 90));
     envelope.connect(pan);
   }
 
@@ -143,7 +200,7 @@ function playPianoNote(context, busses, note, when, noiseBuffer, partials) {
     osc.connect(voiceGain);
     voiceGain.connect(toneFilter);
     osc.start(when);
-    osc.stop(end + 0.7);
+    osc.stop(releaseAt + 0.8);
   });
 
   if (noiseBuffer) {
@@ -154,8 +211,8 @@ function playPianoNote(context, busses, note, when, noiseBuffer, partials) {
     hammerFilter.frequency.value = Math.min(4200, freq * 4.5);
     hammerFilter.Q.value = 0.8;
     const hammerGain = context.createGain();
-    hammerGain.gain.setValueAtTime(Math.max(0.0002, peak * 0.16), when);
-    hammerGain.gain.exponentialRampToValueAtTime(0.0001, when + 0.06);
+    hammerGain.gain.setValueAtTime(Math.max(0.0002, peak * 0.12), when);
+    hammerGain.gain.exponentialRampToValueAtTime(0.0001, when + 0.055);
     hammer.connect(hammerFilter);
     hammerFilter.connect(hammerGain);
     hammerGain.connect(envelope);
@@ -189,6 +246,13 @@ let visibilityHandler = null;
 
 function tick() {
   if (!context || !busses) return;
+
+  // If the tab slept or the phone froze the timer, jump to the present instead
+  // of racing through hundreds of overdue notes.
+  if (context.currentTime - loopStart > LOOP_SECONDS * 1.25) {
+    loopStart = context.currentTime + 0.12;
+    nextEvent = 0;
+  }
 
   const horizon = context.currentTime + lookAhead;
   let guard = 0;
@@ -263,20 +327,28 @@ function buildGraph() {
 
   master = context.createGain();
   master.gain.setValueAtTime(0.0001, context.currentTime);
-  master.gain.exponentialRampToValueAtTime(0.55, context.currentTime + 1.6);
+  master.gain.exponentialRampToValueAtTime(0.72, context.currentTime + 1.4);
+
+  // Trim sub-bass rumble phones cannot reproduce anyway, then keep peaks in
+  // check with a gentle compressor so chords never clip.
+  const highpass = context.createBiquadFilter();
+  highpass.type = 'highpass';
+  highpass.frequency.value = 30;
+  highpass.Q.value = 0.6;
 
   const compressor = context.createDynamicsCompressor();
-  compressor.threshold.value = -18;
-  compressor.knee.value = 26;
-  compressor.ratio.value = 3;
-  compressor.attack.value = 0.006;
-  compressor.release.value = 0.25;
+  compressor.threshold.value = -15;
+  compressor.knee.value = 22;
+  compressor.ratio.value = 3.2;
+  compressor.attack.value = 0.005;
+  compressor.release.value = 0.22;
 
-  master.connect(compressor);
+  master.connect(highpass);
+  highpass.connect(compressor);
   compressor.connect(context.destination);
 
   const dry = context.createGain();
-  dry.gain.value = 0.9;
+  dry.gain.value = 0.92;
   dry.connect(master);
 
   let wetInput;

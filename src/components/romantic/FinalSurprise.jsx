@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useRomanticConfig } from '../../context/RomanticConfigContext';
+import { generateRomanticShareUrl } from '../../utils/encode';
 
 /* ────────────────────────────────────────────────────────────────────────────
    Helpers
@@ -258,7 +259,15 @@ export default function FinalSurprise({ onRestart, onShare }) {
 
   const shareOnWhatsApp = () => {
     if (typeof window === 'undefined') return;
-    const url = window.location.href;
+    // Share the same self-contained link the share sheet uses. The current
+    // address can be `/romantic` without a payload (preview hand-off), which
+    // would send a friend to the creator form instead of the story.
+    let url = window.location.href;
+    try {
+      url = generateRomanticShareUrl(config)?.url || url;
+    } catch {
+      // Keep the current address if the payload cannot be built.
+    }
     const message = `💌 I made this little story for you, ${person.name}.\n\nOpen it here:\n${url}`;
     window.open(
       `https://wa.me/?text=${encodeURIComponent(message)}`,

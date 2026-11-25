@@ -242,6 +242,22 @@ export const surpriseConfig = {
     continueText: 'Keep going \u2764\ufe0f \u2192',
   },
 
+  // ─── SHARED SONG: ONE EARBUD EACH ─────────────────────────────────
+  // A couple under a tree at night, sharing wired earphones — one bud in his
+  // ear, one in hers, her head on his shoulder. Set `show: false` to hide it.
+  sharedSong: {
+    show: true,
+    label: 'our song \u00b7 one ear each',
+    title: 'Same Song, Same Sky',
+    subtitle: 'two lives, one playlist',
+    caption: 'one earbud each \u2014 every song becomes a memory',
+    message:
+      'This is how I want to spend our lives \u2014 your head on my shoulder, our song in both our ears, and the rest of the world quietly on pause.',
+    playLabel: 'now playing \u00b7 love me like you do',
+    hint: 'Tap them for a little more love',
+    continueText: 'Keep going \u2764\ufe0f \u2192',
+  },
+
   // ─── THE CONSTELLATION & VIRTUAL EXHIBITION ───────────────────────
   // A star-map spelling her name, a gallery room and 100 reasons.
   // Content lives in src/data/raniConstellation.js — set `show: false`
@@ -455,6 +471,10 @@ export function getRomanticConfig(data = {}) {
 
     firstKiss: {
       ...surpriseConfig.firstKiss,
+    },
+
+    sharedSong: {
+      ...surpriseConfig.sharedSong,
     },
 
     constellation: {
