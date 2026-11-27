@@ -15,7 +15,7 @@ const Input = forwardRef(function Input(
       {label && (
         <label
           htmlFor={inputId}
-          className="block text-sm font-medium text-gray-700 select-none"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-200 select-none"
         >
           {label}
           {required && (

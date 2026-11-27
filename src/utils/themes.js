@@ -15,6 +15,20 @@ export const themes = {
     previewGradient: 'linear-gradient(135deg, #fb7185, #ec4899, #ef4444)',
     previewEmoji: '🌹',
   },
+  kittyLove: {
+    id: 'kittyLove',
+    name: 'Cozy Kitty',
+    bgGradient: 'from-rose-200 via-pink-300 to-amber-200',
+    cardBg: 'bg-white/55',
+    textColor: 'text-rose-950',
+    accentColor: 'text-rose-700',
+    buttonBg: 'bg-white/70 hover:bg-white/90',
+    emojis: ['🐱', '🐾', '💕', '🐈', '🧶', '🎀', '💗', '🌸'],
+    glowColorHex: '#f9a8d4',
+    previewGradient: 'linear-gradient(135deg, #fecdd3, #fbcfe8, #fde68a)',
+    previewEmoji: '🐱',
+    effect: 'paws',
+  },
   galaxy: {
     id: 'galaxy',
     name: 'Galaxy Dreams',
@@ -227,8 +241,8 @@ export const MUSIC_OPTIONS = [
 ];
 
 export const OCCASIONS = [
-  { id: 'birthday', label: 'Birthday 🎂', emoji: '🎂', defaultGreeting: 'Happy Birthday!', defaultSubtext: 'Wishing you the most magical day' },
-  { id: 'anniversary', label: 'Anniversary 💍', emoji: '💍', defaultGreeting: 'Happy Anniversary!', defaultSubtext: 'Celebrating your beautiful journey together' },
-  { id: 'friendship', label: 'Friendship 🤝', emoji: '🤝', defaultGreeting: 'For My Amazing Friend!', defaultSubtext: 'Because friendships like ours are rare' },
-  { id: 'justBecause', label: 'Just Because 💝', emoji: '💝', defaultGreeting: 'A Special Surprise!', defaultSubtext: 'Because you deserve to feel special today' },
+  { id: 'birthday',    name: 'Birthday',    label: 'Birthday 🎂',    emoji: '🎂', defaultGreeting: 'Happy Birthday!',       defaultSubtext: 'Wishing you the most magical day' },
+  { id: 'anniversary', name: 'Anniversary', label: 'Anniversary 💍', emoji: '💍', defaultGreeting: 'Happy Anniversary!',    defaultSubtext: 'Celebrating your beautiful journey together' },
+  { id: 'friendship',  name: 'Friendship',  label: 'Friendship 🤝',  emoji: '🤝', defaultGreeting: 'For My Amazing Friend!', defaultSubtext: 'Because friendships like ours are rare' },
+  { id: 'justBecause', name: 'Just Because', label: 'Just Because 💝', emoji: '💝', defaultGreeting: 'A Special Surprise!',  defaultSubtext: 'Because you deserve to feel special today' },
 ];

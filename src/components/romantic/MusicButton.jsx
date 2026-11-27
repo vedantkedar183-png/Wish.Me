@@ -19,7 +19,9 @@ export default function MusicButton() {
   const config = useRomanticConfig();
   const { music } = config;
   const [playing, setPlaying] = useState(false);
-  const [showHint, setShowHint] = useState(false);
+  // Show the hint straight away: on a phone the soundtrack only starts after a
+  // real tap, and a visible cue is what makes people tap the music button.
+  const [showHint, setShowHint] = useState(true);
   const pausedByUser = useRef(false);
   const startingRef = useRef(false);
   const mountedRef = useRef(true);
@@ -60,6 +62,16 @@ export default function MusicButton() {
     return undefined;
   }, [enabled, stopMusic]);
 
+  // Reflect the real state on the phone's media controls.
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return;
+    try {
+      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+    } catch {
+      // Media Session is optional.
+    }
+  }, [playing]);
+
   useEffect(() => {
     if (!enabled) return undefined;
 
@@ -82,12 +94,36 @@ export default function MusicButton() {
       if (!pianoPlayer.isPlaying()) setShowHint(true);
     }, 5000);
 
+    // Keep the phone lock-screen / notification controls in sync so the song
+    // reads as real media playback instead of a silent web sound.
+    if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
+      try {
+        navigator.mediaSession.metadata = new window.MediaMetadata({
+          title: 'Love Me Like You Do',
+          artist: 'Instrumental — for you',
+          album: 'Our little story',
+        });
+        navigator.mediaSession.setActionHandler('play', () => startMusic());
+        navigator.mediaSession.setActionHandler('pause', () => stopMusic());
+      } catch {
+        // Media Session is optional.
+      }
+    }
+
     return () => {
       events.forEach((name) => window.removeEventListener(name, onFirstGesture, true));
       clearTimeout(hintTimer);
       pianoPlayer.stop();
+      if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
+        try {
+          navigator.mediaSession.setActionHandler('play', null);
+          navigator.mediaSession.setActionHandler('pause', null);
+        } catch {
+          // Media Session is optional.
+        }
+      }
     };
-  }, [enabled, startMusic]);
+  }, [enabled, startMusic, stopMusic]);
 
   const toggle = () => {
     if (playing) {

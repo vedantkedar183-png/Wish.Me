@@ -69,8 +69,8 @@ export default function ThemeShowcase() {
         </div>
 
         {/* Fade edges */}
-        <div className="absolute left-0 top-0 bottom-4 w-12 bg-gradient-to-r from-rose-500/50 to-transparent pointer-events-none rounded-l-2xl" />
-        <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-purple-600/50 to-transparent pointer-events-none rounded-r-2xl" />
+        <div className="absolute left-0 top-0 bottom-4 w-12 bg-gradient-to-r from-[#6b2c48]/70 to-transparent pointer-events-none rounded-l-2xl" />
+        <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-[#a95263]/60 to-transparent pointer-events-none rounded-r-2xl" />
       </div>
     </section>
   );

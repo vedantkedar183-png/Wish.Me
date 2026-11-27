@@ -4,7 +4,8 @@
  *
  *  The content for the constellation / virtual-exhibition chapter.
  *  Every star below spells part of her name and holds a hidden message.
- *  The gallery holds four framed memories, and the hall holds 100 reasons.
+ *  The gallery holds four framed memories, and the little cat page holds
+ *  the two of them, leaning in for one kiss.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -196,122 +197,6 @@ export const GALLERY_PIECES = [
   },
 ];
 
-/**
- * One hundred reasons. Each one is written to be read in his voice.
- * Keep this list at 100 \u2014 the page builds its ten chapters from it.
- */
-export const HUNDRED_REASONS = [
-  // I
-  'Because your smile arrives before your words and stays long after you leave.',
-  'Because you make ordinary Tuesdays feel like something worth remembering.',
-  'Because you listen like the whole world can wait.',
-  'Because your laugh is my favourite sound in any language.',
-  'Because you are soft with people, even when the world is not soft with you.',
-  'Because you say my name like it is a promise.',
-  'Because you notice the little things no one else does.',
-  'Because your eyes hold a whole sky I never get tired of looking at.',
-  'Because you turn silence into comfort instead of distance.',
-  'Because you believe in me on the days I forget how.',
-  // II
-  'Because your hugs feel like coming home after a long year.',
-  'Because you are brave in ways you do not give yourself credit for.',
-  'Because you dance badly and beautifully at the same time.',
-  'Because you care enough to ask twice.',
-  'Because your kindness has no audience.',
-  'Because you make me want to be gentler with myself.',
-  'Because every plan sounds better when your name is in it.',
-  'Because you remember the songs that made us.',
-  'Because your hand fits mine like it was measured.',
-  'Because you forgive quickly but love deeply.',
-  // III
-  'Because even your sleepy voice is my favourite morning song.',
-  'Because you make me laugh in the middle of arguments.',
-  'Because you never make me feel small for feeling big.',
-  'Because you are the first person I want to tell everything to.',
-  'Because your presence quietens every loud room.',
-  'Because you look beautiful in every light, especially the honest one.',
-  'Because you keep growing and let me grow beside you.',
-  'Because you choose us, again and again, even on hard days.',
-  'Because your dreams make me dream bigger.',
-  'Because you are never cruel, even when you are hurt.',
-  // IV
-  'Because you steal my hoodies and somehow make them look better.',
-  'Because your forehead kiss fixes more than medicine.',
-  'Because you text me things that make me smile at my phone like a fool.',
-  'Because you are patient with my silences and curious about my chaos.',
-  'Because you love loudly enough to make me believe in forever.',
-  'Because your heart is the safest place I have ever lived.',
-  'Because you make me feel seen without having to explain myself.',
-  'Because you bring out the child in me who still believes in magic.',
-  'Because you make even waiting in line feel like a date.',
-  'Because your advice is honest and your comfort is warm.',
-  // V
-  'Because you hold my secrets like they are sacred.',
-  'Because you look at me like I am still a surprise.',
-  'Because you are the reason my future looks less like a question mark.',
-  'Because you are equally beautiful when you are messy and unguarded.',
-  'Because your determination inspires me more than you know.',
-  'Because you turn my bad days into survivable ones.',
-  'Because you laugh at your own jokes first.',
-  'Because you never let me go to sleep angry.',
-  'Because your voice is the last thing I want to hear at night.',
-  'Because you make love feel like a verb, not a word.',
-  // VI
-  'Because you notice when I am quiet and sit with me in it.',
-  'Because you have seen my worst and stayed for my best.',
-  'Because your family stories make me love the person they raised.',
-  'Because you make me believe that home can be a person.',
-  'Because you respect my dreams even when they are inconvenient.',
-  'Because your excitement over small things is contagious.',
-  'Because you always know when I need a snack and a nap.',
-  'Because you fight for the people you love with everything you have.',
-  'Because you apologise with your whole heart.',
-  'Because you make me want to write better poetry than I know how.',
-  // VII
-  'Because your beauty is the kind that grows with knowing you.',
-  'Because you never stopped choosing the version of me that was still becoming.',
-  'Because you make time slow down when we are doing nothing together.',
-  'Because your trust is a gift I never want to mishandle.',
-  'Because you make me feel brave enough to be honest.',
-  'Because every version of the future I like has you in it.',
-  'Because you are the plot twist that made my life make sense.',
-  'Because you still get shy when I compliment you.',
-  'Because you celebrate my wins like they are your own.',
-  'Because you turn my fears into conversations instead of walls.',
-  // VIII
-  'Because your morning hair is a whole personality.',
-  'Because you are the only person I never get tired of talking to.',
-  'Because you make even the rain feel romantic.',
-  'Because you are strong without being hard.',
-  'Because you give the best hugs and the worst puns, and I love both.',
-  'Because you make me feel like I am enough, exactly as I am.',
-  'Because your warmth is the first thing I feel when I walk in.',
-  'Because you dream out loud and let me build with you.',
-  'Because you are my favourite hello and my hardest goodbye.',
-  'Because you make commitment sound like an adventure, not a cage.',
-  // IX
-  'Because you listen to my favourite songs just to understand me.',
-  'Because your smile is my instant mood repair.',
-  'Because you never make love feel like a performance.',
-  'Because you are the reason I believe in second chances.',
-  'Because your kindness extends to strangers and animals and old songs.',
-  'Because you make me want to be a better man, not a different one.',
-  'Because you are the calm after every storm in my head.',
-  'Because your laugh in the dark is enough to find my way home.',
-  'Because you love me in the tiny details, not just the grand gestures.',
-  'Because you make forever feel less like a risk and more like a promise.',
-  // X
-  'Because you are the first thought in my morning and the last prayer at night.',
-  'Because you make me feel like the best part of your day is me.',
-  'Because you still choose honesty over easy.',
-  'Because your heart remembers everyone who ever needed it.',
-  'Because you make the world softer just by being in it.',
-  'Because I would choose you in every version of this life.',
-  'Because you are my peace, my passion, my favourite person.',
-  'Because loving you is the easiest thing I have ever done.',
-  'Because after all this time, you are still the person I want to impress.',
-  'Because forever with you still does not feel long enough \u2014 and that is how I know it is forever.',
-];
 
 /** The closing letter and final scene copy. Placeholders are filled by the page. */
 export const FOREVER = {

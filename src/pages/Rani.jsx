@@ -7,7 +7,7 @@ import ConstellationExhibition from '../components/romantic/ConstellationExhibit
  * Route: /rani
  * — a constellation that spells her name
  * — a virtual exhibition room with cinematic scene changes
- * — one hundred reasons, ten at a time
+ * — a little cat couple page (two cats in love, one kiss)
  * — a "my love, my forever" closing letter
  */
 export default function Rani() {

@@ -10,7 +10,7 @@ const DEFAULT_FORM = {
   message: '',
   fromName: '',
   occasion: 'birthday',
-  theme: 'romantic',
+  theme: 'kittyLove',
   music: 'none',
   photoId: null,
   photoIds: [],  // Multi-photo support (array of photo IDs)

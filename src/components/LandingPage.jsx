@@ -5,13 +5,14 @@ import DarkModeToggle from './ui/DarkModeToggle';
 import HowItWorks from './HowItWorks';
 import ThemeShowcase from './ThemeShowcase';
 import TestimonialSection from './TestimonialCard';
+import { themes } from '../utils/themes';
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 const FEATURES = [
   {
-    icon: '🎨',
-    title: '14 Stunning Themes',
-    desc: 'From Romantic Rose to Aurora Borealis and Royal Velvet — find the perfect vibe.',
+    icon: '🐱',
+    title: `${Object.keys(themes).length} Stunning Themes`,
+    desc: 'From Cozy Kitty and Romantic Rose to Aurora Borealis and Royal Velvet — find the perfect vibe.',
   },
   {
     icon: '📸',
@@ -51,9 +52,9 @@ const FEATURES = [
 ];
 
 const BG_EMOJIS = [
-  '🎂', '🎈', '🎉', '🎊', '🌹', '✨',
-  '💖', '🥳', '🎁', '⭐', '🌟', '💫',
-  '🎀', '🍰', '🥂', '🎆', '🦄', '🎪',
+  '✨', '🌙', '🐾', '💫', '🤍', '🌸', '🌹', '✨',
+  '💗', '🐈', '🕯️', '🐾', '💫', '🌷', '🌙', '✨',
+  '💌', '🐾',
 ];
 
 // ─── Animation variants ───────────────────────────────────────────────────────
@@ -72,14 +73,24 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-rose-400 via-pink-500 to-purple-600 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950 transition-colors duration-500">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#0b0512] via-[#241029] to-[#3a1526] dark:from-[#06030d] dark:via-[#140a1c] dark:to-[#26101f] transition-colors duration-500">
+
+      {/* ── Soft midnight glow ─────────────────────────────────────────── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at 50% -10%, rgba(126, 72, 188, 0.26), transparent 55%), radial-gradient(ellipse at 12% 88%, rgba(255, 159, 187, 0.12), transparent 48%), radial-gradient(ellipse at 90% 76%, rgba(212, 162, 76, 0.12), transparent 44%)',
+        }}
+      />
 
       {/* ── Decorative background emoji field ─────────────────────────── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none select-none" aria-hidden="true">
         {BG_EMOJIS.map((emoji, i) => (
           <motion.span
             key={i}
-            className={`absolute text-2xl md:text-4xl opacity-[0.12] dark:opacity-[0.08] ${i > 8 ? 'hidden sm:block' : ''}`}
+            className={`absolute text-2xl md:text-4xl opacity-[0.16] dark:opacity-[0.12] ${i > 8 ? 'hidden sm:block' : ''}`}
             style={{
               left: `${(i * 5.55) % 100}%`,
               top: `${(i * 11.3 + 5) % 95}%`,
@@ -112,7 +123,7 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-2"
           >
-            <span className="text-2xl" aria-hidden="true">🎂</span>
+            <span className="text-2xl" aria-hidden="true">🐾</span>
             <span className="text-white font-bold text-xl font-display tracking-tight">
               Wishora
             </span>
@@ -154,7 +165,7 @@ export default function LandingPage() {
               className="text-5xl xs:text-6xl md:text-8xl mb-6 inline-block"
               aria-hidden="true"
             >
-              🎂
+              😻
             </motion.div>
 
             {/* Headline */}
@@ -166,7 +177,7 @@ export default function LandingPage() {
             >
               Make Their Birthday{' '}
               <br className="hidden sm:block" />
-              <span className="font-cute text-yellow-300 dark:text-yellow-400 drop-shadow-lg">
+              <span className="font-cute text-[#f2cf8d] drop-shadow-[0_0_24px_rgba(242,207,141,0.35)]">
                 Unforgettable
               </span>
             </motion.h1>
@@ -266,7 +277,7 @@ export default function LandingPage() {
         <footer className="text-center pb-10 pt-8 border-t border-white/10 safe-bottom">
           <div className="max-w-4xl mx-auto px-6">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="text-2xl" aria-hidden="true">🎂</span>
+              <span className="text-2xl" aria-hidden="true">🐾</span>
               <span className="text-white font-bold text-lg font-display">Wishora</span>
             </div>
             <p className="text-white/40 text-sm mb-4">

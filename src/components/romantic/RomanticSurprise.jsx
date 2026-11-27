@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { surpriseConfig, getRomanticConfig } from '../../data/surpriseConfig';
 import { RomanticConfigProvider } from '../../context/RomanticConfigContext';
 import { getDeviceProfile } from '../../utils/device';
+import { useRomanticConfig } from '../../context/RomanticConfigContext';
 
 import DecorationLayer from './DecorationLayer';
 import StoryThemeLayer from './StoryThemeLayer';
@@ -14,7 +15,7 @@ import LockScreen      from './LockScreen';
 import WelcomeScreen   from './WelcomeScreen';
 import BirthdayReveal  from './BirthdayReveal';
 import MemoriesGallery from './MemoriesGallery';
-import ReasonsCards    from './ReasonsCards';
+import CatCoupleScene  from './CatCoupleScene';
 import LoveMatchGame   from './LoveMatchGame';
 import LyricsChapter   from './LyricsChapter';
 import HeartGame       from './HeartGame';
@@ -29,6 +30,21 @@ import ConstellationExhibition from './ConstellationExhibition';
 import FinalSurprise   from './FinalSurprise';
 import RomanticShareModal from './RomanticShareModal';
 
+// ─── CatCoupleSection wrapper ─────────────────────────────────────────────────
+// Adapts CatCoupleScene's (name, onForever) props to the standard (onNext) API
+// used by all other sections in RomanticSurprise.
+function CatCoupleSection({ onNext }) {
+  const config = useRomanticConfig();
+  const { reduceAmbient } = getDeviceProfile();
+  return (
+    <CatCoupleScene
+      name={config.person.name}
+      onForever={onNext}
+      reduceMotion={reduceAmbient}
+    />
+  );
+}
+
 // ─── Section registry ────────────────────────────────────────────────────────
 // Lock screen is a hook, not a chapter — StoryProgress skips it.
 // LyricsChapter can be switched off with `lyrics.show: false` in the config.
@@ -38,7 +54,7 @@ const ALL_SECTIONS = [
   BirthdayReveal,
   MemoriesGallery,
   DivineSky,
-  ReasonsCards,
+  CatCoupleSection,
   LoveMatchGame,
   LyricsChapter,
   HeartGame,

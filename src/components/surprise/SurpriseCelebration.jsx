@@ -89,7 +89,9 @@ export default function SurpriseCelebration({ onNext, data, themeObj }) {
         </p>
       </>
     ),
+    just_because: null, // resolved below
   };
+  messageMap.just_because = messageMap.justBecause;
 
   const signatureMap = {
     birthday: 'With all the love in the world',

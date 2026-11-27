@@ -16,7 +16,6 @@ import { templates } from '../data/templates';
 import {
   validateForm,
   validatePhotoFile,
-  validateFromName,
   MAX_MESSAGE_LENGTH,
 } from '../utils/validation';
 
@@ -60,7 +59,7 @@ export default function CreatorForm() {
   const [name, setName] = useState(formData.name || '');
   const [message, setMessage] = useState(formData.message || '');
   const [fromName, setFromName] = useState(formData.fromName || '');
-  const [theme, setTheme] = useState(formData.theme || 'romantic');
+  const [theme, setTheme] = useState(formData.theme || 'kittyLove');
   const [music, setMusic] = useState(formData.music || 'none');
   const [selectedTemplate, setSelectedTemplate] = useState(formData.template || null);
 
@@ -187,11 +186,6 @@ export default function CreatorForm() {
     const values = collectFormData();
     const errs = validateForm(values);
 
-    if (validateFromName && !errs.fromName) {
-      const fromNameErr = validateFromName(values.fromName);
-      if (fromNameErr) errs.fromName = fromNameErr;
-    }
-
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
       // Scroll to first error
@@ -261,7 +255,7 @@ export default function CreatorForm() {
         </motion.div>
       </div>
 
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-pink-50/30 to-purple-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-purple-950/30 py-8 px-4 transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-[#fff7f2] via-[#ffeef4] to-[#fde8d7] dark:from-[#160d18] dark:via-[#241225] dark:to-[#3a1b2c] py-8 px-4 transition-colors duration-300">
         <div className="max-w-2xl mx-auto space-y-6">
 
           {/* ── Header ─────────────────────────────────────────────────── */}
@@ -277,7 +271,7 @@ export default function CreatorForm() {
               ← Back to Home
             </button>
             <div className="flex items-center justify-center gap-2 mb-1">
-              <span className="text-3xl" aria-hidden="true">🎂</span>
+              <span className="text-3xl" aria-hidden="true">🐾</span>
               <span className="text-2xl font-bold font-display text-gray-800 dark:text-white">Wishora</span>
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-gray-800 dark:text-white">

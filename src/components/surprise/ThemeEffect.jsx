@@ -10,6 +10,7 @@ import { useMemo } from 'react';
  */
 
 const PETAL_EMOJIS = ['🌸', '🌷', '🌺', '💮', '🌸', '🍃'];
+const PAW_EMOJIS = ['🐾', '🐾', '💕', '🐾', '✨', '🐾'];
 const PETAL_COUNT = 18;
 const DUST_COUNT = 36;
 
@@ -107,6 +108,23 @@ export default function ThemeEffect({ effect }) {
             }}
           >
             {petal.emoji}
+          </span>
+        ))}
+
+      {effect === 'paws' &&
+        petals.map((petal) => (
+          <span
+            key={petal.id}
+            className="theme-paw"
+            style={{
+              left: petal.left,
+              fontSize: petal.size,
+              animationDelay: petal.delay,
+              animationDuration: `${Number.parseFloat(petal.duration) * 1.4}s`,
+              '--drift': petal.drift,
+            }}
+          >
+            {PAW_EMOJIS[petal.id % PAW_EMOJIS.length]}
           </span>
         ))}
 

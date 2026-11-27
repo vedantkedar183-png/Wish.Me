@@ -470,6 +470,18 @@ html {
   filter: drop-shadow(0 2px 4px rgba(190, 24, 93, 0.18));
 }
 
+/* ── Paws: little paw prints drifting down for the Cozy Kitty theme ───────── */
+.theme-paw {
+  position: absolute;
+  top: -8vh;
+  opacity: 0;
+  will-change: transform;
+  animation-name: petalFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  filter: drop-shadow(0 2px 4px rgba(190, 24, 93, 0.2));
+}
+
 /* ── Holo: slow prismatic sheen over the whole experience ─────────────────── */
 @keyframes holoSpin {
   from { transform: rotate(0deg) scale(1.6); }
@@ -1842,11 +1854,12 @@ html {
     linear-gradient(178deg, #080407 0%, #160a10 46%, #0a0509 100%);
 }
 
-.rani-scene-reasons {
+.rani-scene-cats {
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(212, 162, 76, 0.18), transparent 52%),
-    radial-gradient(ellipse at 84% 70%, rgba(122, 47, 68, 0.22), transparent 50%),
-    linear-gradient(178deg, #0a0509 0%, #160a12 52%, #080409 100%);
+    radial-gradient(ellipse at 50% 26%, rgba(255, 159, 187, 0.18), transparent 56%),
+    radial-gradient(ellipse at 16% 78%, rgba(113, 72, 190, 0.24), transparent 54%),
+    radial-gradient(ellipse at 86% 86%, rgba(212, 162, 76, 0.12), transparent 48%),
+    linear-gradient(168deg, #08040b 0%, #170a15 46%, #2a0f1c 100%);
 }
 
 .rani-scene-forever {
@@ -2604,189 +2617,169 @@ html {
   line-height: 1.6;
 }
 
-/* ── The hundred reasons ──────────────────────────────────────────────────── */
+/* ── The little cat page ──────────────────────────────────────────────────── */
 
-.rani-reasons-inner {
-  max-width: 920px;
+.rani-cats-inner {
+  max-width: 880px;
 }
 
-.rani-reasons-panel {
-  width: 100%;
-  margin-top: 1.4rem;
-  padding: clamp(1rem, 3vw, 1.6rem);
-  border: 1px solid rgba(245, 212, 136, 0.17);
-  border-radius: 22px;
-  background: linear-gradient(155deg, rgba(255, 248, 230, 0.055), rgba(255, 255, 255, 0.015));
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+.rani-cats-wrap {
+  width: min(560px, 94vw);
+  margin: 1rem auto 0;
 }
 
-.rani-reasons-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid rgba(245, 212, 136, 0.12);
-  color: rgba(245, 212, 136, 0.72);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.rani-reasons-chapter {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-}
-
-.rani-reason-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
-  min-height: 330px;
-  padding: 0.9rem 0;
-  align-content: start;
-}
-
-.rani-reason {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.7rem;
-  padding: 0.72rem 0.82rem;
-  border: 1px solid rgba(245, 212, 136, 0.09);
-  border-radius: 12px;
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
-  text-align: left;
-}
-
-.rani-reason-number {
-  min-width: 1.45rem;
-  padding-top: 2px;
-  color: #f5d488;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  opacity: 0.75;
-}
-
-.rani-reason-text {
-  margin: 0;
-  color: rgba(253, 246, 232, 0.82);
-  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  font-size: clamp(0.95rem, 1.8vw, 1.06rem);
-  line-height: 1.45;
-}
-
-.rani-reason.is-hundred {
-  grid-column: 1 / -1;
-  border-color: rgba(255, 159, 187, 0.4);
-  background: linear-gradient(120deg, rgba(244, 63, 120, 0.16), rgba(245, 212, 136, 0.08));
-  box-shadow: 0 0 30px rgba(244, 63, 120, 0.12);
-}
-
-.rani-reason.is-hundred .rani-reason-text {
-  color: #fff4d8;
-  font-size: 1.08rem;
-}
-
-.rani-pager {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid rgba(245, 212, 136, 0.1);
-}
-
-.rani-pager-arrow {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  flex: 0 0 auto;
-  border: 1px solid rgba(245, 212, 136, 0.22);
-  border-radius: 50%;
-  background: transparent;
-  color: #f5d488;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s ease, opacity 0.2s ease;
-}
-
-.rani-pager-arrow:hover:not(:disabled) {
-  background: rgba(245, 212, 136, 0.1);
-}
-
-.rani-pager-arrow:disabled {
-  opacity: 0.25;
-  cursor: default;
-}
-
-.rani-pager-arrow:focus-visible {
-  outline: 2px solid #ffe9ae;
-  outline-offset: 2px;
-}
-
-.rani-page-dots {
-  display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-}
-
-.rani-page-dot {
-  min-width: 26px;
-  height: 26px;
-  padding: 0 4px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(253, 246, 232, 0.42);
-  font-family: inherit;
-  font-size: 8px;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease;
-}
-
-.rani-page-dot:hover {
-  color: #ffe9ae;
-}
-
-.rani-page-dot.is-active {
-  background: linear-gradient(135deg, #fff1c4, #d4a24c);
-  color: #241509;
-  font-weight: 700;
-}
-
-.rani-page-dot:focus-visible {
-  outline: 2px solid #ffe9ae;
-  outline-offset: 1px;
-}
-
-.rani-reason-progress {
-  height: 2px;
-  margin-top: 0.7rem;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.rani-reason-progress span {
+.rani-cats-stage {
+  position: relative;
   display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #ff9fbb, #f5d488);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.rani-reasons-inner > .rani-btn-ghost {
-  margin-top: 1rem;
+.rani-cats-stage:focus-visible {
+  outline: 2px solid rgba(255, 233, 174, 0.85);
+  outline-offset: 8px;
 }
+
+.rani-cats-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
+}
+
+/* Gentle idle sway so the cats feel alive even before a tap. */
+.cat-idle-left,
+.cat-idle-right {
+  transform-box: fill-box;
+  transform-origin: 50% 92%;
+}
+
+.cat-idle-left { animation: catIdleLeft 5s ease-in-out infinite; }
+.cat-idle-right { animation: catIdleRight 5.6s ease-in-out infinite; }
+
+@keyframes catIdleLeft {
+  0%, 100% { transform: rotate(-0.8deg) translateY(0); }
+  50%      { transform: rotate(0.6deg) translateY(-2px); }
+}
+
+@keyframes catIdleRight {
+  0%, 100% { transform: rotate(0.8deg) translateY(0); }
+  50%      { transform: rotate(-0.6deg) translateY(-2px); }
+}
+
+/* The lean-in kiss. */
+.cat-head {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: transform 0.55s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.is-kissing .cat-head-left  { transform: translate(11px, 3px) rotate(7deg); }
+.is-kissing .cat-head-right { transform: translate(-11px, 3px) rotate(-7deg); }
+
+.cat-tail {
+  transform-box: fill-box;
+  transform-origin: 20% 90%;
+  animation: catTailWag 3.8s ease-in-out infinite;
+}
+
+.cat-tail-right {
+  transform-origin: 80% 90%;
+  animation-duration: 4.4s;
+}
+
+@keyframes catTailWag {
+  0%, 100% { transform: rotate(-2deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+.cat-heart-moon {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: catHeartPulse 3.4s ease-in-out infinite;
+}
+
+@keyframes catHeartPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+
+.cat-blush { animation: catBlush 3.4s ease-in-out infinite; }
+
+@keyframes catBlush {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.6; }
+}
+
+.cat-paw-print { animation: catPawFade 6s ease-in-out infinite; }
+
+@keyframes catPawFade {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.6; }
+}
+
+/* Hearts that float up on every kiss. */
+/* The little heart that blooms between their noses on a kiss. */
+.cat-kiss-heart {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.is-kissing .cat-kiss-heart {
+  opacity: 1;
+  animation: catKissBloom 1.35s ease-out forwards;
+}
+
+@keyframes catKissBloom {
+  0%   { opacity: 0; transform: scale(0.2) translateY(6px); }
+  22%  { opacity: 1; transform: scale(1.18) translateY(0); }
+  55%  { opacity: 1; transform: scale(1) translateY(-2px); }
+  100% { opacity: 0; transform: scale(1.3) translateY(-14px); }
+}
+
+.cat-kiss-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cat-burst-heart {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  font-size: 18px;
+  line-height: 1;
+  color: #ff9fbb;
+  text-shadow: 0 0 12px rgba(255, 159, 187, 0.85);
+  opacity: 0;
+  animation: catHeartFloat 1.35s ease-out forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes catHeartFloat {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-8deg); }
+  18%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% - 165px)) scale(1.2) rotate(16deg); }
+}
+
+.rani-cats-caption {
+  min-height: 1.4em;
+  margin: 0.55rem 0 1rem;
+  color: rgba(253, 246, 232, 0.55);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
 
 /* ── Forever ──────────────────────────────────────────────────────────────── */
 
@@ -3193,21 +3186,8 @@ html {
     height: 22%;
   }
 
-  .rani-reason-grid {
-    grid-template-columns: 1fr;
-    min-height: 0;
-  }
-
-  .rani-reason {
-    padding: 0.65rem 0.75rem;
-  }
-
-  .rani-reasons-panel {
-    padding: 0.85rem;
-  }
-
-  .rani-page-dots {
-    max-width: 190px;
+  .rani-cats-wrap {
+    width: min(520px, 96vw);
   }
 
   .rani-nav-index {
@@ -3235,8 +3215,18 @@ html {
   .rani-forever-halo,
   .rani-forever-star .rani-star-core,
   .rani-pedestal-orb,
+  .cat-idle-left,
+  .cat-idle-right,
+  .cat-tail,
+  .cat-heart-moon,
+  .cat-blush,
+  .cat-paw-print,
   .rani-star-btn::before {
     animation: none !important;
+  }
+
+  .cat-head {
+    transition: none;
   }
 
   .rani-star-core,
@@ -4411,7 +4401,6 @@ html {
 
   .rani-btn-gold,
   .rani-btn-ghost,
-  .rani-reasons-panel,
   .rani-forever-halo {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;

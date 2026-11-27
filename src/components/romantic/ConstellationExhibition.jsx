@@ -4,13 +4,13 @@ import { useRomanticConfig } from '../../context/RomanticConfigContext';
 import { generateRomanticShareUrl } from '../../utils/encode';
 import { getDeviceProfile } from '../../utils/device';
 import MusicButton from './MusicButton';
+import CatCoupleScene from './CatCoupleScene';
 import {
   CONSTELLATION_STARS,
   FOREVER_STAR,
   LETTER_LABELS,
   LETTER_PATHS,
   GALLERY_PIECES,
-  HUNDRED_REASONS,
   FOREVER,
   fillName,
 } from '../../data/raniConstellation';
@@ -22,13 +22,9 @@ import {
 const SCENES = [
   { id: 'sky', label: 'The Sky', short: 'Sky' },
   { id: 'gallery', label: 'The Gallery', short: 'Gallery' },
-  { id: 'reasons', label: '100 Reasons', short: '100' },
+  { id: 'cats', label: 'The Cats', short: 'Cats' },
   { id: 'forever', label: 'Forever', short: 'Forever' },
 ];
-
-const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
-const PER_PAGE = 10;
-const TOTAL_PAGES = Math.ceil(HUNDRED_REASONS.length / PER_PAGE);
 
 /** Deterministic pseudo-random so the sky is the same on every render. */
 function seeded(seed) {
@@ -587,188 +583,7 @@ function GalleryScene({ name, onOpenPiece, onContinue, reduceMotion, lite }) {
         </p>
 
         <button type="button" className="rani-btn-gold" onClick={onContinue}>
-          Continue to the hundred reasons <span aria-hidden="true">→</span>
-        </button>
-      </div>
-    </section>
-  );
-}
-
-/* ────────────────────────────────────────────────────────────────────────────
-   Scene three — one hundred reasons
-   ──────────────────────────────────────────────────────────────────────────── */
-
-const reasonVariants = {
-  enter: (direction) => ({
-    opacity: 0,
-    x: direction > 0 ? 36 : -36,
-    filter: 'blur(5px)',
-  }),
-  center: {
-    opacity: 1,
-    x: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-  },
-  exit: (direction) => ({
-    opacity: 0,
-    x: direction > 0 ? -28 : 28,
-    filter: 'blur(4px)',
-    transition: { duration: 0.25, ease: 'easeIn' },
-  }),
-};
-
-const liteReasonVariants = {
-  enter: (direction) => ({
-    opacity: 0,
-    x: direction > 0 ? 26 : -26,
-  }),
-  center: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
-  },
-  exit: (direction) => ({
-    opacity: 0,
-    x: direction > 0 ? -20 : 20,
-    transition: { duration: 0.18, ease: 'easeIn' },
-  }),
-};
-
-function ReasonsScene({ name, page, direction, onPage, onForever, reduceMotion, lite }) {
-  const start = page * PER_PAGE;
-  const reasons = HUNDRED_REASONS.slice(start, start + PER_PAGE);
-
-  const goPrev = () => onPage(Math.max(0, page - 1), -1);
-  const goNext = () => {
-    if (page >= TOTAL_PAGES - 1) {
-      onForever();
-      return;
-    }
-    onPage(page + 1, 1);
-  };
-
-  return (
-    <section className="rani-scene rani-scene-reasons" aria-labelledby="rani-reasons-title">
-      <Starfield count={70} className="rani-starfield-dim" />
-      <SceneGlow />
-      <div className="rani-scene-inner rani-reasons-inner">
-        <motion.p
-          className="rani-eyebrow"
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          the hundred reasons wing
-        </motion.p>
-
-        <motion.h2
-          id="rani-reasons-title"
-          className="rani-display-title"
-          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.08 }}
-        >
-          One hundred reasons
-        </motion.h2>
-
-        <motion.p
-          className="rani-sub"
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.18 }}
-        >
-          why I love you, {name} &mdash; ten little truths at a time
-        </motion.p>
-
-        <motion.div
-          className="rani-reasons-panel"
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.26 }}
-        >
-          <div className="rani-reasons-head">
-            <span className="rani-reasons-chapter">Chapter {ROMAN[page]}</span>
-            <span className="rani-reasons-range">
-              {start + 1}&ndash;{Math.min(start + PER_PAGE, HUNDRED_REASONS.length)} of 100
-            </span>
-          </div>
-
-          <AnimatePresence mode="wait" initial={false} custom={direction}>
-            <motion.div
-              key={page}
-              className="rani-reason-grid"
-              custom={direction}
-              variants={reduceMotion ? undefined : lite ? liteReasonVariants : reasonVariants}
-              initial={reduceMotion ? { opacity: 0 } : 'enter'}
-              animate={reduceMotion ? { opacity: 1 } : 'center'}
-              exit={reduceMotion ? { opacity: 0 } : 'exit'}
-            >
-              {reasons.map((reason, index) => {
-                const number = start + index + 1;
-                return (
-                  <article
-                    key={number}
-                    className={`rani-reason ${number === 100 ? 'is-hundred' : ''}`}
-                  >
-                    <span className="rani-reason-number" aria-hidden="true">
-                      {String(number).padStart(2, '0')}
-                    </span>
-                    <p className="rani-reason-text">{reason}</p>
-                  </article>
-                );
-              })}
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="rani-pager">
-            <button
-              type="button"
-              className="rani-pager-arrow"
-              onClick={goPrev}
-              disabled={page === 0}
-              aria-label="Previous ten reasons"
-            >
-              ←
-            </button>
-
-            <div className="rani-page-dots" role="tablist" aria-label="Reason chapters">
-              {ROMAN.map((roman, index) => (
-                <button
-                  key={roman}
-                  type="button"
-                  role="tab"
-                  aria-selected={page === index}
-                  aria-label={`Chapter ${roman}, reasons ${index * PER_PAGE + 1} to ${Math.min((index + 1) * PER_PAGE, 100)}`}
-                  className={`rani-page-dot ${page === index ? 'is-active' : ''}`}
-                  onClick={() => onPage(index, index > page ? 1 : -1)}
-                >
-                  {roman}
-                </button>
-              ))}
-            </div>
-
-            <button
-              type="button"
-              className="rani-pager-arrow"
-              onClick={goNext}
-              aria-label={page === TOTAL_PAGES - 1 ? 'Go to the forever letter' : 'Next ten reasons'}
-            >
-              {page === TOTAL_PAGES - 1 ? '∞' : '→'}
-            </button>
-          </div>
-
-          <div className="rani-reason-progress" aria-hidden="true">
-            <motion.span
-              initial={false}
-              animate={{ width: `${((page + 1) / TOTAL_PAGES) * 100}%` }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-            />
-          </div>
-        </motion.div>
-
-        <button type="button" className="rani-btn-ghost" onClick={onForever}>
-          Read my forever letter <span aria-hidden="true">→</span>
+          Meet our little cat selves <span aria-hidden="true">→</span>
         </button>
       </div>
     </section>
@@ -926,7 +741,7 @@ function ForeverScene({ name, onRestart, onNext, standalone, shareUrl, reduceMot
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.55 }}
         >
-          <span className="rani-final-reason-number">100</span>
+          <span className="rani-final-reason-number" aria-hidden="true">∞</span>
           <p>{FOREVER.finalReason}</p>
         </motion.div>
 
@@ -1081,13 +896,13 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
   const [scene, setScene] = useState(() => {
     if (!standalone || typeof window === 'undefined') return 'sky';
     const requested = new URLSearchParams(window.location.search).get('scene');
-    return SCENES.some((item) => item.id === requested) ? requested : 'sky';
+    // Old links pointed at the retired "reasons" scene; send them to the cats.
+    const target = requested === 'reasons' ? 'cats' : requested;
+    return SCENES.some((item) => item.id === target) ? target : 'sky';
   });
   const [found, setFound] = useState([]);
   const [activeStar, setActiveStar] = useState(null);
   const [activePiece, setActivePiece] = useState(null);
-  const [reasonPage, setReasonPage] = useState(0);
-  const [direction, setDirection] = useState(1);
   const [curtain, setCurtain] = useState(false);
 
   const timers = useRef([]);
@@ -1151,15 +966,8 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
     [scene, curtain, reduceMotion, scrollToSceneTop],
   );
 
-  const handleReasonPage = useCallback((nextPage, nextDirection) => {
-    setDirection(nextDirection);
-    setReasonPage(nextPage);
-  }, []);
-
   const restart = useCallback(() => {
     setFound([]);
-    setReasonPage(0);
-    setDirection(1);
     setActiveStar(null);
     setActivePiece(null);
 
@@ -1201,18 +1009,15 @@ export default function ConstellationExhibition({ name: nameProp, onNext, standa
             <GalleryScene
               name={name}
               onOpenPiece={setActivePiece}
-              onContinue={() => changeScene('reasons')}
+              onContinue={() => changeScene('cats')}
               reduceMotion={reduceMotion}
               lite={lite}
             />
           )}
 
-          {scene === 'reasons' && (
-            <ReasonsScene
+          {scene === 'cats' && (
+            <CatCoupleScene
               name={name}
-              page={reasonPage}
-              direction={direction}
-              onPage={handleReasonPage}
               onForever={() => changeScene('forever')}
               reduceMotion={reduceMotion}
               lite={lite}

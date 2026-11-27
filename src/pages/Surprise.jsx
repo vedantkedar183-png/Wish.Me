@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useBirthday } from '../context/BirthdayContext';
-import { decodeSurpriseData, decodeBirthdayData } from '../utils/encode';
+import { decodeSurpriseData } from '../utils/encode';
 import SurpriseExperience from '../components/SurpriseExperience';
 
 // ─── Loading screen ───────────────────────────────────────────────────────────
@@ -94,10 +94,9 @@ export default function Surprise() {
     const encoded = searchParams.get('d');
 
     if (encoded) {
-      // ── Shared link flow (URL-decoded data) ─────────────────────────
-      const decoded =
-        decodeSurpriseData(decodeURIComponent(encoded)) ||
-        decodeBirthdayData(decodeURIComponent(encoded));
+      // ── Shared link flow ─────────────────────────────────────────────
+      // searchParams.get() already URL-decodes; pass the value directly.
+      const decoded = decodeSurpriseData(encoded);
       if (decoded?.name) {
         setData(decoded);
       } else {

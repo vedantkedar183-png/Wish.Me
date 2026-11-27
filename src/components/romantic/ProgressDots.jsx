@@ -8,10 +8,7 @@ export default function ProgressDots({ total, current }) {
   return (
     <div
       className="fixed bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 z-50"
-      role="progressbar"
-      aria-valuenow={current}
-      aria-valuemin={0}
-      aria-valuemax={total - 1}
+      role="navigation"
       aria-label={`Step ${current} of ${total - 1}`}
     >
       {Array.from({ length: total }).map((_, i) => (

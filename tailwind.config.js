@@ -49,21 +49,20 @@ export default {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% center' },
-          '100%': { backgroundPosition: '200% center' },
-        },
+        // shimmer, bounceIn, fadeInUp are defined in index.css — not duplicated here.
         neonPulse: {
           '0%, 100%': { textShadow: '0 0 10px currentColor, 0 0 20px currentColor' },
           '50%': { textShadow: '0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor' },
         },
         bounceIn: {
           '0%': { opacity: '0', transform: 'scale(0.3) translateY(40px)' },
-          '50%': { opacity: '1', transform: 'scale(1.05) translateY(-10px)' },
+          '50%': { opacity: '1', transform: 'scale(1.15) translateY(-15px)' },
+          '70%': { transform: 'scale(0.92) translateY(5px)' },
+          '85%': { transform: 'scale(1.05) translateY(-5px)' },
           '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
         },
         fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '0%': { opacity: '0', transform: 'translateY(28px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         parallaxFloat: {

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import useConfetti from '../../hooks/useConfetti';
 import { OCCASIONS } from '../../utils/themes';
 
 /**
- * Grand finale — the last screen of the surprise.
+ * Grand finale â€” the last screen of the surprise.
  * Shows a final occasion wish, replay/share options, and Wishora branding.
  */
 export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
@@ -30,8 +30,8 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
     birthday: 'Happy Birthday,',
     anniversary: 'Happy Anniversary,',
     friendship: 'To an Amazing Friend,',
-    justBecause: 'Just Because You’re Special,',
-    just_because: 'Just Because You’re Special,',
+    justBecause: 'Just Because Youâ€™re Special,',
+    just_because: 'Just Because Youâ€™re Special,',
   };
   const finalGreeting = finalGreetingMap[data?.occasion] || (occasion.defaultGreeting ? `${occasion.defaultGreeting.replace(/!$/, '')},` : 'Happy Birthday,');
 
@@ -79,7 +79,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
           transition={{ delay: 0.3 }}
           className="text-lg opacity-80"
         >
-          And most importantly of all…
+          And most importantly of allâ€¦
         </motion.p>
 
         {/* Big occasion emoji */}
@@ -114,7 +114,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
             className="text-4xl md:text-6xl font-bold font-cursive"
             style={{ textShadow: '0 4px 30px rgba(0,0,0,0.25)' }}
           >
-            {name || 'Someone Special'}! 🎉
+            {name || 'Someone Special'}! ðŸŽ‰
           </h2>
         </motion.div>
 
@@ -131,7 +131,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
         >
           <p className="text-base md:text-lg leading-relaxed">
             Thank you for existing. Thank you for being exactly who you are.
-            Thank you for making this world so incredibly, beautifully wonderful. 🌸
+            Thank you for making this world so incredibly, beautifully wonderful. ðŸŒ¸
           </p>
         </motion.div>
 
@@ -143,7 +143,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
           className="flex justify-center gap-3 text-3xl"
           aria-hidden="true"
         >
-          {[occasion.emoji, '🎉', '🎊', '💖', '🥳', '✨'].map((emoji, i) => (
+          {[occasion.emoji, 'ðŸŽ‰', 'ðŸŽŠ', 'ðŸ’–', 'ðŸ¥³', 'âœ¨'].map((emoji, i) => (
             <motion.span
               key={i}
               animate={{ y: [0, -12, 0] }}
@@ -177,7 +177,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
                 'hover:bg-white/35 transition-all shadow-xl cursor-pointer',
               )}
             >
-              🔄 Replay from the Beginning
+              ðŸ”„ Replay from the Beginning
             </motion.button>
 
             {/* Share */}
@@ -191,7 +191,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
                 'hover:bg-white/25 transition-all shadow-lg cursor-pointer',
               )}
             >
-              🔗 Share this Surprise
+              ðŸ”— Share this Surprise
             </motion.button>
           </motion.div>
         )}
@@ -211,7 +211,7 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
             )}
           >
             <span className="opacity-60">Made with</span>
-            <span>❤️</span>
+            <span>â¤ï¸</span>
             <span className="opacity-60">using</span>
             <a
               href="/"
@@ -222,10 +222,11 @@ export default function SurpriseFinale({ onRestart, onShare, data, themeObj }) {
             >
               Wishora
             </a>
-            <span aria-hidden="true">🎂</span>
+            <span aria-hidden="true">ðŸŽ‚</span>
           </div>
         </motion.footer>
       </motion.div>
     </div>
   );
 }
+

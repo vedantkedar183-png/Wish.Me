@@ -2,7 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
-// Set VITE_BASE_PATH env var to '/wishora/' for GitHub Pages deployment
+// Set VITE_BASE_PATH env var to '/wishora/' for GitHub Pages deployment.
+// process.env is available here because vite.config.js runs in Node.js (not the browser).
 export default defineConfig({
   plugins: [react()],
   base: process.env.VITE_BASE_PATH || '/',

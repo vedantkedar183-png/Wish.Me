@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 
 // ── Default confetti color palette ────────────────────────────────────────────
@@ -16,6 +16,7 @@ const DEFAULT_COLORS = [
 // ── Theme-aware color palettes ────────────────────────────────────────────────
 const THEME_COLORS = {
   romantic:   ['#ffd9a4', '#f2cf8d', '#e7b86a', '#ff9fc4', '#e78aa6', '#ffeccb', '#c9a0e0', '#f7b267'],
+  kittyLove:  ['#fecdd3', '#f9a8d4', '#f472b6', '#fde68a', '#fbcfe8', '#f5d488', '#ff9fbb', '#fff1e6'],
   galaxy:     ['#a78bfa', '#7c3aed', '#818cf8', '#c084fc', '#6366f1', '#ffd700', '#38bdf8', '#a855f7'],
   tropical:   ['#fb923c', '#f97316', '#fbbf24', '#ff6b6b', '#ec4899', '#f43f5e', '#4ade80', '#06b6d4'],
   golden:     ['#ffd700', '#f59e0b', '#facc15', '#fb923c', '#f97316', '#fbbf24', '#eab308', '#d97706'],
@@ -38,7 +39,10 @@ const THEME_COLORS = {
  * @param {string} [themeId] — optional theme ID for theme-matching colors
  */
 export default function useConfetti(themeId) {
-  const COLORS = THEME_COLORS[themeId] || DEFAULT_COLORS;
+  const COLORS = useMemo(
+    () => THEME_COLORS[themeId] || DEFAULT_COLORS,
+    [themeId],
+  );
 
   /** Classic multi-burst celebration — left/right cannons + center shower */
   const fireConfetti = useCallback(() => {

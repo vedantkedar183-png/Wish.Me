@@ -76,7 +76,7 @@ export default function ReasonsCards({ onNext }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-8">
           <AnimatePresence>
             {reasons.cards.slice(0, visibleCount).map((card, i) => (
-              <ReasonCard key={i} card={card} />
+              <ReasonCard key={`${card.icon ?? ''}-${card.text?.slice(0, 20) ?? i}`} card={card} />
             ))}
           </AnimatePresence>
         </div>

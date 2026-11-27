@@ -110,11 +110,15 @@ export default function RomanticCreate() {
   const [message, setMessage] = useState(initialData?.message || '');
 
   // Reasons list (user can add/remove up to 8)
+  // Each reason is { id: string, text: string } for stable AnimatePresence keys.
   const [reasons, setReasons] = useState(() => {
+    const makeReason = (text) => ({ id: generatePhotoId(), text });
     if (Array.isArray(initialData?.reasons) && initialData.reasons.length > 0) {
-      return initialData.reasons.map((r) => (typeof r === 'string' ? r : r.text || ''));
+      return initialData.reasons.map((r) =>
+        makeReason(typeof r === 'string' ? r : r.text || ''),
+      );
     }
-    return DEFAULT_REASONS;
+    return DEFAULT_REASONS.map(makeReason);
   });
 
   // Photos list (up to 6)
@@ -216,14 +220,14 @@ export default function RomanticCreate() {
   const handleReasonChange = (index, value) => {
     setReasons((prev) => {
       const next = [...prev];
-      next[index] = value;
+      next[index] = { ...next[index], text: value };
       return next;
     });
   };
 
   const addReason = () => {
     if (reasons.length >= MAX_REASONS) return;
-    setReasons((prev) => [...prev, '']);
+    setReasons((prev) => [...prev, { id: generatePhotoId(), text: '' }]);
   };
 
   const removeReason = (index) => {
@@ -238,7 +242,7 @@ export default function RomanticCreate() {
     setBirthdayDate(surpriseConfig.person.birthdayDate);
     setYourName(surpriseConfig.person.yourName);
     setMessage(surpriseConfig.letter.paragraphs.join('\n\n'));
-    setReasons(surpriseConfig.reasons.cards.map((c) => c.text));
+    setReasons(surpriseConfig.reasons.cards.map((c) => ({ id: generatePhotoId(), text: c.text })));
     setErrors({});
   };
 
@@ -297,7 +301,7 @@ export default function RomanticCreate() {
         caption: p.caption?.trim() || '',
       })),
       message: message.trim(),
-      reasons: reasons.map((r) => r.trim()).filter(Boolean),
+      reasons: reasons.map((r) => (typeof r === 'string' ? r : r.text).trim()).filter(Boolean),
     };
 
     try {
@@ -547,7 +551,7 @@ export default function RomanticCreate() {
               <AnimatePresence initial={false}>
                 {reasons.map((reason, index) => (
                   <motion.div
-                    key={index}
+                    key={reason.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
@@ -563,7 +567,7 @@ export default function RomanticCreate() {
 
                     <input
                       type="text"
-                      value={reason}
+                      value={reason.text}
                       maxLength={120}
                       placeholder={`Reason #${index + 1} (e.g. How you see possibility everywhere...)`}
                       onChange={(e) => handleReasonChange(index, e.target.value)}

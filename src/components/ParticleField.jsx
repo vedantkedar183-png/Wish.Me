@@ -72,10 +72,9 @@ const ParticleField = memo(function ParticleField({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 overflow-hidden pointer-events-none z-20"
+      className="fixed inset-0 overflow-hidden z-20"
       aria-hidden="true"
       onPointerMove={handlePointerMove}
-      style={{ pointerEvents: 'none' }}
     >
       {/* Floating particles — 3 depth layers */}
       {particles.map((p) => (

@@ -327,7 +327,7 @@ function buildGraph() {
 
   master = context.createGain();
   master.gain.setValueAtTime(0.0001, context.currentTime);
-  master.gain.exponentialRampToValueAtTime(0.72, context.currentTime + 1.4);
+  master.gain.exponentialRampToValueAtTime(0.82, context.currentTime + 1.4);
 
   // Trim sub-bass rumble phones cannot reproduce anyway, then keep peaks in
   // check with a gentle compressor so chords never clip.
